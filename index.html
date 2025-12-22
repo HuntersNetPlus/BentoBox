@@ -133,12 +133,90 @@ body {
 .action-btn:hover {
   background: rgba(255, 255, 255, 0.2);
 }
+/* ===== ЭКРАНЫ ===== */
+.screen {
+  display: none;
+}
+
+.screen.active {
+  display: block;
+}
+
+/* ===== КНОПКА В КАТАЛОГ ===== */
+.catalog-btn {
+  width: 100%;
+  padding: 14px 0;
+  margin-bottom: 10px;
+
+  text-align: center;
+  font-size: 15px;
+  font-weight: 600;
+  color: #6af27d;
+  text-decoration: none;
+
+  background: #1d3a22;
+  border: 1px solid #6af27d;
+  border-radius: 6px;
+
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.3s ease;
+}
+
+.catalog-btn:active {
+  transform: scale(0.96);
+}
+
+.catalog-btn:hover {
+  background: #24502f;
+}
+
+/* ===== КАТАЛОГ ===== */
+.catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.catalog-card {
+  background: #1d2b3a;
+  border-radius: 10px;
+  padding: 14px 6px;
+  text-align: center;
+  color: #6ab2f2;
+  cursor: pointer;
+
+  transition: transform 0.15s ease, background 0.3s ease;
+}
+
+.catalog-card:hover {
+  background: #22364a;
+}
+
+.catalog-card:active {
+  transform: scale(0.95);
+}
+
+.catalog-card img {
+  width: 42px;
+  height: 42px;
+  margin-bottom: 6px;
+}
+
+.catalog-card span {
+  display: block;
+  font-size: 13px;
+}
+
+
+
+
+  
 </style>
 </head>
 
 <body>
 
-<div class="app">
+<div class="screen active" id="mainScreen">
 
   <!-- ЛОГО -->
   <div class="header">
@@ -176,12 +254,71 @@ body {
   </div>
 
   <!-- КНОПКИ -->
+  <button class="catalog-btn" onclick="openCatalog()">
+  В каталог
+</button>
   <div class="bottom-actions">
     <a href="https://t.me/USERNAME" class="action-btn">Telegram</a>
     <a href="https://instagram.com/USERNAME" class="action-btn">Instagram</a>
   </div>
 
+  </div>  <!-- Конец первого экрана-->
+
+  <div class="screen" id="catalogScreen">
+
+  <div class="faq-block">
+    <div class="faq-content1">
+      <img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Cupcake.webp?raw=true"
+           style="vertical-align: middle;">
+      Каталог тортов
+    </div>
+  </div>
+
+  <div class="catalog-grid">
+
+    <!-- 15 КАРТОЧЕК -->
+    <div class="catalog-card">
+      <img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Birthday%20Cake.webp?raw=true">
+      <span>День рождения</span>
+    </div>
+
+    <div class="catalog-card">
+      <img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Wedding%20Cake.webp?raw=true">
+      <span>Свадебные</span>
+    </div>
+
+    <div class="catalog-card">
+      <img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Chocolate%20Bar.webp?raw=true">
+      <span>Шоколадные</span>
+    </div>
+
+    <div class="catalog-card"><img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Shortcake.webp?raw=true"><span>Ягодные</span></div>
+    <div class="catalog-card"><img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Ice%20Cream.webp?raw=true"><span>Детские</span></div>
+    <div class="catalog-card"><img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Cookie.webp?raw=true"><span>Мини</span></div>
+
+    <div class="catalog-card"><img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Doughnut.webp?raw=true"><span>Без сахара</span></div>
+    <div class="catalog-card"><img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Honey%20Pot.webp?raw=true"><span>Медовые</span></div>
+    <div class="catalog-card"><img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Pancakes.webp?raw=true"><span>Блинные</span></div>
+
+    <div class="catalog-card"><img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Strawberry.webp?raw=true"><span>Клубничные</span></div>
+    <div class="catalog-card"><img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Cherries.webp?raw=true"><span>Вишня</span></div>
+    <div class="catalog-card"><img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Lollipop.webp?raw=true"><span>Декор</span></div>
+
+    <div class="catalog-card"><img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Pie.webp?raw=true"><span>Домашние</span></div>
+    <div class="catalog-card"><img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Candy.webp?raw=true"><span>Авторские</span></div>
+    <div class="catalog-card"><img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Croissant.webp?raw=true"><span>Французские</span></div>
+
+  </div>
+
+</div>
+
 </div>
 
 </body>
+  <script>
+function openCatalog() {
+  document.getElementById("mainScreen").classList.remove("active");
+  document.getElementById("catalogScreen").classList.add("active");
+}
+</script>
 </html>
