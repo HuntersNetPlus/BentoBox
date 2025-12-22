@@ -376,8 +376,38 @@ body {
   }
 }
 
+.bottom-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
 
+.back-btn {
+  padding: 12px 16px;
+  background: linear-gradient(90deg, #4a90e2, #3571c6); /* синий градиент */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  flex: 0 0 auto; /* фиксированная ширина по содержимому */
+  font-weight: 600;
+  transition: transform 0.15s ease;
+}
 
+.order-btn {
+  flex: 1; /* занимает всё оставшееся место */
+  padding: 12px 0;
+  background: linear-gradient(90deg, #a8ff78, #78ffd6); /* зелёно-жёлтый градиент */
+  color: white;
+  border-radius: 8px;
+  text-align: center;
+  text-decoration: none;
+  font-weight: 600;
+  transition: transform 0.15s ease;
+}
+
+.back-btn:active, .order-btn:active {
+  transform: scale(0.96);
+}
 
 
   
@@ -501,10 +531,11 @@ body {
   <div class="faq-block">
     <div class="faq-content1" id="cakeDescription" style="text-align:left;"></div>
   </div>
-  <div class="bottom-actions" style="margin-top:12px;">
-     <button class="action-btn back-btn" onclick="backToCatalog()">Назад в каталог</button>
-  <a href="#" class="action-btn order-btn" id="orderBtn">Заказать</a>
+ <div class="bottom-actions">
+  <button class="back-btn" onclick="backToCatalog()">Назад в каталог</button>
+  <a href="#" class="order-btn" id="orderBtn">Заказать</a>
 </div>
+
 
 </div>
 
