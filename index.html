@@ -25,12 +25,15 @@ body {
   text-align: center;
   margin-bottom: 15px;
 }
-
 .header img {
   width: 850px;
   max-width: 100%;
   display: block;
   margin: 0 auto;
+  mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%),
+              linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%),
+                      linear-gradient(to bottom, transparent 0%, black 5%, black 95%, transparent 100%);
 }
 
 /* ===== ТЕКСТ ===== */
@@ -38,7 +41,6 @@ body {
   text-align: center;
   margin-bottom: 20px;
 }
-
 .faq-content1 {
   background: #1d2b3a;
   border: 1px solid #6ab2f2;
@@ -62,7 +64,6 @@ body {
   max-width: 420px;
   margin: 0 auto 25px;
 }
-
 .stat-card {
   background: #1d2b3a;
   border-radius: 10px;
@@ -70,19 +71,16 @@ body {
   text-align: center;
   color: #6ab2f2;
 }
-
 .stat-card img {
   width: 50px;
   height: 50px;
   margin-bottom: 8px;
 }
-
 .stat-number {
   font-size: 18px;
   font-weight: bold;
   color: #ffffff;
 }
-
 .stat-label {
   font-size: 13px;
   opacity: 0.85;
@@ -92,9 +90,7 @@ body {
 .bottom-actions {
   display: flex;
   gap: 6px;
-  flex-wrap: wrap;
 }
-
 .action-btn {
   flex: 1;
   padding: 14px 0;
@@ -109,23 +105,12 @@ body {
   border: 1px solid rgba(255,255,255,0.25);
   transition: transform 0.15s ease, background 0.3s ease;
 }
-
-.action-btn:active {
-  transform: scale(0.96);
-}
-
-.action-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
+.action-btn:active { transform: scale(0.96); }
+.action-btn:hover { background: rgba(255, 255, 255, 0.2); }
 
 /* ===== ЭКРАНЫ ===== */
-.screen {
-  display: none;
-}
-
-.screen.active {
-  display: block;
-}
+.screen { display: none; }
+.screen.active { display: block; }
 
 /* ===== КНОПКА В КАТАЛОГ ===== */
 .catalog-btn {
@@ -143,14 +128,8 @@ body {
   cursor: pointer;
   transition: transform 0.15s ease, background 0.3s ease;
 }
-
-.catalog-btn:active {
-  transform: scale(0.96);
-}
-
-.catalog-btn:hover {
-  background: #24502f;
-}
+.catalog-btn:active { transform: scale(0.96); }
+.catalog-btn:hover { background: #24502f; }
 
 /* ===== КАТАЛОГ ===== */
 .catalog-grid {
@@ -158,7 +137,6 @@ body {
   grid-template-columns: repeat(3, 1fr);
   gap: 14px;
 }
-
 .catalog-card {
   background: #1d2b3a;
   border-radius: 10px;
@@ -168,25 +146,14 @@ body {
   cursor: pointer;
   transition: transform 0.15s ease, background 0.3s ease;
 }
-
-.catalog-card:hover {
-  background: #22364a;
-}
-
-.catalog-card:active {
-  transform: scale(0.95);
-}
-
+.catalog-card:hover { background: #22364a; }
+.catalog-card:active { transform: scale(0.95); }
 .catalog-card img {
   width: 42px;
   height: 42px;
   margin-bottom: 6px;
 }
-
-.catalog-card span {
-  display: block;
-  font-size: 13px;
-}
+.catalog-card span { display: block; font-size: 13px; }
 
 /* ===== ЛОАДЕР ===== */
 .loader {
@@ -201,20 +168,12 @@ body {
   pointer-events: none;
   transition: opacity 0.35s ease;
 }
-
-.loader.active {
-  opacity: 1;
-  pointer-events: all;
-}
-
-.loader img {
-  width: 150px;
-  height: 150px;
-}
+.loader.active { opacity: 1; pointer-events: all; }
+.loader img { width: 150px; height: 150px; }
 </style>
 </head>
-
 <body>
+
 <!-- ЛОАДЕР -->
 <div id="loader" class="loader active">
   <img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Objects/Hourglass%20Done.webp?raw=true" alt="Загрузка">
@@ -222,159 +181,175 @@ body {
 
 <div class="app">
 
-<!-- ===== ПЕРВЫЙ ЭКРАН ===== -->
-<div class="screen active" id="mainScreen">
+  <!-- ПЕРВЫЙ ЭКРАН -->
+  <div class="screen active" id="mainScreen">
+    <div class="header">
+      <img src="https://github.com/HuntersNetPlus/PvZ/blob/main/AV_1-ezgif.com-video-to-webp-converter.webp?raw=true">
+    </div>
 
-  <div class="header">
-    <img src="https://github.com/HuntersNetPlus/PvZ/blob/main/AV_1-ezgif.com-video-to-webp-converter.webp?raw=true">
-  </div>
+    <div class="faq-block">
+      <div class="faq-content1">
+        <img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food%20and%20Drink/Cookie.webp?raw=true">
+        Торты на заказ — индивидуальный дизайн и натуральные ингредиенты
+      </div>
+    </div>
 
-  <div class="faq-block">
-    <div class="faq-content1">
-      <img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food%20and%20Drink/Cookie.webp?raw=true">
-      Торты на заказ — индивидуальный дизайн и натуральные ингредиенты
+    <div class="stats-grid">
+      <div class="stat-card">
+        <img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food%20and%20Drink/Pancakes.webp?raw=true">
+        <div class="stat-number">500+</div>
+        <div class="stat-label">тортов</div>
+      </div>
+      <div class="stat-card">
+        <img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food%20and%20Drink/Pie.webp?raw=true">
+        <div class="stat-number">98%</div>
+        <div class="stat-label">довольных клиентов</div>
+      </div>
+      <div class="stat-card">
+        <img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food%20and%20Drink/Cupcake.webp?raw=true">
+        <div class="stat-number">24/7</div>
+        <div class="stat-label">доставка</div>
+      </div>
+    </div>
+
+    <button class="catalog-btn" onclick="openCatalog()">В каталог</button>
+    <div class="bottom-actions">
+      <a href="https://t.me/USERNAME" class="action-btn">Telegram</a>
+      <a href="https://instagram.com/USERNAME" class="action-btn">Instagram</a>
     </div>
   </div>
 
-  <div class="stats-grid">
-    <div class="stat-card">
-      <img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food%20and%20Drink/Pancakes.webp?raw=true">
-      <div class="stat-number">500+</div>
-      <div class="stat-label">тортов</div>
+  <!-- ВТОРОЙ ЭКРАН - КАТАЛОГ -->
+  <div class="screen" id="catalogScreen">
+    <div class="header">
+      <img src="https://github.com/HuntersNetPlus/PvZ/blob/main/AV_1-ezgif.com-video-to-webp-converter.webp?raw=true">
     </div>
-    <div class="stat-card">
-      <img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food%20and%20Drink/Pie.webp?raw=true">
-      <div class="stat-number">98%</div>
-      <div class="stat-label">довольных клиентов</div>
+
+    <div class="faq-block">
+      <div class="faq-content1">
+        <img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Cupcake.webp?raw=true">
+        Каталог тортов
+      </div>
     </div>
-    <div class="stat-card">
-      <img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food%20and%20Drink/Cupcake.webp?raw=true">
-      <div class="stat-number">24/7</div>
-      <div class="stat-label">доставка</div>
+
+    <div class="catalog-grid">
+      <div class="catalog-card"><img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Birthday%20Cake.webp?raw=true"><span>День рождения</span></div>
+      <div class="catalog-card"><img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Wedding%20Cake.webp?raw=true"><span>Свадебные</span></div>
+      <div class="catalog-card"><img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Chocolate%20Bar.webp?raw=true"><span>Шоколадные</span></div>
+      <div class="catalog-card"><img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Shortcake.webp?raw=true"><span>Ягодные</span></div>
+      <div class="catalog-card"><img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Ice%20Cream.webp?raw=true"><span>Детские</span></div>
+      <div class="catalog-card"><img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Cookie.webp?raw=true"><span>Мини</span></div>
+      <div class="catalog-card"><img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Doughnut.webp?raw=true"><span>Без сахара</span></div>
+      <div class="catalog-card"><img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Honey%20Pot.webp?raw=true"><span>Медовые</span></div>
+      <div class="catalog-card"><img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Pancakes.webp?raw=true"><span>Блинные</span></div>
+      <div class="catalog-card"><img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Strawberry.webp?raw=true"><span>Клубничные</span></div>
+      <div class="catalog-card"><img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Cherries.webp?raw=true"><span>Вишня</span></div>
+      <div class="catalog-card"><img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Lollipop.webp?raw=true"><span>Декор</span></div>
+      <div class="catalog-card"><img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Pie.webp?raw=true"><span>Домашние</span></div>
+      <div class="catalog-card"><img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Candy.webp?raw=true"><span>Авторские</span></div>
+      <div class="catalog-card"><img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Croissant.webp?raw=true"><span>Французские</span></div>
+    </div>
+
+    <br>
+    <div class="bottom-actions">
+      <a href="https://t.me/USERNAME" class="action-btn">Telegram</a>
+      <a href="https://instagram.com/USERNAME" class="action-btn">Instagram</a>
     </div>
   </div>
 
-  <button class="catalog-btn" onclick="openCatalog()">В каталог</button>
+  <!-- ТРЕТИЙ ЭКРАН - ОПИСАНИЕ ТОРТА -->
+  <div class="screen" id="cakeScreen">
+    <div class="faq-block">
+      <div class="faq-content1" id="cakeTitle"></div>
+    </div>
 
-  <div class="bottom-actions">
-    <a href="https://t.me/USERNAME" class="action-btn">Telegram</a>
-    <a href="https://instagram.com/USERNAME" class="action-btn">Instagram</a>
-  </div>
-</div>
+    <div class="faq-block">
+      <img id="cakeImage" src="" alt="Торт" style="width:100%; border-radius:10px; margin-bottom:12px;">
+    </div>
 
-<!-- ===== ВТОРОЙ ЭКРАН: КАТАЛОГ ===== -->
-<div class="screen" id="catalogScreen">
-  <div class="header">
-    <img src="https://github.com/HuntersNetPlus/PvZ/blob/main/AV_1-ezgif.com-video-to-webp-converter.webp?raw=true">
-  </div>
+    <div class="faq-block">
+      <div class="faq-content1" id="cakeDescription" style="text-align:left;"></div>
+    </div>
 
-  <div class="faq-block">
-    <div class="faq-content1">
-      <img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Cupcake.webp?raw=true">
-      Каталог тортов
+    <div class="bottom-actions" style="margin-top:12px;">
+      <a href="#" class="action-btn" id="orderBtn">Заказать</a>
+      <button class="action-btn" onclick="backToCatalog()">Назад в каталог</button>
     </div>
   </div>
 
-  <div class="catalog-grid" id="catalogGrid"></div>
-
-  <div class="bottom-actions" style="margin-top:12px;">
-    <a href="https://t.me/USERNAME" class="action-btn">Telegram</a>
-    <a href="https://instagram.com/USERNAME" class="action-btn">Instagram</a>
-  </div>
-</div>
-
-<!-- ===== ТРЕТИЙ ЭКРАН: СТРАНИЦА ТОРТА ===== -->
-<div class="screen" id="cakeScreen">
-  <div class="faq-block">
-    <div class="faq-content1" id="cakeTitle"></div>
-  </div>
-
-  <div class="faq-block">
-    <img id="cakeImage" src="" alt="Торт" style="width:100%; border-radius:10px; margin-bottom:12px;">
-  </div>
-
-  <div class="faq-block">
-    <div class="faq-content1" id="cakeDescription" style="text-align:left;"></div>
-  </div>
-
-  <div class="bottom-actions" style="margin-top:12px;">
-    <a href="#" class="action-btn" id="orderBtn">Заказать</a>
-    <button class="action-btn" onclick="backToCatalog()">Назад в каталог</button>
-  </div>
-</div>
-
-</div> <!-- .app -->
+</div> <!-- Конец app -->
 
 <script>
 const loader = document.getElementById("loader");
-function showLoader() { loader.classList.add("active"); }
-function hideLoader() { loader.classList.remove("active"); }
+const cakeScreen = document.getElementById("cakeScreen");
+const cakeTitle = document.getElementById("cakeTitle");
+const cakeImage = document.getElementById("cakeImage");
+const cakeDescription = document.getElementById("cakeDescription");
+const orderBtn = document.getElementById("orderBtn");
 
-/* ===== ПЕРВАЯ ЗАГРУЗКА ===== */
-window.addEventListener("load", () => {
-  setTimeout(hideLoader, 1000);
-});
+// Лоадер
+function showLoader(){ loader.classList.add("active"); }
+function hideLoader(){ loader.classList.remove("active"); }
 
-/* ===== ПЕРЕХОД В КАТАЛОГ ===== */
-function openCatalog() {
+// Первая загрузка
+window.addEventListener("load", () => setTimeout(hideLoader, 1000));
+
+// Открытие каталога
+function openCatalog(){
   showLoader();
-  setTimeout(() => {
+  setTimeout(()=>{
     document.getElementById("mainScreen").classList.remove("active");
     document.getElementById("catalogScreen").classList.add("active");
     hideLoader();
-  }, 500);
+  },500);
 }
 
-/* ===== ДАННЫЕ 15 ТОРТОВ ===== */
+// Массив всех 15 тортов
 const cakes = [
-  {name:"День рождения", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Birthday%20Cake.webp?raw=true", description:"Ингредиенты: мука, яйца, сахар, сливки, фрукты. Подробное описание: тортик на день рождения с яркой глазурью и декором."},
-  {name:"Свадебные", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Wedding%20Cake.webp?raw=true", description:"Ингредиенты: белый бисквит, крем-чиз, ягоды. Подробное описание: элегантные свадебные торты на заказ."},
-  {name:"Шоколадные", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Chocolate%20Bar.webp?raw=true", description:"Ингредиенты: шоколад, сахар, сливки, мука. Подробное описание: насыщенные шоколадные торты для сладкоежек."},
-  {name:"Ягодные", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Shortcake.webp?raw=true", description:"Ингредиенты: ягоды, сливки, сахар. Подробное описание: ягодный торт с свежими фруктами."},
-  {name:"Детские", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Ice%20Cream.webp?raw=true", description:"Ингредиенты: мороженое, крем, печенье. Подробное описание: веселый детский торт с мороженым."},
-  {name:"Мини", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Cookie.webp?raw=true", description:"Ингредиенты: мука, яйца, сахар. Подробное описание: маленькие мини тортики."},
-  {name:"Без сахара", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Doughnut.webp?raw=true", description:"Ингредиенты: заменители сахара, мука, яйца. Подробное описание: вкусные торты без сахара."},
-  {name:"Медовые", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Honey%20Pot.webp?raw=true", description:"Ингредиенты: мед, мука, яйца. Подробное описание: ароматные медовые торты."},
-  {name:"Блинные", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Pancakes.webp?raw=true", description:"Ингредиенты: блины, крем, фрукты. Подробное описание: торты из блинов с начинкой."},
-  {name:"Клубничные", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Strawberry.webp?raw=true", description:"Ингредиенты: клубника, сливки, сахар. Подробное описание: яркий клубничный торт."},
-  {name:"Вишня", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Cherries.webp?raw=true", description:"Ингредиенты: вишня, сливки, сахар. Подробное описание: насыщенный вишневый торт."},
-  {name:"Декор", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Lollipop.webp?raw=true", description:"Ингредиенты: крем, сахарная глазурь. Подробное описание: торт с декоративными элементами."},
-  {name:"Домашние", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Pie.webp?raw=true", description:"Ингредиенты: мука, яйца, сахар, масло. Подробное описание: домашние торты с натуральными ингредиентами."},
-  {name:"Авторские", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Candy.webp?raw=true", description:"Ингредиенты: эксклюзивные рецепты. Подробное описание: уникальные авторские торты."},
-  {name:"Французские", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Croissant.webp?raw=true", description:"Ингредиенты: французский крем, мука, яйца. Подробное описание: торты в французском стиле."},
+  {name:"День рождения", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Birthday%20Cake.webp?raw=true", shortDesc:"Тортик на день рождения с яркой глазурью и декором.", ingredients:["Мука","Яйца","Сахар","Сливки","Фрукты"]},
+  {name:"Свадебные", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Wedding%20Cake.webp?raw=true", shortDesc:"Элегантные свадебные торты на заказ.", ingredients:["Белый бисквит","Крем-чиз","Ягоды"]},
+  {name:"Шоколадные", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Chocolate%20Bar.webp?raw=true", shortDesc:"Насыщенные шоколадные торты для сладкоежек.", ingredients:["Шоколад","Сливки","Сахар","Мука"]},
+  {name:"Ягодные", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Shortcake.webp?raw=true", shortDesc:"Торты с ягодами для летнего настроения.", ingredients:["Ягоды","Мука","Сахар","Сливки"]},
+  {name:"Детские", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Ice%20Cream.webp?raw=true", shortDesc:"Яркие и вкусные тортики для детей.", ingredients:["Мука","Яйца","Сахар","Красители","Фигурки"]},
+  {name:"Мини", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Cookie.webp?raw=true", shortDesc:"Небольшие тортики на порцию.", ingredients:["Мука","Сливки","Сахар","Фрукты"]},
+  {name:"Без сахара", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Doughnut.webp?raw=true", shortDesc:"Для тех, кто следит за сахаром.", ingredients:["Мука","Яйца","Сливки","Сахарозаменитель"]},
+  {name:"Медовые", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Honey%20Pot.webp?raw=true", shortDesc:"Сладкие медовые торты.", ingredients:["Мед","Мука","Сливки","Яйца"]},
+  {name:"Блинные", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Pancakes.webp?raw=true", shortDesc:"Торты из блинчиков с начинкой.", ingredients:["Блины","Сливки","Фрукты"]},
+  {name:"Клубничные", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Strawberry.webp?raw=true", shortDesc:"Тортики с клубникой.", ingredients:["Клубника","Мука","Сливки","Сахар"]},
+  {name:"Вишня", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Cherries.webp?raw=true", shortDesc:"Вишневые торты с насыщенным вкусом.", ingredients:["Вишня","Мука","Сливки","Сахар"]},
+  {name:"Декор", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Lollipop.webp?raw=true", shortDesc:"Торты с красивым декором.", ingredients:["Сахарная мастика","Красители","Крем","Украшения"]},
+  {name:"Домашние", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Pie.webp?raw=true", shortDesc:"Торты как у бабушки дома.", ingredients:["Мука","Яйца","Сахар","Сливки"]},
+  {name:"Авторские", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Candy.webp?raw=true", shortDesc:"Уникальные торты по индивидуальному заказу.", ingredients:["Мука","Яйца","Сахар","Крем","Фрукты"]},
+  {name:"Французские", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Croissant.webp?raw=true", shortDesc:"Элегантные французские десерты.", ingredients:["Мука","Яйца","Сливки","Шоколад"]}
 ];
 
-/* ===== РЕНДЕР КАТАЛОГА ===== */
-const catalogGrid = document.getElementById("catalogGrid");
-cakes.forEach((cake,i)=>{
-  const card = document.createElement("div");
-  card.className = "catalog-card";
-  card.innerHTML = `<img src="${cake.img}"><span>${cake.name}</span>`;
-  card.addEventListener("click", ()=>openCake(i));
-  catalogGrid.appendChild(card);
-});
-
-/* ===== ОТКРЫТЬ ТОРТ ===== */
-const cakeScreen = document.getElementById("cakeScreen");
-const cakeImage = document.getElementById("cakeImage");
-const cakeDescription = document.getElementById("cakeDescription");
-const cakeTitle = document.getElementById("cakeTitle");
-const orderBtn = document.getElementById("orderBtn");
-
+// Открытие торта
 function openCake(index){
   showLoader();
   setTimeout(()=>{
     document.getElementById("catalogScreen").classList.remove("active");
     cakeScreen.classList.add("active");
+
     const cake = cakes[index];
     cakeTitle.textContent = cake.name;
     cakeImage.src = cake.img;
-    cakeDescription.textContent = cake.description;
+
+    let html = `<p>${cake.shortDesc}</p>`;
+    if(cake.ingredients.length){
+      html += "<p><strong>Ингредиенты:</strong></p><ul>";
+      cake.ingredients.forEach(item=>{
+        html += `<li>${item}</li>`;
+      });
+      html += "</ul>";
+    }
+    cakeDescription.innerHTML = html;
+
     orderBtn.href = "https://t.me/USERNAME?start="+encodeURIComponent(cake.name);
     hideLoader();
   },500);
 }
 
+// Назад в каталог
 function backToCatalog(){
   showLoader();
   setTimeout(()=>{
@@ -383,7 +358,11 @@ function backToCatalog(){
     hideLoader();
   },500);
 }
-</script>
 
+// Назначаем клик на карточки
+document.querySelectorAll(".catalog-card").forEach((card,i)=>{
+  card.addEventListener("click",()=>openCake(i));
+});
+</script>
 </body>
 </html>
