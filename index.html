@@ -213,6 +213,32 @@ body {
   font-size: 13px;
 }
 
+/* ===== ЛОАДЕР ===== */
+.loader {
+  position: fixed;
+  inset: 0;
+  background: #17212b;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  z-index: 9999;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+.loader.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.loader img {
+  width: 64px;
+  height: 64px;
+}
 
 
 
@@ -221,6 +247,12 @@ body {
 </head>
 
 <body>
+<!-- ЛОАДЕР -->
+<div id="loader" class="loader active">
+  <img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Objects/Hourglass%20Done.webp?raw=true"
+       alt="Загрузка">
+</div>
+   <!-- Первый экран -->
 <div class="app">
 <div class="screen active" id="mainScreen">
 
@@ -328,5 +360,34 @@ function openCatalog() {
   document.getElementById("mainScreen").classList.remove("active");
   document.getElementById("catalogScreen").classList.add("active");
 }
+  
+const loader = document.getElementById("loader");
+
+function showLoader() {
+  loader.classList.add("active");
+}
+
+function hideLoader() {
+  loader.classList.remove("active");
+}
+
+/* ===== ПЕРВАЯ ЗАГРУЗКА ===== */
+window.addEventListener("load", () => {
+  setTimeout(hideLoader, 600);
+});
+
+/* ===== ПЕРЕХОД В КАТАЛОГ ===== */
+function openCatalog() {
+  showLoader();
+
+  setTimeout(() => {
+    document.getElementById("mainScreen").classList.remove("active");
+    document.getElementById("catalogScreen").classList.add("active");
+    hideLoader();
+  }, 500);
+}
+
+
+
 </script>
 </html>
