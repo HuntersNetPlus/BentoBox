@@ -92,6 +92,7 @@ body {
   gap: 6px;
 }
 /* Общий стиль кнопок */
+/* Общий стиль для action-btn */
 .action-btn {
   flex: 1;
   padding: 14px 0;
@@ -101,8 +102,25 @@ body {
   text-decoration: none;
   color: #fff;
   border-radius: 6px;
-  transition: transform 0.15s ease, background 0.3s ease;
+  transition: transform 0.15s ease;
+  border: none;
 }
+
+/* Назад в каталог — синий градиент, как Telegram */
+.back-btn {
+  background: linear-gradient(135deg, #0088cc, #00c6ff);
+}
+
+/* Заказать — зелёно-жёлтый градиент */
+.order-btn {
+  background: linear-gradient(135deg, #6af27d, #feda75);
+}
+
+/* Анимация нажатия для обеих кнопок */
+.action-btn:active {
+  transform: scale(0.96);
+}
+
 
 /* Telegram — синий градиент */
 .telegram-btn {
@@ -484,9 +502,10 @@ body {
     <div class="faq-content1" id="cakeDescription" style="text-align:left;"></div>
   </div>
   <div class="bottom-actions" style="margin-top:12px;">
-    <button class="action-btn" onclick="backToCatalog()">Назад в каталог</button>
-    <a href="#" class="action-btn" id="orderBtn">Заказать</a>
-       </div>
+     <button class="action-btn back-btn" onclick="backToCatalog()">Назад в каталог</button>
+  <a href="#" class="action-btn order-btn" id="orderBtn">Заказать</a>
+</div>
+
 </div>
 
 <!-- Lightbox для галереи -->
