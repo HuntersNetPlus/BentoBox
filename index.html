@@ -155,6 +155,198 @@ body {
 }
 .catalog-card span { display: block; font-size: 13px; }
 
+
+
+
+/* ===== ГАЛЕРЕЯ ТОРТОВ ===== */
+.gallery-container {
+  max-width: 600px;
+  margin: 16px auto;
+}
+
+:root {
+  --card-width: 120px;
+  --card-aspect: 1.5;
+  --card-rotation-1: -3deg;
+  --card-rotation-2: 2deg;
+  --card-rotation-3: -1.5deg;
+  --card-offset-x: 15px;
+  --card-offset-y: 15px;
+  --card-border: 2px;
+  --card-radius: 6px;
+}
+
+.photo-stack {
+  position: relative;
+  width: 100%;
+  max-width: var(--card-width);
+  height: calc(var(--card-width) * var(--card-aspect));
+  margin: 0 auto;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.photo-stack:hover {
+  transform: scale(1.02);
+}
+
+.photo-stack-item {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--card-radius);
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  background: transparent;
+  border: none;
+}
+
+.photo-stack-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.photo-stack-item:nth-child(1) {
+  z-index: 3;
+  transform: rotate(var(--card-rotation-1)) translate(calc(var(--card-offset-x) * -0.8), calc(var(--card-offset-y) * -0.8));
+}
+
+.photo-stack-item:nth-child(2) {
+  z-index: 2;
+  transform: rotate(var(--card-rotation-2)) translate(calc(var(--card-offset-x) * 0.4), calc(var(--card-offset-y) * 0.4));
+}
+
+.photo-stack-item:nth-child(3) {
+  z-index: 1;
+  transform: rotate(var(--card-rotation-3)) translate(var(--card-offset-x), var(--card-offset-y));
+  opacity: 0.9;
+}
+
+/* Анимация раздвигания */
+.photo-stack.opening .photo-stack-item:nth-child(1) {
+  transform: rotate(-5deg) translate(calc(var(--card-offset-x) * 6), calc(var(--card-offset-y) * -0.5));
+  opacity: 1;
+  transition: all 0.4s ease;
+}
+
+.photo-stack.opening .photo-stack-item:nth-child(2) {
+  transform: rotate(3deg) translate(calc(var(--card-offset-x) * -7), calc(var(--card-offset-y) * -0.3));
+  opacity: 1;
+  transition: all 0.4s ease;
+}
+
+.photo-stack.opening .photo-stack-item:nth-child(3) {
+  transform: rotate(-2deg) translate(0, calc(var(--card-offset-y) * -0.7));
+  opacity: 1;
+  transition: all 0.4s ease;
+}
+
+/* Анимация закрытия */
+.photo-stack.closing .photo-stack-item:nth-child(1) {
+  transform: rotate(-5deg) translate(calc(var(--card-offset-x) * 6), calc(var(--card-offset-y) * -0.5));
+  opacity: 1;
+  transition: all 0.4s ease;
+}
+
+.photo-stack.closing .photo-stack-item:nth-child(2) {
+  transform: rotate(3deg) translate(calc(var(--card-offset-x) * -7), calc(var(--card-offset-y) * -0.3));
+  opacity: 1;
+  transition: all 0.4s ease;
+}
+
+.photo-stack.closing .photo-stack-item:nth-child(3) {
+  transform: rotate(-2deg) translate(0, calc(var(--card-offset-y) * -0.7));
+  opacity: 1;
+  transition: all 0.4s ease;
+}
+
+/* Lightbox */
+.cake-lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0);
+  backdrop-filter: blur(0);
+  -webkit-backdrop-filter: blur(0);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.cake-lightbox.active {
+  display: flex;
+  background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.cake-lightbox-image-container {
+  position: relative;
+  width: 50%;
+  max-width: 280px;
+  aspect-ratio: 2 / 3;
+  max-height: 90vh;
+  margin: 0 auto;
+  opacity: 0;
+  transform: scale(0.85);
+  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.cake-lightbox.active .cake-lightbox-image-container {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.cake-lightbox-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+}
+
+.cake-lightbox-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  background: rgba(255,255,255,0.1);
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 26px;
+  cursor: pointer;
+  opacity: 0;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.cake-lightbox.active .cake-lightbox-arrow {
+  opacity: 1;
+}
+
+.cake-lightbox-arrow:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+.cake-lightbox-arrow.prev { left: 20px; }
+.cake-lightbox-arrow.next { right: 20px; }
+
+@media (max-width: 768px) {
+  .cake-lightbox-image-container {
+    width: 85%;
+  }
+}
+
+
+
+
+
+  
+
 /* ===== ЛОАДЕР ===== */
 .loader {
   position: fixed;
@@ -258,24 +450,37 @@ body {
   </div>
 
   <!-- ТРЕТИЙ ЭКРАН - ОПИСАНИЕ ТОРТА -->
-  <div class="screen" id="cakeScreen">
-    <div class="faq-block">
-      <div class="faq-content1" id="cakeTitle"></div>
-    </div>
+ <!-- ТРЕТИЙ ЭКРАН - ОПИСАНИЕ ТОРТА -->
+<div class="screen" id="cakeScreen">
+  <div class="faq-block">
+    <div class="faq-content1" id="cakeTitle"></div>
+  </div>
 
-    <div class="faq-block">
-      <img id="cakeImage" src="" alt="Торт" style="width:100%; border-radius:10px; margin-bottom:12px;">
-    </div>
-
-    <div class="faq-block">
-      <div class="faq-content1" id="cakeDescription" style="text-align:left;"></div>
-    </div>
-
-    <div class="bottom-actions" style="margin-top:12px;">
-      <a href="#" class="action-btn" id="orderBtn">Заказать</a>
-      <button class="action-btn" onclick="backToCatalog()">Назад в каталог</button>
+  <!-- ГАЛЕРЕЯ -->
+  <div class="gallery-container">
+    <div class="photo-stack" id="cakePhotoStack">
+      <!-- Карточки добавятся через JS -->
     </div>
   </div>
+
+  <div class="faq-block">
+    <div class="faq-content1" id="cakeDescription" style="text-align:left;"></div>
+  </div>
+
+  <div class="bottom-actions" style="margin-top:12px;">
+    <a href="#" class="action-btn" id="orderBtn">Заказать</a>
+    <button class="action-btn" onclick="backToCatalog()">Назад в каталог</button>
+  </div>
+</div>
+
+<!-- Lightbox для галереи -->
+<div id="cakeLightbox" class="cake-lightbox">
+  <button class="cake-lightbox-arrow prev" onclick="changeCakeImage(-1)">‹</button>
+  <div class="cake-lightbox-image-container">
+    <img id="cakeLightboxImage" src="" alt="">
+  </div>
+  <button class="cake-lightbox-arrow next" onclick="changeCakeImage(1)">›</button>
+</div>
 
 </div> <!-- Конец app -->
 
@@ -306,21 +511,203 @@ function openCatalog(){
 
 // Массив всех 15 тортов
 const cakes = [
-  {name:"День рождения", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Birthday%20Cake.webp?raw=true", shortDesc:"Тортик на день рождения с яркой глазурью и декором.", ingredients:["Мука","Яйца","Сахар","Сливки","Фрукты"]},
-  {name:"Свадебные", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Wedding%20Cake.webp?raw=true", shortDesc:"Элегантные свадебные торты на заказ.", ingredients:["Белый бисквит","Крем-чиз","Ягоды"]},
-  {name:"Шоколадные", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Chocolate%20Bar.webp?raw=true", shortDesc:"Насыщенные шоколадные торты для сладкоежек.", ingredients:["Шоколад","Сливки","Сахар","Мука"]},
-  {name:"Ягодные", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Shortcake.webp?raw=true", shortDesc:"Торты с ягодами для летнего настроения.", ingredients:["Ягоды","Мука","Сахар","Сливки"]},
-  {name:"Детские", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Ice%20Cream.webp?raw=true", shortDesc:"Яркие и вкусные тортики для детей.", ingredients:["Мука","Яйца","Сахар","Красители","Фигурки"]},
-  {name:"Мини", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Cookie.webp?raw=true", shortDesc:"Небольшие тортики на порцию.", ingredients:["Мука","Сливки","Сахар","Фрукты"]},
-  {name:"Без сахара", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Doughnut.webp?raw=true", shortDesc:"Для тех, кто следит за сахаром.", ingredients:["Мука","Яйца","Сливки","Сахарозаменитель"]},
-  {name:"Медовые", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Honey%20Pot.webp?raw=true", shortDesc:"Сладкие медовые торты.", ingredients:["Мед","Мука","Сливки","Яйца"]},
-  {name:"Блинные", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Pancakes.webp?raw=true", shortDesc:"Торты из блинчиков с начинкой.", ingredients:["Блины","Сливки","Фрукты"]},
-  {name:"Клубничные", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Strawberry.webp?raw=true", shortDesc:"Тортики с клубникой.", ingredients:["Клубника","Мука","Сливки","Сахар"]},
-  {name:"Вишня", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Cherries.webp?raw=true", shortDesc:"Вишневые торты с насыщенным вкусом.", ingredients:["Вишня","Мука","Сливки","Сахар"]},
-  {name:"Декор", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Lollipop.webp?raw=true", shortDesc:"Торты с красивым декором.", ingredients:["Сахарная мастика","Красители","Крем","Украшения"]},
-  {name:"Домашние", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Pie.webp?raw=true", shortDesc:"Торты как у бабушки дома.", ingredients:["Мука","Яйца","Сахар","Сливки"]},
-  {name:"Авторские", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Candy.webp?raw=true", shortDesc:"Уникальные торты по индивидуальному заказу.", ingredients:["Мука","Яйца","Сахар","Крем","Фрукты"]},
-  {name:"Французские", img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Croissant.webp?raw=true", shortDesc:"Элегантные французские десерты.", ingredients:["Мука","Яйца","Сливки","Шоколад"]}
+  {
+    name:"День рождения", 
+    img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Birthday%20Cake.webp?raw=true", 
+    shortDesc:"Тортик на день рождения с яркой глазурью и декором.", 
+    ingredients:["Мука","Яйца","Сахар","Сливки","Фрукты"],
+    preview: "https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400",
+    preview2: "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=400",
+    gallery: [
+      "https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=800",
+      "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=800",
+      "https://images.unsplash.com/photo-1586985289688-ca3cf47d3e6e?w=800",
+      "https://images.unsplash.com/photo-1557925923-33b27c8430b5?w=800"
+    ]
+  },
+  {
+    name:"Свадебные", 
+    img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Wedding%20Cake.webp?raw=true", 
+    shortDesc:"Элегантные свадебные торты на заказ.", 
+    ingredients:["Белый бисквит","Крем-чиз","Ягоды"],
+    preview: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=400",
+    preview2: "https://images.unsplash.com/photo-1535254973040-607b474cb50d?w=400",
+    gallery: [
+      "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=800",
+      "https://images.unsplash.com/photo-1535254973040-607b474cb50d?w=800",
+      "https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62?w=800"
+    ]
+  },
+  {
+    name:"Шоколадные", 
+    img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Chocolate%20Bar.webp?raw=true", 
+    shortDesc:"Насыщенные шоколадные торты для сладкоежек.", 
+    ingredients:["Шоколад","Сливки","Сахар","Мука"],
+    preview: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400",
+    preview2: "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=400",
+    gallery: [
+      "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=800",
+      "https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=800",
+      "https://images.unsplash.com/photo-1571115177098-24ec42ed204d?w=800"
+    ]
+  },
+  {
+    name:"Ягодные", 
+    img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Shortcake.webp?raw=true", 
+    shortDesc:"Торты с ягодами для летнего настроения.", 
+    ingredients:["Ягоды","Мука","Сахар","Сливки"],
+    preview: "https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=400",
+    preview2: "https://images.unsplash.com/photo-1565661834013-d196ca46e14e?w=400",
+    gallery: [
+      "https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=800",
+      "https://images.unsplash.com/photo-1565661834013-d196ca46e14e?w=800",
+      "https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=800"
+    ]
+  },
+  {
+    name:"Детские", 
+    img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Ice%20Cream.webp?raw=true", 
+    shortDesc:"Яркие и вкусные тортики для детей.", 
+    ingredients:["Мука","Яйца","Сахар","Красители","Фигурки"],
+    preview: "https://images.unsplash.com/photo-1576171310776-839fef79b3eb?w=400",
+    preview2: "https://images.unsplash.com/photo-1562440499-64c9a5656a28?w=400",
+    gallery: [
+      "https://images.unsplash.com/photo-1576171310776-839fef79b3eb?w=800",
+      "https://images.unsplash.com/photo-1562440499-64c9a5656a28?w=800",
+      "https://images.unsplash.com/photo-1588195538326-c5b1e5b80c11?w=800"
+    ]
+  },
+  {
+    name:"Мини", 
+    img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Cookie.webp?raw=true", 
+    shortDesc:"Небольшие тортики на порцию.", 
+    ingredients:["Мука","Сливки","Сахар","Фрукты"],
+    preview: "https://images.unsplash.com/photo-1587241321921-91a834d82be7?w=400",
+    preview2: "https://images.unsplash.com/photo-1603532648955-039310d9ed75?w=400",
+    gallery: [
+      "https://images.unsplash.com/photo-1587241321921-91a834d82be7?w=800",
+      "https://images.unsplash.com/photo-1603532648955-039310d9ed75?w=800",
+      "https://images.unsplash.com/photo-1614707267537-b85aaf00c4b7?w=800"
+    ]
+  },
+  {
+    name:"Без сахара", 
+    img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Doughnut.webp?raw=true", 
+    shortDesc:"Для тех, кто следит за сахаром.", 
+    ingredients:["Мука","Яйца","Сливки","Сахарозаменитель"],
+    preview: "https://images.unsplash.com/photo-1607920591413-4ec007e70023?w=400",
+    preview2: "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=400",
+    gallery: [
+      "https://images.unsplash.com/photo-1607920591413-4ec007e70023?w=800",
+      "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=800",
+      "https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=800"
+    ]
+  },
+  {
+    name:"Медовые", 
+    img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Honey%20Pot.webp?raw=true", 
+    shortDesc:"Сладкие медовые торты.", 
+    ingredients:["Мед","Мука","Сливки","Яйца"],
+    preview: "https://images.unsplash.com/photo-1586985289688-ca3cf47d3e6e?w=400",
+    preview2: "https://images.unsplash.com/photo-1571115177098-24ec42ed204d?w=400",
+    gallery: [
+      "https://images.unsplash.com/photo-1586985289688-ca3cf47d3e6e?w=800",
+      "https://images.unsplash.com/photo-1571115177098-24ec42ed204d?w=800",
+      "https://images.unsplash.com/photo-1557925923-33b27c8430b5?w=800"
+    ]
+  },
+  {
+    name:"Блинные", 
+    img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Pancakes.webp?raw=true", 
+    shortDesc:"Торты из блинчиков с начинкой.", 
+    ingredients:["Блины","Сливки","Фрукты"],
+    preview: "https://images.unsplash.com/photo-1565661834013-d196ca46e14e?w=400",
+    preview2: "https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=400",
+    gallery: [
+      "https://images.unsplash.com/photo-1565661834013-d196ca46e14e?w=800",
+      "https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=800",
+      "https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=800"
+    ]
+  },
+  {
+    name:"Клубничные", 
+    img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Strawberry.webp?raw=true", 
+    shortDesc:"Тортики с клубникой.", 
+    ingredients:["Клубника","Мука","Сливки","Сахар"],
+    preview: "https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=400",
+    preview2: "https://images.unsplash.com/photo-1588195538326-c5b1e5b80c11?w=400",
+    gallery: [
+      "https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=800",
+      "https://images.unsplash.com/photo-1588195538326-c5b1e5b80c11?w=800",
+      "https://images.unsplash.com/photo-1565661834013-d196ca46e14e?w=800"
+    ]
+  },
+  {
+    name:"Вишня", 
+    img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Cherries.webp?raw=true", 
+    shortDesc:"Вишневые торты с насыщенным вкусом.", 
+    ingredients:["Вишня","Мука","Сливки","Сахар"],
+    preview: "https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=400",
+    preview2: "https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=400",
+    gallery: [
+      "https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=800",
+      "https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?w=800",
+      "https://images.unsplash.com/photo-1565661834013-d196ca46e14e?w=800"
+    ]
+  },
+  {
+    name:"Декор", 
+    img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Lollipop.webp?raw=true", 
+    shortDesc:"Торты с красивым декором.", 
+    ingredients:["Сахарная мастика","Красители","Крем","Украшения"],
+    preview: "https://images.unsplash.com/photo-1562440499-64c9a5656a28?w=400",
+    preview2: "https://images.unsplash.com/photo-1576171310776-839fef79b3eb?w=400",
+    gallery: [
+      "https://images.unsplash.com/photo-1562440499-64c9a5656a28?w=800",
+      "https://images.unsplash.com/photo-1576171310776-839fef79b3eb?w=800",
+      "https://images.unsplash.com/photo-1588195538326-c5b1e5b80c11?w=800"
+    ]
+  },
+  {
+    name:"Домашние", 
+    img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Pie.webp?raw=true", 
+    shortDesc:"Торты как у бабушки дома.", 
+    ingredients:["Мука","Яйца","Сахар","Сливки"],
+    preview: "https://images.unsplash.com/photo-1557925923-33b27c8430b5?w=400",
+    preview2: "https://images.unsplash.com/photo-1586985289688-ca3cf47d3e6e?w=400",
+    gallery: [
+      "https://images.unsplash.com/photo-1557925923-33b27c8430b5?w=800",
+      "https://images.unsplash.com/photo-1586985289688-ca3cf47d3e6e?w=800",
+      "https://images.unsplash.com/photo-1571115177098-24ec42ed204d?w=800"
+    ]
+  },
+  {
+    name:"Авторские", 
+    img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Candy.webp?raw=true", 
+    shortDesc:"Уникальные торты по индивидуальному заказу.", 
+    ingredients:["Мука","Яйца","Сахар","Крем","Фрукты"],
+    preview: "https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62?w=400",
+    preview2: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=400",
+    gallery: [
+      "https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62?w=800",
+      "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=800",
+      "https://images.unsplash.com/photo-1535254973040-607b474cb50d?w=800",
+      "https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=800"
+    ]
+  },
+  {
+    name:"Французские", 
+    img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Croissant.webp?raw=true", 
+    shortDesc:"Элегантные французские десерты.", 
+    ingredients:["Мука","Яйца","Сливки","Шоколад"],
+    preview: "https://images.unsplash.com/photo-1603532648955-039310d9ed75?w=400",
+    preview2: "https://images.unsplash.com/photo-1587241321921-91a834d82be7?w=400",
+    gallery: [
+      "https://images.unsplash.com/photo-1603532648955-039310d9ed75?w=800",
+      "https://images.unsplash.com/photo-1587241321921-91a834d82be7?w=800",
+      "https://images.unsplash.com/photo-1614707267537-b85aaf00c4b7?w=800"
+    ]
+  }
 ];
 
 // Открытие торта
@@ -363,6 +750,100 @@ function backToCatalog(){
 document.querySelectorAll(".catalog-card").forEach((card,i)=>{
   card.addEventListener("click",()=>openCake(i));
 });
+
+
+// ===== ГАЛЕРЕЯ ТОРТОВ =====
+var currentCakeGallery = [];
+var currentCakeIndex = 0;
+
+function createCakeStack(cake) {
+  var stack = document.getElementById('cakePhotoStack');
+  stack.innerHTML = '';
+  
+  if (!cake.gallery || cake.gallery.length === 0) {
+    stack.style.display = 'none';
+    return;
+  }
+  
+  stack.style.display = 'block';
+  
+  var stackImages = [
+    cake.gallery[2] || cake.gallery[0],
+    cake.preview2 || cake.gallery[1] || cake.gallery[0],
+    cake.preview || cake.gallery[0]
+  ];
+  
+  for (var i = stackImages.length - 1; i >= 0; i--) {
+    var item = document.createElement('div');
+    item.className = 'photo-stack-item';
+    
+    var img = document.createElement('img');
+    img.src = stackImages[i];
+    img.alt = '';
+    
+    item.appendChild(img);
+    stack.appendChild(item);
+  }
+  
+  stack.onclick = function() { openCakeLightbox(0); };
+}
+
+function openCakeLightbox(index) {
+  currentCakeIndex = index;
+  var stack = document.getElementById('cakePhotoStack');
+  var lightbox = document.getElementById('cakeLightbox');
+  
+  stack.classList.add('opening');
+  
+  setTimeout(function() {
+    lightbox.classList.add('active');
+    updateCakeLightbox();
+  }, 300);
+}
+
+function closeCakeLightbox() {
+  var stack = document.getElementById('cakePhotoStack');
+  var lightbox = document.getElementById('cakeLightbox');
+  
+  lightbox.classList.remove('active');
+  stack.classList.remove('opening');
+  stack.classList.add('closing');
+  
+  setTimeout(function() {
+    stack.classList.remove('closing');
+  }, 400);
+}
+
+function changeCakeImage(direction) {
+  currentCakeIndex += direction;
+  if (currentCakeIndex < 0) currentCakeIndex = currentCakeGallery.length - 1;
+  if (currentCakeIndex >= currentCakeGallery.length) currentCakeIndex = 0;
+  updateCakeLightbox();
+}
+
+function updateCakeLightbox() {
+  document.getElementById('cakeLightboxImage').src = currentCakeGallery[currentCakeIndex];
+}
+
+document.getElementById('cakeLightbox').addEventListener('click', function(e) {
+  if (e.target === this) {
+    closeCakeLightbox();
+  }
+});
+
+document.getElementById('cakeLightboxImage').addEventListener('click', function(e) {
+  e.stopPropagation();
+});
+
+document.addEventListener('keydown', function(e) {
+  if (!document.getElementById('cakeLightbox').classList.contains('active')) return;
+  
+  if (e.key === 'Escape') closeCakeLightbox();
+  if (e.key === 'ArrowLeft') changeCakeImage(-1);
+  if (e.key === 'ArrowRight') changeCakeImage(1);
+});
+
+  
 </script>
 </body>
 </html>
