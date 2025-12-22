@@ -91,6 +91,7 @@ body {
   display: flex;
   gap: 6px;
 }
+/* Общий стиль кнопок */
 .action-btn {
   flex: 1;
   padding: 14px 0;
@@ -98,13 +99,29 @@ body {
   font-size: 15px;
   font-weight: 600;
   text-decoration: none;
-  color: #ffffff;
+  color: #fff;
   border-radius: 6px;
-  background: rgba(255, 255, 255, 0.12);
-  backdrop-filter: blur(14px);
-  border: 1px solid rgba(255,255,255,0.25);
   transition: transform 0.15s ease, background 0.3s ease;
 }
+
+/* Telegram — синий градиент */
+.telegram-btn {
+  background: linear-gradient(135deg, #0088cc, #00c6ff);
+  border: none;
+}
+.telegram-btn:hover {
+  transform: scale(1.05);
+}
+
+/* Instagram — розово-жёлтый градиент */
+.instagram-btn {
+  background: linear-gradient(135deg, #f58529, #dd2a7b, #feda75);
+  border: none;
+}
+.instagram-btn:hover {
+  transform: scale(1.05);
+}
+
 .action-btn:active { transform: scale(0.96); }
 .action-btn:hover { background: rgba(255, 255, 255, 0.2); }
 
@@ -406,9 +423,9 @@ body {
 
     <button class="catalog-btn" onclick="openCatalog()">В каталог</button>
     <div class="bottom-actions">
-      <a href="https://t.me/USERNAME" class="action-btn">Telegram</a>
-      <a href="https://instagram.com/USERNAME" class="action-btn">Instagram</a>
-    </div>
+  <a href="https://t.me/your_username" class="action-btn telegram-btn">Telegram</a>
+  <a href="https://instagram.com/your_username" class="action-btn instagram-btn">Instagram</a>
+</div>
   </div>
 
   <!-- ВТОРОЙ ЭКРАН - КАТАЛОГ -->
