@@ -373,7 +373,7 @@ function hideLoader() {
 
 /* ===== ПЕРВАЯ ЗАГРУЗКА ===== */
 window.addEventListener("load", () => {
-  setTimeout(hideLoader, 600);
+  setTimeout(hideLoader, 1000);
 });
 
 /* ===== ПЕРЕХОД В КАТАЛОГ ===== */
@@ -384,7 +384,7 @@ function openCatalog() {
     document.getElementById("mainScreen").classList.remove("active");
     document.getElementById("catalogScreen").classList.add("active");
     hideLoader();
-  }, 500);
+  }, 1500);
 }
 
 
