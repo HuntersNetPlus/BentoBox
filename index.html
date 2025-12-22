@@ -392,6 +392,62 @@ function openCatalog() {
   }, 1500);
 }
 
+const cakes = [
+  {
+    name: "День рождения",
+    img: "https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Birthday%20Cake.webp?raw=true",
+    description: "Ингредиенты: мука, яйца, сахар, сливки, фрукты. Подробное описание: тортик на день рождения с яркой глазурью и декором."
+  },
+  {
+    name: "Свадебные",
+    img: "https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Wedding%20Cake.webp?raw=true",
+    description: "Ингредиенты: белый бисквит, крем-чиз, ягоды. Подробное описание: элегантные свадебные торты на заказ."
+  },
+  {
+    name: "Шоколадные",
+    img: "https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Chocolate%20Bar.webp?raw=true",
+    description: "Ингредиенты: шоколад, сахар, сливки, мука. Подробное описание: насыщенные шоколадные торты для сладкоежек."
+  },
+  // Добавь остальные торты аналогично
+];
+// Получаем элементы
+const cakeScreen = document.getElementById("cakeScreen");
+const cakeImage = document.getElementById("cakeImage");
+const cakeDescription = document.getElementById("cakeDescription");
+const cakeTitle = document.getElementById("cakeTitle");
+const orderBtn = document.getElementById("orderBtn");
+
+function openCake(index) {
+  showLoader(); // если нужен лоадер при переходе
+
+  setTimeout(() => {
+    document.getElementById("catalogScreen").classList.remove("active");
+    cakeScreen.classList.add("active");
+
+    const cake = cakes[index];
+    cakeTitle.textContent = cake.name;
+    cakeImage.src = cake.img;
+    cakeDescription.textContent = cake.description;
+
+    // кнопка Заказать — например, ссылка на Telegram
+    orderBtn.href = "https://t.me/USERNAME?start=" + encodeURIComponent(cake.name);
+
+    hideLoader();
+  }, 500);
+}
+
+function backToCatalog() {
+  showLoader();
+  setTimeout(() => {
+    cakeScreen.classList.remove("active");
+    document.getElementById("catalogScreen").classList.add("active");
+    hideLoader();
+  }, 500);
+}
+// Находим все карточки каталога
+document.querySelectorAll(".catalog-card").forEach((card, i) => {
+  card.addEventListener("click", () => openCake(i));
+});
 
 
 </script>
