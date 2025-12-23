@@ -108,13 +108,12 @@ body {
 
 /* Назад в каталог — синий градиент, как Telegram */
 .back-btn {
-  color: #17212b;
-background: linear-gradient(90deg,rgba(48, 129, 161, 1) 0%, rgba(45, 159, 204, 1) 50%, rgba(48, 129, 161, 1) 100%);
+  background: linear-gradient(135deg, #0088cc, #00c6ff);
+}
 
 /* Заказать — зелёно-жёлтый градиент */
 .order-btn {
-  background: linear-gradient(90deg, #a8ff78, #78ffd6); /* зелёно-жёлтый градиент */
-  color: #17212b;
+  background: linear-gradient(135deg, #6af27d, #feda75);
 }
 
 /* Анимация нажатия для обеих кнопок */
@@ -203,13 +202,13 @@ background: linear-gradient(90deg,rgba(48, 129, 161, 1) 0%, rgba(45, 159, 204, 1
 :root {
   --card-width: 200px;
   --card-aspect: 1.5;
-  --card-rotation-1: -15deg;
-  --card-rotation-2: -10deg;
-  --card-rotation-3: -5deg;
+  --card-rotation-1: -10deg;
+  --card-rotation-2: -5deg;
+  --card-rotation-3: 0deg;
   --card-offset-x: 20px;
   --card-offset-y: 10px;
   --card-border: 2px;
-  --card-radius: 20px;
+  --card-radius: 10px;
 }
 
 .photo-stack {
@@ -417,14 +416,15 @@ background: linear-gradient(90deg,rgba(48, 129, 161, 1) 0%, rgba(45, 159, 204, 1
 }
 
 .back-btn {
-  flex: 1; /* cake title copy*/
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  font-weight: 700;
+  flex: 1; /* занимает половину экрана */
+  padding: 12px;
+  background: #3081a1;
+  background: linear-gradient(90deg, rgba(48, 129, 161, 1) 0%, rgba(45, 159, 204, 1) 50%, rgba(48, 129, 161, 1) 100%);
   color: white;
-  text-align: center;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: transform 0.15s ease;
 }
 
 .back-btn:active {
