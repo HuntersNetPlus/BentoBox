@@ -676,8 +676,8 @@ body {
 
 <!-- Название и краткое описание -->
 <div class="faq-block">
-  <div class="faq-content1" id="cakeShortDesc" style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 14px; line-height: 1.5;">
-    <!-- JS вставит сюда название в рамке и описание -->
+  <div class="faq-content1">
+  <div id="cakeShortDesc" style="font-size:14px; line-height:1.5;"></div>
   </div>
 </div>
 
@@ -944,17 +944,18 @@ function openCake(index){
     document.getElementById("catalogScreen").classList.remove("active");
     cakeScreen.classList.add("active");
 
- const cake = cakes[index];
+   const cake = cakes[index];
 const cakeShortDesc = document.getElementById('cakeShortDesc');
 const cakeIngredients = document.getElementById('cakeIngredients');
+
+cakeTitle.textContent = cake.name;
+cakeShortDesc.innerHTML = `<strong>${cake.name}</strong> — ${cake.shortDesc}`;
+
 
 currentCakeGallery = cake.gallery || [];
 createCakeStack(cake);
 
-// Название жирным в начале абзаца
-cakeShortDesc.innerHTML = `<strong>${cake.name}</strong> — ${cake.shortDesc}`;
-
-// Ингредиенты в коллапс
+// Только ингредиенты в коллапс
 let html = '';
 if(cake.ingredients.length){
   html += "<ul>";
@@ -965,9 +966,8 @@ if(cake.ingredients.length){
 }
 cakeIngredients.innerHTML = html;
 
-orderBtn.href = "https://t.me/USERNAME?start=" + encodeURIComponent(cake.name);
-hideLoader();
-
+    orderBtn.href = "https://t.me/USERNAME?start="+encodeURIComponent(cake.name);
+    hideLoader();
   },500);
 }
 
