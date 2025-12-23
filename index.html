@@ -968,10 +968,10 @@ function openCake(index){
     currentCakeGallery = cake.gallery || [];
     createCakeStack(cake);
 
-   // Ингредиенты
+// Ингредиенты
 let html = '';
 if(cake.ingredients.length){
-  html += "<strong style='display: block; text-align: left; margin-bottom: 8px;'>Ингредиенты:</strong>";
+  html += "<strong style='display: block; text-align: left; margin-top: 12px; margin-bottom: 8px; color: #6ab2f2;'>Ингредиенты:</strong>";
   html += "<ul>";
   cake.ingredients.forEach(item=>{
     html += `<li>${item}</li>`;
@@ -981,7 +981,7 @@ if(cake.ingredients.length){
 
 // Добавляем таблицу КБЖУ
 if(cake.kbju) {
-  html += '<br><strong style="display: block; text-align: left;">КБЖУ на 100г:</strong><br>';
+  html += '<strong style="display: block; text-align: left; margin-top: 8px; margin-bottom: 8px; color: #6ab2f2;">КБЖУ на 100г:</strong>';
   html += '<table style="width:100%; border-collapse: collapse; margin-top: 8px;">';
   html += '<tr style="background: #24364a;"><td style="padding: 6px; border: 1px solid #6ab2f2;">Калории</td><td style="padding: 6px; border: 1px solid #6ab2f2;">' + cake.kbju.calories + ' ккал</td></tr>';
   html += '<tr><td style="padding: 6px; border: 1px solid #6ab2f2;">Белки</td><td style="padding: 6px; border: 1px solid #6ab2f2;">' + cake.kbju.protein + ' г</td></tr>';
