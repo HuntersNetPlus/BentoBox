@@ -416,15 +416,14 @@ body {
 }
 
 .back-btn {
-  flex: 1; /* занимает половину экрана */
-  padding: 12px;
-  background: #3081a1;
-  background: linear-gradient(90deg, rgba(48, 129, 161, 1) 0%, rgba(45, 159, 204, 1) 50%, rgba(48, 129, 161, 1) 100%);
+    flex: 1; /* вторая половина */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
   color: white;
-  border: none;
-  border-radius: 8px;
-  font-weight: 600;
-  transition: transform 0.15s ease;
+  text-align: center;
 }
 
 .back-btn:active {
