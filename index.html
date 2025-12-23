@@ -746,11 +746,17 @@ function openCatalog(){
 
 // Массив всех 15 тортов
 const cakes = [
-  {
+{
     name:"День рождения", 
     img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Birthday%20Cake.webp?raw=true", 
     shortDesc:"Тортик на день рождения с яркой глазурью и декором.", 
     ingredients:["Мука","Яйца","Сахар","Сливки","Фрукты"],
+    kbju: {
+      calories: 350,
+      protein: 5,
+      fat: 18,
+      carbs: 42
+    },
     preview: "https://images.unsplash.com/photo-1558636508-e0db3814bd1d?w=400",
     preview2: "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=400",
     gallery: [
@@ -972,6 +978,17 @@ function openCake(index){
       html += "</ul>";
     }
     cakeIngredients.innerHTML = html;
+
+    if(cake.kbju) {
+  html += '<br><strong>КБЖУ на 100г:</strong><br>';
+  html += '<table style="width:100%; border-collapse: collapse; margin-top: 8px;">';
+  html += '<tr style="background: #24364a;"><td style="padding: 6px; border: 1px solid #6ab2f2;">Калории</td><td style="padding: 6px; border: 1px solid #6ab2f2;">' + cake.kbju.calories + ' ккал</td></tr>';
+  html += '<tr><td style="padding: 6px; border: 1px solid #6ab2f2;">Белки</td><td style="padding: 6px; border: 1px solid #6ab2f2;">' + cake.kbju.protein + ' г</td></tr>';
+  html += '<tr style="background: #24364a;"><td style="padding: 6px; border: 1px solid #6ab2f2;">Жиры</td><td style="padding: 6px; border: 1px solid #6ab2f2;">' + cake.kbju.fat + ' г</td></tr>';
+  html += '<tr><td style="padding: 6px; border: 1px solid #6ab2f2;">Углеводы</td><td style="padding: 6px; border: 1px solid #6ab2f2;">' + cake.kbju.carbs + ' г</td></tr>';
+  html += '</table>';
+}
+cakeIngredients.innerHTML = html;
 
     orderBtn.href = "https://t.me/USERNAME?start=" + encodeURIComponent(cake.name);
 
