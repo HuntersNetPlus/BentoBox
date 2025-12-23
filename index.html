@@ -449,11 +449,10 @@ body {
 .description-content {
   max-height: 0;
   overflow: hidden;
-  padding: 0 14px;
-  transition: max-height 0.35s ease;
+  padding: 0 14px;  /* боковые паддинги оставляем */
+  transition: max-height 0.35s ease, padding 0.35s ease;  /* ← ДОБАВЬ анимацию padding */
   font-size: 14px;
   line-height: 1.5;
-}
 
 /* ===== ОТКРЫТО ===== */
 .description-wrapper.open .description-content {
@@ -1068,7 +1067,7 @@ function toggleDescription() {
 
     setTimeout(() => {
       text.textContent = 'Развернуть описание';
-    }, 600); // ← 50–100 мс, можно менять
+    }, 450); // ← 50–100 мс, можно менять
   } else {
     /* РАЗВОРАЧИВАНИЕ — сразу меняем текст */
     wrapper.classList.add('open');
