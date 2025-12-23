@@ -469,9 +469,16 @@ body {
 
 
   
+.top-row {
+  display: flex;
+  gap: 8px; /* расстояние между кнопкой и названием */
+  width: 100%;
+  margin-bottom: 12px;
+}
+
 .top-row .back-btn,
 .top-row .cake-title {
-  flex: 1; /* обе половины экрана */
+  flex: 1; /* делим пространство поровну */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -479,7 +486,7 @@ body {
   font-weight: 700;
   color: white;
   background: #1d2b3a;      /* фон как у названия торта */
-  border: 1px solid #6ab2f2; /* рамка как у названия торта */
+  border: 1px solid #6ab2f2; /* рамка */
   border-radius: 6px;
   text-align: center;
   padding: 10px 12px;
@@ -491,6 +498,7 @@ body {
 .top-row .cake-title:active {
   transform: scale(0.96);
 }
+
 
 
 .back-btn {
