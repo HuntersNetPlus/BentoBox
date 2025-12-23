@@ -13,7 +13,7 @@ body {
   color: white;
 }
   
-.faq-content1 a {
+ #cakeDescription a {
   color: #6ab2f2;
   text-decoration: none;
 }
@@ -325,27 +325,14 @@ body {
 
 .cake-lightbox-image-container {
   position: relative;
-  width: 90%;            /* почти весь экран на мобильных */
-  max-width: 320px;      /* лимит для десктопа */
-  aspect-ratio: 3 / 2;   /* правильные пропорции */
+  width: 50%;
+  max-width: 280px;
+  aspect-ratio: 2 / 3;
   max-height: 90vh;
   margin: 0 auto;
   opacity: 0;
-  transform: scale(1);
+  transform: scale(0.85);
   transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.cake-lightbox-image-container img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain; /* чтобы картинка не обрезалась */
-}
-  @media (max-width: 768px) {
-  .cake-lightbox-image-container {
-    width: 95%;   /* почти весь экран */ 
-    max-width: none;
-    aspect-ratio: auto; /* можно убрать, чтобы сохранить пропорции картинки */
-  }
 }
 
 .cake-lightbox.active .cake-lightbox-image-container {
@@ -353,7 +340,12 @@ body {
   transform: scale(1);
 }
 
- 
+.cake-lightbox-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px;
+}
 
 .cake-lightbox-arrow {
   position: absolute;
@@ -619,10 +611,7 @@ body {
     <div class="faq-block">
       <div class="faq-content1">
         <img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food%20and%20Drink/Birthday%20Cake.webp?raw=true">
-        Нажми на торт, чтобы открыть галерею. Если нужен торт по особому рецепту или с  индивидуальным дизайном, <a href="https://t.me/your_username">нажми сюда</a>
-</div>
-
-        
+        Нажми на торт, чтобы открыть галерею. Если нужен торт по особому рецепту или с  индивидуальным дизайном, <a href="https://t.me/your_username">нажми сюда</a>. 
       </div>
     </div>
 
