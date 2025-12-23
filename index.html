@@ -325,14 +325,21 @@ body {
 
 .cake-lightbox-image-container {
   position: relative;
-  width: 50%;
-  max-width: 280px;
+  width: 90%;       /* вместо 50%, чтобы подстраивалось под экран */
+  max-width: 400px; /* лимит на больших экранах */
   aspect-ratio: 2 / 3;
   max-height: 90vh;
   margin: 0 auto;
   opacity: 0;
-  transform: scale(0.85);
+  transform: scale(1); /* убираем 0.85, чтобы не было зума при открытии */
   transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+  @media (max-width: 768px) {
+  .cake-lightbox-image-container {
+    width: 95%;   /* почти весь экран */
+    max-width: none;
+    aspect-ratio: auto; /* можно убрать, чтобы сохранить пропорции картинки */
+  }
 }
 
 .cake-lightbox.active .cake-lightbox-image-container {
