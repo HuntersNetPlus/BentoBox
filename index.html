@@ -501,6 +501,19 @@ body {
   transform: rotate(180deg);
 }
 
+.faq-content1 {
+  background: #1d2b3a;
+  border: 1px solid #6ab2f2;
+  border-radius: 4px;
+  padding: 8px;
+  font-size: 15px;
+  line-height: 1.4;
+  color: #ffffff;
+  text-align: left; /* чтобы текст был по левому краю */
+}
+.faq-content1 strong {
+  font-weight: 700;
+}
 
 
 
@@ -684,8 +697,13 @@ body {
 
 <!-- Ингредиенты (коллапс) -->
 <div class="faq-block">
-  <div class="faq-content1 description-wrapper">
-    <div class="description-toggle" onclick="toggleDescription()">
+ 
+
+<div class="faq-content1 description-wrapper">
+  <p><strong id="cakeName">Название торта</strong> — описание торта, ингредиенты и так далее.</p>
+</div>
+
+  
       <span id="descToggleText">Открыть полное описание</span>
       <span class="arrow" id="descArrow">▾</span>
     </div>
@@ -696,7 +714,7 @@ body {
 
 
 
-  <a href="#" class="order-btn" id="orderBtn">Заказать</a>
+  <a href="#" class="order-btn" id="orderBtn">Оформить заказ</a>
 </div>
 
 
@@ -945,15 +963,16 @@ function openCake(index){
     document.getElementById("catalogScreen").classList.remove("active");
     cakeScreen.classList.add("active");
 
-   const cake = cakes[index];
+const cake = cakes[index];
+
 const cakeShortDesc = document.getElementById('cakeShortDesc');
 const cakeIngredients = document.getElementById('cakeIngredients');
 
-cakeTitle.textContent = cake.name;
-cakeShortDesc.textContent = cake.shortDesc;
-
 currentCakeGallery = cake.gallery || [];
 createCakeStack(cake);
+
+// Формируем описание: название жирное, описание рядом
+cakeShortDesc.innerHTML = `<strong>${cake.name}</strong> — ${cake.shortDesc}`;
 
 // Только ингредиенты в коллапс
 let html = '';
@@ -966,8 +985,8 @@ if(cake.ingredients.length){
 }
 cakeIngredients.innerHTML = html;
 
-    orderBtn.href = "https://t.me/USERNAME?start="+encodeURIComponent(cake.name);
-    hideLoader();
+orderBtn.href = "https://t.me/USERNAME?start=" + encodeURIComponent(cake.name);
+hideLoader();
   },500);
 }
 
