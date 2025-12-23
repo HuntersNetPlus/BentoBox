@@ -6,8 +6,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-
-
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -98,7 +96,8 @@ body {
   display: flex;
   gap: 6px;
 }
-
+/* Общий стиль кнопок */
+/* Общий стиль для action-btn */
 .action-btn {
   flex: 1;
   padding: 14px 0;
@@ -112,10 +111,23 @@ body {
   border: none;
 }
 
+/* Назад в каталог — синий градиент, как Telegram */
+.back-btn {
+  background: linear-gradient(135deg, #0088cc, #00c6ff);
+}
+
+/* Заказать — зелёно-жёлтый градиент */
+.order-btn {
+  background: linear-gradient(135deg, #6af27d, #feda75);
+}
+
+/* Анимация нажатия для обеих кнопок */
 .action-btn:active {
   transform: scale(0.96);
 }
 
+
+/* Telegram — синий градиент */
 .telegram-btn {
   background: linear-gradient(135deg, #0088cc, #00c6ff);
   border: none;
@@ -124,6 +136,7 @@ body {
   transform: scale(1.05);
 }
 
+/* Instagram — розово-жёлтый градиент */
 .instagram-btn {
   background: linear-gradient(135deg, #f58529, #dd2a7b, #feda75);
   border: none;
@@ -131,6 +144,9 @@ body {
 .instagram-btn:hover {
   transform: scale(1.05);
 }
+
+.action-btn:active { transform: scale(0.96); }
+
 
 /* ===== ЭКРАНЫ ===== */
 .screen { display: none; }
@@ -178,6 +194,9 @@ body {
   margin-bottom: 6px;
 }
 .catalog-card span { display: block; font-size: 13px; }
+
+
+
 
 /* ===== ГАЛЕРЕЯ ТОРТОВ ===== */
 .gallery-container {
@@ -362,11 +381,45 @@ body {
   }
 }
 
+.bottom-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.back-btn {
+  padding: 12px 16px;
+  background: linear-gradient(90deg, #4a90e2, #3571c6); /* синий градиент */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  flex: 0 0 auto; /* фиксированная ширина по содержимому */
+  font-weight: 600;
+  transition: transform 0.15s ease;
+}
+
+.order-btn {
+  flex: 1; /* занимает всё оставшееся место */
+  padding: 12px 0;
+  background: linear-gradient(90deg, #a8ff78, #78ffd6); /* зелёно-жёлтый градиент */
+  color: #17212b;
+  border-radius: 8px;
+  text-align: center;
+  text-decoration: none;
+  font-weight: 600;
+  transition: transform 0.15s ease;
+}
+
+.back-btn:active, .order-btn:active {
+  transform: scale(0.96);
+}
+
+
 /* ===== ОБЁРТКА ===== */
 .description-wrapper {
   padding: 0;
   overflow: hidden;
-  text-align: left;
+  text-align: left; /* 🔑 возвращаем нормальное форматирование */
 }
 
 /* ===== КНОПКА ===== */
@@ -374,15 +427,19 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   background: #2f7cf6;
   color: #ffffff;
+
   padding: 10px 14px;
   font-size: 14px;
   font-weight: 600;
+
   cursor: pointer;
   user-select: none;
 }
 
+/* стрелка */
 .description-toggle .arrow {
   font-size: 16px;
   transition: transform 0.25s ease;
@@ -408,25 +465,28 @@ body {
   transform: rotate(180deg);
 }
 
-/* ===== TOP ROW ===== */
+
+
+
+  
 .top-row {
   display: flex;
-  gap: 8px;
+  gap: 8px; /* расстояние между кнопкой и названием */
   width: 100%;
   margin-bottom: 12px;
 }
 
 .top-row .back-btn,
 .top-row .cake-title {
-  flex: 1;
+  flex: 1; /* делим пространство поровну */
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 18px;
   font-weight: 700;
   color: white;
-  background: #1d2b3a;
-  border: 1px solid #6ab2f2;
+  background: #1d2b3a;      /* фон как у названия торта */
+  border: 1px solid #6ab2f2; /* рамка */
   border-radius: 6px;
   text-align: center;
   padding: 10px 12px;
@@ -439,7 +499,44 @@ body {
   transform: scale(0.96);
 }
 
+
+
+.back-btn {
+    flex: 1; /* вторая половина */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+  color: white;
+  text-align: center;
+}
+
+.back-btn:active {
+  transform: scale(0.96);
+}
+
  
+.order-btn {
+  display: block;
+  width: 100%;
+  padding: 14px 0;
+  margin-top: 12px;
+  background: #419e70;
+  background: linear-gradient(90deg,rgba(65, 158, 112, 1) 0%, rgba(45, 204, 127, 1) 50%, rgba(65, 158, 112, 1) 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 600;
+  transition: transform 0.15s ease;
+}
+
+.order-btn:active {
+  transform: scale(0.96);
+}
+
+  
 
 /* ===== ЛОАДЕР ===== */
 .loader {
@@ -456,10 +553,6 @@ body {
 }
 .loader.active { opacity: 1; pointer-events: all; }
 .loader img { width: 150px; height: 150px; }
-
-
-
-  
 </style>
 </head>
 <body>
