@@ -434,19 +434,19 @@ body {
 /* ===== КНОПКА ===== */
 .description-toggle {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-
-  background: #2f7cf6;
-  color: #ffffff;
-
+  align-items: center;
+  background: #2f7cf6; /* голубой фон */
+  color: white;          /* белый текст */
   padding: 10px 14px;
-  font-size: 14px;
   font-weight: 600;
-
+  font-size: 14px;
   cursor: pointer;
+  border-radius: 6px;
   user-select: none;
 }
+
+
 
 /* стрелка */
 .description-toggle .arrow {
@@ -651,18 +651,15 @@ body {
 
   <!-- Описание -->
 <div class="faq-block">
-  <div class="faq-content1 description-wrapper">
-
-    <!-- КНОПКА -->
+  <div class="description-wrapper">
     <div class="description-toggle" onclick="toggleDescription()">
-      <span id="descToggleText">Развернуть описание</span>
-      <span class="arrow" id="descArrow">▾</span>
+      <span id="descToggleText">Развернуть описание ▾</span>
     </div>
-
-    <!-- КОНТЕНТ -->
     <div class="description-content" id="cakeDescription">
-      <!-- сюда JS вставляет описание + ингредиенты -->
+      <!-- описание + ингредиенты сюда JS вставляет -->
     </div>
+  </div>
+</div>
 
   </div>
 </div>
