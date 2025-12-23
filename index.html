@@ -408,40 +408,62 @@ body {
 .back-btn:active, .order-btn:active {
   transform: scale(0.96);
 }
-  .description-collapsible {
+
+
+/* ===== ОБЁРТКА ===== */
+.description-wrapper {
   padding: 0;
   overflow: hidden;
+  text-align: left; /* 🔑 возвращаем нормальное форматирование */
 }
 
-/* Кнопка */
+/* ===== КНОПКА ===== */
 .description-toggle {
-  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background: #2f7cf6;
+  color: #ffffff;
+
+  padding: 10px 14px;
   font-size: 14px;
-  color: #6ab2f2;
-  text-align: center;
+  font-weight: 600;
+
   cursor: pointer;
   user-select: none;
 }
 
-/* Контент */
+/* стрелка */
+.description-toggle .arrow {
+  font-size: 16px;
+  transition: transform 0.25s ease;
+}
+
+/* ===== КОНТЕНТ ===== */
 .description-content {
   max-height: 0;
   overflow: hidden;
-  padding: 0 10px;
+  padding: 0 14px;
   transition: max-height 0.35s ease;
+  font-size: 14px;
+  line-height: 1.5;
 }
 
-/* Открыто */
-.description-collapsible.open .description-content {
-  max-height: 1000px; /* с запасом */
-  padding-bottom: 10px;
+/* ===== ОТКРЫТО ===== */
+.description-wrapper.open .description-content {
+  max-height: 1200px;
+  padding: 12px 14px;
 }
 
-.description-collapsible.open .description-toggle {
-  color: #6af27d;
+.description-wrapper.open .description-toggle .arrow {
+  transform: rotate(180deg);
 }
 
 
+
+
+  
 .top-row {
   display: flex;
   width: 100%;
@@ -567,7 +589,7 @@ body {
 
     <div class="faq-block">
       <div class="faq-content1">
-        <img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food/Cupcake.webp?raw=true">
+        <img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food%20and%20Drink/Birthday%20Cake.webp?raw=true">
         Нажми на торт, чтобы открыть галерею. Если нужен торт по особому рецепту или с  индивидуальным дизайном, <a href="https://t.me/your_username">нажми сюда</a>. 
       </div>
     </div>
@@ -613,20 +635,24 @@ body {
   </div>
 <br>
 
-  
-  <div class="faq-block">
-  <div class="faq-content1 description-collapsible">
+  <!-- Описание -->
+<div class="faq-block">
+  <div class="faq-content1 description-wrapper">
 
+    <!-- КНОПКА -->
     <div class="description-toggle" onclick="toggleDescription()">
-      Развернуть описание
+      <span id="descToggleText">Развернуть описание</span>
+      <span class="arrow" id="descArrow">▾</span>
     </div>
 
+    <!-- КОНТЕНТ -->
     <div class="description-content" id="cakeDescription">
-      <!-- тут твой текст + список ингредиентов -->
+      <!-- сюда JS вставляет описание + ингредиенты -->
     </div>
 
   </div>
 </div>
+
 
 
   <a href="#" class="order-btn" id="orderBtn">Заказать</a>
@@ -1008,16 +1034,19 @@ document.addEventListener('keydown', function(e) {
 });
 
   
+ 
 function toggleDescription() {
-  const block = document.querySelector('.description-collapsible');
-  const toggle = block.querySelector('.description-toggle');
+  const wrapper = document.querySelector('.description-wrapper');
+  const text = document.getElementById('descToggleText');
 
-  block.classList.toggle('open');
+  wrapper.classList.toggle('open');
 
-  toggle.textContent = block.classList.contains('open')
+  text.textContent = wrapper.classList.contains('open')
     ? 'Свернуть описание'
     : 'Развернуть описание';
 }
+ 
+
  
 
 </script>
