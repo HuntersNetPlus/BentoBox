@@ -415,6 +415,27 @@ body {
 }
 
 
+  /* Кнопка "Назад" на всю ширину */
+.back-btn-full {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: white;
+  background: #1d2b3a;
+  border: 1px solid #6ab2f2;
+  border-radius: 6px;
+  padding: 12px;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.back-btn-full:active {
+  transform: scale(0.96);
+}
+
 /* ===== ОБЁРТКА ===== */
 .description-wrapper {
   padding: 0;
@@ -653,27 +674,33 @@ body {
   <br>
 
 
-  <!-- ГАЛЕРЕЯ -->
-  <div class="gallery-container">
-    <div class="photo-stack" id="cakePhotoStack"></div>
-  </div>
+<!-- Кнопка назад на всю ширину -->
+<button class="back-btn-full faq-content1" onclick="backToCatalog()">Назад в каталог</button>
 <br>
 
-  <!-- Описание -->
+<!-- ГАЛЕРЕЯ -->
+<div class="gallery-container">
+  <div class="photo-stack" id="cakePhotoStack"></div>
+</div>
+<br>
+
+<!-- Название и краткое описание -->
+<div class="faq-block">
+  <div class="faq-content1">
+    <div id="cakeTitle" style="font-size: 18px; font-weight: 700; margin-bottom: 8px;"></div>
+    <div id="cakeShortDesc" style="font-size: 14px; line-height: 1.5;"></div>
+  </div>
+</div>
+
+<!-- Ингредиенты (коллапс) -->
 <div class="faq-block">
   <div class="faq-content1 description-wrapper">
-
-    <!-- КНОПКА -->
     <div class="description-toggle" onclick="toggleDescription()">
-      <span id="descToggleText">Развернуть описание</span>
+      <span id="descToggleText">Показать ингредиенты</span>
       <span class="arrow" id="descArrow">▾</span>
     </div>
-
-    <!-- КОНТЕНТ -->
-    <div class="description-content" id="cakeDescription">
-      <!-- сюда JS вставляет описание + ингредиенты -->
+    <div class="description-content" id="cakeIngredients">
     </div>
-
   </div>
 </div>
 
@@ -928,22 +955,26 @@ function openCake(index){
     document.getElementById("catalogScreen").classList.remove("active");
     cakeScreen.classList.add("active");
 
-    const cake = cakes[index];
-    cakeTitle.textContent = cake.name;
-    
-    // Создаем галерею ДО отображения описания
-    currentCakeGallery = cake.gallery || [];
-    createCakeStack(cake);
+   const cake = cakes[index];
+const cakeShortDesc = document.getElementById('cakeShortDesc');
+const cakeIngredients = document.getElementById('cakeIngredients');
 
-    let html = `<p>${cake.shortDesc}</p>`;
-    if(cake.ingredients.length){
-      html += "<p><strong>Ингредиенты:</strong></p><ul>";
-      cake.ingredients.forEach(item=>{
-        html += `<li>${item}</li>`;
-      });
-      html += "</ul>";
-    }
-    cakeDescription.innerHTML = html;
+cakeTitle.textContent = cake.name;
+cakeShortDesc.textContent = cake.shortDesc;
+
+currentCakeGallery = cake.gallery || [];
+createCakeStack(cake);
+
+// Только ингредиенты в коллапс
+let html = '';
+if(cake.ingredients.length){
+  html += "<ul>";
+  cake.ingredients.forEach(item=>{
+    html += `<li>${item}</li>`;
+  });
+  html += "</ul>";
+}
+cakeIngredients.innerHTML = html;
 
     orderBtn.href = "https://t.me/USERNAME?start="+encodeURIComponent(cake.name);
     hideLoader();
@@ -1075,7 +1106,7 @@ function toggleDescription() {
   } else {
     /* РАЗВОРАЧИВАНИЕ — сразу меняем текст */
     wrapper.classList.add('open');
-    text.textContent = 'Свернуть описание';
+    text.textContent = 'Закрыть полное описание';
   }
 }
 
