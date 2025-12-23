@@ -12,9 +12,8 @@ body {
   background: #17212b;
   color: white;
 }
-  a:visited,
-a:active,
-a:focus {
+  
+ #cakeDescription a {
   color: #6ab2f2;
   text-decoration: none;
 }
@@ -1053,7 +1052,7 @@ function toggleDescription() {
 
     setTimeout(() => {
       text.textContent = 'Развернуть описание';
-    }, 80); // ← 50–100 мс, можно менять
+    }, 200); // ← 50–100 мс, можно менять
   } else {
     /* РАЗВОРАЧИВАНИЕ — сразу меняем текст */
     wrapper.classList.add('open');
