@@ -417,36 +417,27 @@ body {
 
 /* ===== ОБЁРТКА ===== */
 .description-wrapper {
+  padding: 0;
   overflow: hidden;
-  transition: max-height 0.35s ease, opacity 0.25s ease;
-  max-height: 0;
-  opacity: 0;
-}
-  .toggle-description-btn {
-  min-height: 44px;
-}
-
-.description-wrapper.expanded {
-  max-height: 1000px; /* с запасом */
-  opacity: 1;
+  text-align: left; /* 🔑 возвращаем нормальное форматирование */
 }
 
 /* ===== КНОПКА ===== */
 .description-toggle {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  background: #2f7cf6; /* голубой фон */
-  color: white;          /* белый текст */
+  justify-content: space-between;
+
+  background: #2f7cf6;
+  color: #ffffff;
+
   padding: 10px 14px;
-  font-weight: 600;
   font-size: 14px;
+  font-weight: 600;
+
   cursor: pointer;
-  border-radius: 6px;
   user-select: none;
 }
-
-
 
 /* стрелка */
 .description-toggle .arrow {
@@ -651,15 +642,18 @@ body {
 
   <!-- Описание -->
 <div class="faq-block">
-  <div class="description-wrapper">
+  <div class="faq-content1 description-wrapper">
+
+    <!-- КНОПКА -->
     <div class="description-toggle" onclick="toggleDescription()">
-      <span id="descToggleText">Развернуть описание ▾</span>
+      <span id="descToggleText">Развернуть описание</span>
+      <span class="arrow" id="descArrow">▾</span>
     </div>
+
+    <!-- КОНТЕНТ -->
     <div class="description-content" id="cakeDescription">
-      <!-- описание + ингредиенты сюда JS вставляет -->
+      <!-- сюда JS вставляет описание + ингредиенты -->
     </div>
-  </div>
-</div>
 
   </div>
 </div>
@@ -1053,20 +1047,18 @@ function toggleDescription() {
   const isOpen = wrapper.classList.contains('open');
 
   if (isOpen) {
-    // 🔹 Сначала убираем класс, чтобы пошла анимация
+    /* СВОРАЧИВАНИЕ — сначала анимация */
     wrapper.classList.remove('open');
 
-    // 🔹 Текст меняем с небольшой задержкой
     setTimeout(() => {
-      text.textContent = 'Развернуть описание ▼';
-    }, 80); // можно 50–100 мс
+      text.textContent = 'Развернуть описание';
+    }, 200); // ← 50–100 мс, можно менять
   } else {
-    // 🔹 Разворачиваем — текст меняется сразу
+    /* РАЗВОРАЧИВАНИЕ — сразу меняем текст */
     wrapper.classList.add('open');
-    text.textContent = 'Свернуть описание ▲';
+    text.textContent = 'Свернуть описание';
   }
 }
-
 
  
 
