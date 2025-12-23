@@ -408,6 +408,39 @@ body {
 .back-btn:active, .order-btn:active {
   transform: scale(0.96);
 }
+  .description-collapsible {
+  padding: 0;
+  overflow: hidden;
+}
+
+/* Кнопка */
+.description-toggle {
+  padding: 10px;
+  font-size: 14px;
+  color: #6ab2f2;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Контент */
+.description-content {
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 10px;
+  transition: max-height 0.35s ease;
+}
+
+/* Открыто */
+.description-collapsible.open .description-content {
+  max-height: 1000px; /* с запасом */
+  padding-bottom: 10px;
+}
+
+.description-collapsible.open .description-toggle {
+  color: #6af27d;
+}
+
 
 .top-row {
   display: flex;
@@ -579,9 +612,22 @@ body {
     <div class="photo-stack" id="cakePhotoStack"></div>
   </div>
 <br>
+
+  
   <div class="faq-block">
-    <div class="faq-content1" id="cakeDescription" style="text-align:left;"></div>
+  <div class="faq-content1 description-collapsible">
+
+    <div class="description-toggle" onclick="toggleDescription()">
+      Развернуть описание
+    </div>
+
+    <div class="description-content" id="cakeDescription">
+      <!-- тут твой текст + список ингредиентов -->
+    </div>
+
   </div>
+</div>
+
 
   <a href="#" class="order-btn" id="orderBtn">Заказать</a>
 </div>
@@ -962,6 +1008,22 @@ document.addEventListener('keydown', function(e) {
 });
 
   
+function toggleDescription() {
+  const block = document.querySelector('.description-collapsible');
+  const toggle = block.querySelector('.description-toggle');
+
+  block.classList.toggle('open');
+
+  toggle.textContent = block.classList.contains('open')
+    ? 'Свернуть описание'
+    : 'Развернуть описание';
+}
+ 
+
 </script>
+
+
+
+  
 </body>
 </html>
