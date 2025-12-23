@@ -116,10 +116,7 @@ body {
   background: linear-gradient(135deg, #0088cc, #00c6ff);
 }
 
-/* Заказать — зелёно-жёлтый градиент */
-.order-btn {
-  background: linear-gradient(135deg, #6af27d, #feda75);
-}
+ 
 
 /* Анимация нажатия для обеих кнопок */
 .action-btn:active {
@@ -398,22 +395,37 @@ body {
   transition: transform 0.15s ease;
 }
 
+/* Заказать — как В каталог */
 .order-btn {
-  flex: 1; /* занимает всё оставшееся место */
-  padding: 12px 0;
-  background: linear-gradient(90deg, #a8ff78, #78ffd6); /* зелёно-жёлтый градиент */
-  color: #17212b;
-   text-decoration: none;
+  flex: 1;
+  display: block;
+  width: 100%;
+  padding: 14px 0;
+  margin-top: 12px;
+
   background: #1d3a22;
   border: 1px solid #6af27d;
+  color: #6af27d;
+
   border-radius: 6px;
   text-align: center;
-  text-decoration: none;
   font-weight: 600;
-  transition: transform 0.15s ease;
+  text-decoration: none;
+
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.3s ease;
 }
 
-.back-btn:active, .order-btn:active {
+.order-btn:active {
+  transform: scale(0.96);
+}
+
+.order-btn:hover {
+  background: #24502f; /* можно оставить такой же hover, хотя на мобильных не видно */
+}
+
+
+.back-btn:active, {
   transform: scale(0.96);
 }
 
@@ -546,9 +558,7 @@ body {
  
  
 
-.order-btn:active {
-  transform: scale(0.96);
-}
+
 
   
 
