@@ -968,26 +968,29 @@ function openCake(index){
     currentCakeGallery = cake.gallery || [];
     createCakeStack(cake);
 
-    // Ингредиенты
-    let html = '';
-    if(cake.ingredients.length){
-      html += "<ul>";
-      cake.ingredients.forEach(item=>{
-        html += `<li>${item}</li>`;
-      });
-      html += "</ul>";
-    }
-    cakeIngredients.innerHTML = html;
+   // Ингредиенты
+let html = '';
+if(cake.ingredients.length){
+  html += "<strong style='display: block; text-align: left; margin-bottom: 8px;'>Ингредиенты:</strong>";
+  html += "<ul>";
+  cake.ingredients.forEach(item=>{
+    html += `<li>${item}</li>`;
+  });
+  html += "</ul>";
+}
 
-    if(cake.kbju) {
-  html += '<br><strong>КБЖУ на 100г:</strong><br>';
+// Добавляем таблицу КБЖУ
+if(cake.kbju) {
+  html += '<br><strong style="display: block; text-align: left;">КБЖУ на 100г:</strong><br>';
   html += '<table style="width:100%; border-collapse: collapse; margin-top: 8px;">';
   html += '<tr style="background: #24364a;"><td style="padding: 6px; border: 1px solid #6ab2f2;">Калории</td><td style="padding: 6px; border: 1px solid #6ab2f2;">' + cake.kbju.calories + ' ккал</td></tr>';
   html += '<tr><td style="padding: 6px; border: 1px solid #6ab2f2;">Белки</td><td style="padding: 6px; border: 1px solid #6ab2f2;">' + cake.kbju.protein + ' г</td></tr>';
   html += '<tr style="background: #24364a;"><td style="padding: 6px; border: 1px solid #6ab2f2;">Жиры</td><td style="padding: 6px; border: 1px solid #6ab2f2;">' + cake.kbju.fat + ' г</td></tr>';
   html += '<tr><td style="padding: 6px; border: 1px solid #6ab2f2;">Углеводы</td><td style="padding: 6px; border: 1px solid #6ab2f2;">' + cake.kbju.carbs + ' г</td></tr>';
   html += '</table>';
+  html += '<br>'; // Отступ после таблицы
 }
+
 cakeIngredients.innerHTML = html;
 
     orderBtn.href = "https://t.me/USERNAME?start=" + encodeURIComponent(cake.name);
