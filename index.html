@@ -426,23 +426,26 @@ body {
 .description-toggle {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;  /* ← ИЗМЕНИ: текст по центру */
 
   background: #2f7cf6;
-  color: #ffffff;
+  color: #17212b;
 
   padding: 10px 14px;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
 
   cursor: pointer;
   user-select: none;
+   border: none;  /* ← ДОБАВЬ: убрать рамку */
+  gap: 8px;  /* ← ДОБАВЬ: расстояние между текстом и стрелкой */
 }
 
 /* стрелка */
 .description-toggle .arrow {
-  font-size: 16px;
+  font-size: 18px;  /* ← можно увеличить стрелку тоже */
   transition: transform 0.25s ease;
+  color: #17212b;  /* ← ДОБАВЬ: цвет стрелки (например зелёный) */
 }
 
 /* ===== КОНТЕНТ ===== */
