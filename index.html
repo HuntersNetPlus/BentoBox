@@ -1348,52 +1348,42 @@ function toggleDescription() {
 
       const anim = lottie.loadAnimation({
         container: el,
-        renderer: 'svg', // SVG быстрее для маленьких анимаций
+        renderer: 'svg', // SVG быстрее для маленьких размеров
         loop: true,
         autoplay: false,
         path: path,
         
         rendererSettings: {
           preserveAspectRatio: 'xMidYMid slice',
-          clearCanvas: true,
           progressiveLoad: true,
-          hideOnTransparent: true,
-          className: 'lottie-svg'
+          hideOnTransparent: true
         }
       });
 
       anim.addEventListener('DOMLoaded', () => {
         console.log(`✅ Анимация ${index} загружена`);
-        
-        // ⚡ ОГРАНИЧЕНИЕ FPS:
-        anim.setSubframe(false); // Отключаем субфреймы (важно!)
-        
-        // Устанавливаем конкретный FPS через переопределение frameRate
-        const originalFrameRate = anim.frameRate; // Исходный FPS анимации
-        const targetFPS = 20; // 🎯 ТВОЙ FPS (20-30 оптимально)
-        
-        // Вычисляем множитель скорости для достижения нужного FPS
-        anim.frameModifier = originalFrameRate / targetFPS;
-        
-        // Hacky способ: замедляем через requestAnimationFrame
-        let lastTime = 0;
-        const fpsInterval = 1000 / targetFPS; // Интервал между кадрами в мс
-        
-        const originalEnterFrame = anim.onEnterFrame;
-        anim.onEnterFrame = function() {
-          const now = Date.now();
-          const elapsed = now - lastTime;
-          
-          if (elapsed > fpsInterval) {
-            lastTime = now - (elapsed % fpsInterval);
-            if (originalEnterFrame) originalEnterFrame.call(anim);
-          }
-        };
       });
 
       anim.addEventListener('data_failed', (e) => {
         console.error(`❌ Ошибка загрузки анимации ${index}:`, path, e);
       });
+
+      // ⚡ ОГРАНИЧЕНИЕ FPS (без изменения скорости)
+      anim.setSubframe(false); // Отключаем субфреймы
+      
+      // Throttle для рендера (пропускаем кадры)
+      let lastFrameTime = 0;
+      const targetFPS = 24; // 🎯 Целевой FPS (15-30 оптимально)
+      const frameInterval = 1000 / targetFPS;
+      
+      const originalRender = anim.renderer.renderFrame.bind(anim.renderer);
+      anim.renderer.renderFrame = function(num) {
+        const now = Date.now();
+        if (now - lastFrameTime >= frameInterval) {
+          lastFrameTime = now;
+          originalRender(num);
+        }
+      };
 
       el._lottie = anim;
       observer.observe(el);
