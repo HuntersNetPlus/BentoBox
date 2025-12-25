@@ -14,6 +14,7 @@ body {
   overflow-x: hidden;
 }
 /* ===== ПРОМОКОД ОВЕРЛЕЙ ===== */
+/* ===== ПРОМОКОД ОВЕРЛЕЙ ===== */
 .promo-overlay {
   position: fixed;
   inset: 0;
@@ -67,10 +68,13 @@ body {
   opacity: 0.9;
 }
 
+/* 🎯 КОНТЕЙНЕР С КАРТИНКОЙ КУПОНА */
 .promo-image-wrapper {
   position: relative;
   width: 100%;
-  aspect-ratio: 2 / 1;
+  aspect-ratio: 2 / 1;        /* 👈 Пропорции картинки (ширина / высота) */
+  max-width: 600px;           /* 👈 Максимальная ширина */
+  margin: 0 auto;
 }
 
 .promo-image {
@@ -80,36 +84,55 @@ body {
   object-fit: contain;
 }
 
+/* 🎯 ТЕКСТ ПРОМОКОДА НА КАРТИНКЕ */
 .promo-code-box {
   position: absolute;
-  top: 50%;
-  right: 15%;
+  
+  /* ========================================
+     🔧 ГЛАВНЫЕ НАСТРОЙКИ ПОЗИЦИИ:
+     ======================================== */
+  top: 50%;                   /* Высота (50% = по центру вертикали) */
+  left: 58%;                  /* 👈 МЕНЯЙ: отступ слева (50-70%) */
+  width: 38%;                 /* 👈 МЕНЯЙ: ширина зоны текста (30-40%) */
+  /* ======================================== */
+  
   transform: translateY(-50%);
   background: transparent;
   border: none;
-  padding: 8px 16px;
-  font-size: clamp(24px, 7vw, 36px);
+  padding: 0;
+  
+  /* Размер и стиль текста */
+  font-size: clamp(12px, 3.5vw, 24px);
   font-weight: 900;
-  color: #1a4d2e;
+  color: #1a4d2e;             /* 👈 МЕНЯЙ: цвет промокода */
+  letter-spacing: 0.5px;
+  
+  /* Поведение текста */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+  
+  /* Интерактивность */
   cursor: pointer;
-  transition: all 0.2s ease;
   user-select: none;
-  letter-spacing: 1px;
+  transition: all 0.2s ease;
 }
 
 .promo-code-box:hover {
-  transform: translateY(-50%) scale(1.1);
+  transform: translateY(-50%) scale(1.05);
+  color: #2a6d4e;             /* Цвет при наведении */
 }
 
 .promo-code-box:active {
-  transform: translateY(-50%) scale(0.95);
+  transform: translateY(-50%) scale(0.98);
 }
 
 .promo-code-box.copied {
-  color: #6af27d;
+  color: #6af27d;             /* 👈 МЕНЯЙ: цвет после копирования */
 }
 
-/* Адаптив для маленьких экранов */
+/* ===== АДАПТИВ ДЛЯ МОБИЛЬНЫХ ===== */
 @media (max-width: 480px) {
   .promo-title {
     font-size: 16px;
@@ -120,17 +143,17 @@ body {
   }
   
   .promo-code-box {
-    right: 12%;
-    font-size: 28px;
+    font-size: clamp(10px, 2.8vw, 18px);
+    letter-spacing: 0.3px;
   }
 }
 
+/* ===== АДАПТИВ ДЛЯ ПЛАНШЕТОВ ===== */
 @media (min-width: 768px) {
   .promo-code-box {
-    right: 18%;
+    font-size: clamp(18px, 2.5vw, 28px);
   }
 }
-
 
   
   
