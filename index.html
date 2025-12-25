@@ -1332,67 +1332,89 @@ function toggleDescription() {
     if (lottieInitialized) return;
     lottieInitialized = true;
 
-    console.log('Инициализация Lottie...');
-
+    // Ленивая загрузка: анимации запускаются только когда видны
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         const anim = entry.target._lottie;
         if (!anim) return;
-        entry.isIntersecting ? anim.play() : anim.pause();
-      });
-    }, { threshold: 0.3 });
-
-    document.querySelectorAll('.lottie').forEach((el, index) => {
-      const path = el.dataset.src;
-      console.log(`Загрузка анимации ${index}:`, path);
-
-      const anim = lottie.loadAnimation({
-        container: el,
-        renderer: 'svg', // SVG быстрее для маленьких размеров
-        loop: true,
-        autoplay: false,
-        path: path,
         
-        rendererSettings: {
-          preserveAspectRatio: 'xMidYMid slice',
-          progressiveLoad: true,
-          hideOnTransparent: true
+        if (entry.isIntersecting) {
+          anim.play();
+        } else {
+          anim.pause();
+          // Сброс на первый кадр для экономии памяти
+          anim.goToAndStop(0, true);
         }
       });
-
-      anim.addEventListener('DOMLoaded', () => {
-        console.log(`✅ Анимация ${index} загружена`);
-      });
-
-      anim.addEventListener('data_failed', (e) => {
-        console.error(`❌ Ошибка загрузки анимации ${index}:`, path, e);
-      });
-
-      // ⚡ ОГРАНИЧЕНИЕ FPS (без изменения скорости)
-      anim.setSubframe(false); // Отключаем субфреймы
-      
-      // Throttle для рендера (пропускаем кадры)
-      let lastFrameTime = 0;
-      const targetFPS = 24; // 🎯 Целевой FPS (15-30 оптимально)
-      const frameInterval = 1000 / targetFPS;
-      
-      const originalRender = anim.renderer.renderFrame.bind(anim.renderer);
-      anim.renderer.renderFrame = function(num) {
-        const now = Date.now();
-        if (now - lastFrameTime >= frameInterval) {
-          lastFrameTime = now;
-          originalRender(num);
-        }
-      };
-
-      el._lottie = anim;
-      observer.observe(el);
+    }, { 
+      threshold: 0.1,
+      rootMargin: '50px' // Предзагрузка за 50px до появления
     });
+
+    // Постепенная инициализация анимаций (батчинг)
+    const lottieElements = Array.from(document.querySelectorAll('.lottie'));
+    const batchSize = 3; // Загружаем по 3 анимации за раз
+    let currentBatch = 0;
+
+    function loadBatch() {
+      const start = currentBatch * batchSize;
+      const end = Math.min(start + batchSize, lottieElements.length);
+      
+      for (let i = start; i < end; i++) {
+        const el = lottieElements[i];
+        const path = el.dataset.src;
+
+        const anim = lottie.loadAnimation({
+          container: el,
+          renderer: 'svg', // SVG для прозрачности
+          loop: true,
+          autoplay: false,
+          path: path,
+          rendererSettings: {
+            preserveAspectRatio: 'xMidYMid slice',
+            progressiveLoad: true,
+            hideOnTransparent: true,
+            // Оптимизации для SVG
+            className: 'lottie-svg',
+            filterSize: {
+              width: '200%',
+              height: '200%',
+              x: '-50%',
+              y: '-50%'
+            }
+          }
+        });
+
+        // Отключаем субфреймы для стабильного FPS
+        anim.setSubframe(false);
+        
+        // Устанавливаем целевую скорость 60 FPS
+        anim.setSpeed(1);
+
+        el._lottie = anim;
+        observer.observe(el);
+      }
+
+      currentBatch++;
+      
+      // Загружаем следующий батч с задержкой
+      if (end < lottieElements.length) {
+        requestIdleCallback(() => loadBatch(), { timeout: 100 });
+      }
+    }
+
+    // Начинаем загрузку первого батча
+    loadBatch();
   }
 
   window.addEventListener('load', () => {
     if (document.getElementById('catalogScreen').classList.contains('active')) {
-      initLottie();
+      // Даём браузеру время на рендер интерфейса
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          initLottie();
+        });
+      });
     }
   });
 </script>
