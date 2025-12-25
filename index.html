@@ -512,6 +512,8 @@ body {
 .lottie {
   width: 64px;
   height: 64px;
+  margin: 0 auto; /* центрирование по горизонтали */
+  display: block; /* чтобы margin работал */
 }
 
 
@@ -1322,8 +1324,7 @@ function toggleDescription() {
 </script>
 
 
-
-  <script src="https://unpkg.com/lottie-web@5.12.2/build/player/lottie.min.js"></script>
+<script src="https://unpkg.com/lottie-web@5.12.2/build/player/lottie.min.js"></script>
 <script>
   let lottieInitialized = false;
 
@@ -1350,11 +1351,25 @@ function toggleDescription() {
         renderer: 'canvas',
         loop: true,
         autoplay: false,
-        path: path
+        path: path,
+        
+        // ⚡ ОПТИМИЗАЦИЯ:
+        rendererSettings: {
+          preserveAspectRatio: 'xMidYMid slice',
+          clearCanvas: true,
+          progressiveLoad: true,
+          hideOnTransparent: true,
+          // Рендерим в реальном размере контейнера
+          context: null,
+          scaleMode: 'noScale',
+          className: 'lottie-svg'
+        }
       });
 
       anim.addEventListener('DOMLoaded', () => {
         console.log(`✅ Анимация ${index} загружена`);
+        // Устанавливаем качество рендера равное размеру контейнера
+        anim.resize();
       });
 
       anim.addEventListener('data_failed', (e) => {
@@ -1362,16 +1377,14 @@ function toggleDescription() {
       });
 
       anim.setSubframe(false);
-      anim.setSpeed(0.8);
+      anim.setSpeed(0.5); // 🔽 УМЕНЬШЕН FPS: 0.5 = 50% скорости (меньше нагрузка)
 
       el._lottie = anim;
       observer.observe(el);
     });
   }
 
-  // Слушаем событие открытия каталога
   window.addEventListener('load', () => {
-    // Если каталог уже открыт при загрузке
     if (document.getElementById('catalogScreen').classList.contains('active')) {
       initLottie();
     }
