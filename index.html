@@ -1373,7 +1373,7 @@ function toggleDescription() {
       
       // Throttle для рендера (пропускаем кадры)
       let lastFrameTime = 0;
-      const targetFPS = 60; // 🎯 Целевой FPS (15-30 оптимально)
+      const targetFPS = 24; // 🎯 Целевой FPS (15-30 оптимально)
       const frameInterval = 1000 / targetFPS;
       
       const originalRender = anim.renderer.renderFrame.bind(anim.renderer);
