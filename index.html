@@ -971,7 +971,46 @@ function hideLoader(){ loader.classList.remove("active"); }
 
 // Промокод
 function showPromo(){ promoOverlay.classList.add("active"); }
-function hidePromo(){ promoOverlay.classList.remove("active"); }
+function hidePromo() {
+  promoOverlay.classList.remove("active");
+
+  // 🧯 останавливаем огонь
+  stopFireEffect();
+}
+
+  let fireAnimationId = null;
+
+function initFireEffect() {
+  const canvas = document.getElementById('fireCanvas');
+  const img = document.querySelector('.promo-image');
+
+  if (!canvas || !img) return;
+
+  const rect = img.getBoundingClientRect();
+  canvas.width = rect.width;
+  canvas.height = rect.height;
+
+  const ctx = canvas.getContext('2d');
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // 🔥 тут будет твой код частиц по контуру
+    // (я могу дать готовый эффект следующим шагом)
+
+    fireAnimationId = requestAnimationFrame(animate);
+  }
+
+  animate();
+}
+
+function stopFireEffect() {
+  if (fireAnimationId) {
+    cancelAnimationFrame(fireAnimationId);
+    fireAnimationId = null;
+  }
+}
+
 
 // Копирование промокода
 function copyPromoCode() {
@@ -1032,7 +1071,11 @@ promoOverlay.addEventListener('click', hidePromo);
 window.addEventListener("load", () => {
   setTimeout(() => {
     hideLoader();
-    showPromo(); // Показываем промокод после загрузки
+    showPromo();
+
+    // 🔥 ЗАПУСК ОГНЯ ПОСЛЕ ПОКАЗА ПРОМО
+    setTimeout(initFireEffect, 100);
+
   }, 1000);
 });
 
