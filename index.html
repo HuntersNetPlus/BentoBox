@@ -80,8 +80,12 @@ body {
 .promo-image {
   width: 100%;
   height: 100%;
+  mix-blend-mode: screen;
   display: block;
   object-fit: contain;
+  
+  /* Дополнительно для видео: */
+  filter: contrast(1.1) brightness(1.05); /* улучшает края */
 }
 
 /* 🎯 ТЕКСТ ПРОМОКОДА НА КАРТИНКЕ */
@@ -742,11 +746,14 @@ body {
     <div class="promo-title">Привіт! Лови бонус на перше замовлення!</div>
     <div class="promo-hint">швидше тисни на промокод, щоб скопіювати</div>
     <div class="promo-image-wrapper">
-      <img 
-        src="https://github.com/HuntersNetPlus/BentoBox/blob/main/Coupon150.png?raw=true" 
-        alt="Промокод" 
-        class="promo-image"
-      >
+      <video 
+  src="https://github.com/HuntersNetPlus/BentoBox/blob/main/Coupon150_1.mp4raw=true" 
+  class="promo-image"
+  autoplay
+  loop
+  muted
+  playsinline
+></video>
       <div class="promo-code-box" id="promoCode" onclick="copyPromoCode()">
         H5Y2-WB7T-OP4N-G1R5N
       </div>
