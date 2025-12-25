@@ -1323,7 +1323,6 @@ function toggleDescription() {
 
 </script>
 
-
 <script src="https://unpkg.com/lottie-web@5.12.2/build/player/lottie.min.js"></script>
 <script>
   let lottieInitialized = false;
@@ -1353,7 +1352,7 @@ function toggleDescription() {
 
     // Постепенная инициализация анимаций (батчинг)
     const lottieElements = Array.from(document.querySelectorAll('.lottie'));
-    const batchSize = 3; // Загружаем по 3 анимации за раз
+    const batchSize = 5; // Canvas быстрее — можем загружать по 5 за раз
     let currentBatch = 0;
 
     function loadBatch() {
@@ -1366,22 +1365,19 @@ function toggleDescription() {
 
         const anim = lottie.loadAnimation({
           container: el,
-          renderer: 'svg', // SVG для прозрачности
+          renderer: 'canvas', // 🎯 Растровый рендеринг
           loop: true,
           autoplay: false,
           path: path,
           rendererSettings: {
             preserveAspectRatio: 'xMidYMid slice',
+            clearCanvas: true, // Очистка между кадрами
             progressiveLoad: true,
             hideOnTransparent: true,
-            // Оптимизации для SVG
-            className: 'lottie-svg',
-            filterSize: {
-              width: '200%',
-              height: '200%',
-              x: '-50%',
-              y: '-50%'
-            }
+            // High DPI оптимизация
+            dpr: Math.min(window.devicePixelRatio, 2), // Макс 2x для баланса качества/производительности
+            // Аппаратное ускорение
+            context: null // Браузер сам создаст оптимальный контекст
           }
         });
 
@@ -1418,7 +1414,6 @@ function toggleDescription() {
     }
   });
 </script>
-
 
   
 </body>
