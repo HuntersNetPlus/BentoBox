@@ -1348,36 +1348,52 @@ function toggleDescription() {
 
       const anim = lottie.loadAnimation({
         container: el,
-        renderer: 'canvas',
+        renderer: 'svg', // SVG быстрее для маленьких анимаций
         loop: true,
         autoplay: false,
         path: path,
         
-        // ⚡ ОПТИМИЗАЦИЯ:
         rendererSettings: {
           preserveAspectRatio: 'xMidYMid slice',
           clearCanvas: true,
           progressiveLoad: true,
           hideOnTransparent: true,
-          // Рендерим в реальном размере контейнера
-          context: null,
-          scaleMode: 'noScale',
           className: 'lottie-svg'
         }
       });
 
       anim.addEventListener('DOMLoaded', () => {
         console.log(`✅ Анимация ${index} загружена`);
-        // Устанавливаем качество рендера равное размеру контейнера
-        anim.resize();
+        
+        // ⚡ ОГРАНИЧЕНИЕ FPS:
+        anim.setSubframe(false); // Отключаем субфреймы (важно!)
+        
+        // Устанавливаем конкретный FPS через переопределение frameRate
+        const originalFrameRate = anim.frameRate; // Исходный FPS анимации
+        const targetFPS = 20; // 🎯 ТВОЙ FPS (20-30 оптимально)
+        
+        // Вычисляем множитель скорости для достижения нужного FPS
+        anim.frameModifier = originalFrameRate / targetFPS;
+        
+        // Hacky способ: замедляем через requestAnimationFrame
+        let lastTime = 0;
+        const fpsInterval = 1000 / targetFPS; // Интервал между кадрами в мс
+        
+        const originalEnterFrame = anim.onEnterFrame;
+        anim.onEnterFrame = function() {
+          const now = Date.now();
+          const elapsed = now - lastTime;
+          
+          if (elapsed > fpsInterval) {
+            lastTime = now - (elapsed % fpsInterval);
+            if (originalEnterFrame) originalEnterFrame.call(anim);
+          }
+        };
       });
 
       anim.addEventListener('data_failed', (e) => {
         console.error(`❌ Ошибка загрузки анимации ${index}:`, path, e);
       });
-
-      anim.setSubframe(false);
-      anim.setSpeed(1); // 🔽 УМЕНЬШЕН FPS: 0.5 = 50% скорости (меньше нагрузка)
 
       el._lottie = anim;
       observer.observe(el);
