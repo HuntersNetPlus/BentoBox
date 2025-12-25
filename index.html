@@ -157,6 +157,50 @@ body {
   }
 }
 
+
+  /* ===== ТЕГИ НАЧИНОК ===== */
+.fillings-block {
+  margin-bottom: 20px;
+}
+
+.fillings-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.filling-tag {
+  display: inline-block;
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #6ab2f2, #4a90e2);
+  color: white;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(106, 178, 242, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: default;
+  user-select: none;
+}
+
+.filling-tag:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(106, 178, 242, 0.5);
+}
+
+/* Разные цвета для тегов */
+.filling-tag:nth-child(3n+1) {
+  background: linear-gradient(135deg, #f58529, #dd2a7b);
+}
+
+.filling-tag:nth-child(3n+2) {
+  background: linear-gradient(135deg, #6af27d, #4ac95f);
+}
+
+.filling-tag:nth-child(3n+3) {
+  background: linear-gradient(135deg, #f2c96a, #e2a83e);
+}
   
   
 .faq-content1 a {
@@ -923,7 +967,15 @@ body {
   <div id="cakeShortDesc" style="font-size:14px; line-height:1.5;"></div>
   </div>
 </div>
+  
+<!-- НАЧИНКИ -->
+<div class="fillings-block">
+  <div class="faq-content1">
+    <div id="cakeFillings" class="fillings-container"></div>
+  </div>
+</div>
 
+  
 <!-- Ингредиенты (коллапс) -->
 <div class="faq-block">
   <div class="faq-content1 description-wrapper">
@@ -1062,6 +1114,7 @@ const cakes = [
   img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food%20and%20Drink/Bubble%20Tea.webp?raw=true", 
   shortDesc:"Классический торт с тончайшими слоями слоеного теста и нежным заварным кремом.", 
   ingredients:["Слоеное тесто","Молоко","Яйца","Сахар","Мука","Масло сливочное","Ванилин"],
+  fillings: ["Ореховая", "Сливочный крем", "Премиум"],
   kbju: {
     calories: 420,
     protein: 6,
@@ -1384,37 +1437,50 @@ function openCake(index){
     const cake = cakes[index];
     const cakeShortDesc = document.getElementById('cakeShortDesc');
     const cakeIngredients = document.getElementById('cakeIngredients');
+    const cakeFillings = document.getElementById('cakeFillings'); // ← ДОБАВЬ
 
-    // Название + описание в одном абзаце
+    // Название + описание
     cakeShortDesc.innerHTML = `<strong>${cake.name}</strong> — ${cake.shortDesc}`;
+
+    // ← ДОБАВЬ ЭТОТ БЛОК: Теги начинок
+    if (cake.fillings && cake.fillings.length) {
+      let fillingsHtml = '';
+      cake.fillings.forEach(filling => {
+        fillingsHtml += `<span class="filling-tag">${filling}</span>`;
+      });
+      cakeFillings.innerHTML = fillingsHtml;
+      document.querySelector('.fillings-block').style.display = 'block';
+    } else {
+      document.querySelector('.fillings-block').style.display = 'none';
+    }
 
     currentCakeGallery = cake.gallery || [];
     createCakeStack(cake);
 
-// Ингредиенты
-let html = '';
-if(cake.ingredients.length){
-  html += "<strong style='display: block; text-align: left; margin-top: 12px; margin-bottom: 8px; color: #6ab2f2;'>Ингредиенты:</strong>";
-  html += "<ul>";
-  cake.ingredients.forEach(item=>{
-    html += `<li>${item}</li>`;
-  });
-  html += "</ul>";
-}
+    // Ингредиенты
+    let html = '';
+    if(cake.ingredients.length){
+      html += "<strong style='display: block; text-align: left; margin-top: 12px; margin-bottom: 8px; color: #6ab2f2;'>Ингредиенты:</strong>";
+      html += "<ul>";
+      cake.ingredients.forEach(item=>{
+        html += `<li>${item}</li>`;
+      });
+      html += "</ul>";
+    }
 
-// Добавляем таблицу КБЖУ
-if(cake.kbju) {
-  html += '<strong style="display: block; text-align: left; margin-top: 8px; margin-bottom: 8px; color: #6ab2f2;">КБЖУ на 100г:</strong>';
-  html += '<table style="width:100%; border-collapse: collapse; margin-top: 8px;">';
-  html += '<tr style="background: #24364a;"><td style="padding: 6px; border: 1px solid #6ab2f2;">Калории</td><td style="padding: 6px; border: 1px solid #6ab2f2;">' + cake.kbju.calories + ' ккал</td></tr>';
-  html += '<tr><td style="padding: 6px; border: 1px solid #6ab2f2;">Белки</td><td style="padding: 6px; border: 1px solid #6ab2f2;">' + cake.kbju.protein + ' г</td></tr>';
-  html += '<tr style="background: #24364a;"><td style="padding: 6px; border: 1px solid #6ab2f2;">Жиры</td><td style="padding: 6px; border: 1px solid #6ab2f2;">' + cake.kbju.fat + ' г</td></tr>';
-  html += '<tr><td style="padding: 6px; border: 1px solid #6ab2f2;">Углеводы</td><td style="padding: 6px; border: 1px solid #6ab2f2;">' + cake.kbju.carbs + ' г</td></tr>';
-  html += '</table>';
-  html += '<br>'; // Отступ после таблицы
-}
+    // КБЖУ таблица
+    if(cake.kbju) {
+      html += '<strong style="display: block; text-align: left; margin-top: 8px; margin-bottom: 8px; color: #6ab2f2;">КБЖУ на 100г:</strong>';
+      html += '<table style="width:100%; border-collapse: collapse; margin-top: 8px;">';
+      html += '<tr style="background: #24364a;"><td style="padding: 6px; border: 1px solid #6ab2f2;">Калории</td><td style="padding: 6px; border: 1px solid #6ab2f2;">' + cake.kbju.calories + ' ккал</td></tr>';
+      html += '<tr><td style="padding: 6px; border: 1px solid #6ab2f2;">Белки</td><td style="padding: 6px; border: 1px solid #6ab2f2;">' + cake.kbju.protein + ' г</td></tr>';
+      html += '<tr style="background: #24364a;"><td style="padding: 6px; border: 1px solid #6ab2f2;">Жиры</td><td style="padding: 6px; border: 1px solid #6ab2f2;">' + cake.kbju.fat + ' г</td></tr>';
+      html += '<tr><td style="padding: 6px; border: 1px solid #6ab2f2;">Углеводы</td><td style="padding: 6px; border: 1px solid #6ab2f2;">' + cake.kbju.carbs + ' г</td></tr>';
+      html += '</table>';
+      html += '<br>';
+    }
 
-cakeIngredients.innerHTML = html;
+    cakeIngredients.innerHTML = html;
 
     orderBtn.href = "https://t.me/USERNAME?start=" + encodeURIComponent(cake.name);
     orderBtn.textContent = "Заказать от " + cake.price + " ₴";
