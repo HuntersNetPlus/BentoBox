@@ -807,6 +807,12 @@ function openCatalog(){
   setTimeout(()=>{
     document.getElementById("mainScreen").classList.remove("active");
     document.getElementById("catalogScreen").classList.add("active");
+    
+    // Инициализируем Lottie ПОСЛЕ показа каталога
+    setTimeout(() => {
+      initLottie();
+    }, 100);
+    
     hideLoader();
   },500);
 }
@@ -1314,34 +1320,63 @@ function toggleDescription() {
  
 
 </script>
-<script src="https://unpkg.com/lottie-web@5.12.2/build/player/lottie.min.js"></script>
+
+
+
+  <script src="https://unpkg.com/lottie-web@5.12.2/build/player/lottie.min.js"></script>
 <script>
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      const anim = entry.target._lottie;
-      if (!anim) return;
+  let lottieInitialized = false;
 
-      entry.isIntersecting ? anim.play() : anim.pause();
+  function initLottie() {
+    if (lottieInitialized) return;
+    lottieInitialized = true;
+
+    console.log('Инициализация Lottie...');
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        const anim = entry.target._lottie;
+        if (!anim) return;
+        entry.isIntersecting ? anim.play() : anim.pause();
+      });
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll('.lottie').forEach((el, index) => {
+      const path = el.dataset.src;
+      console.log(`Загрузка анимации ${index}:`, path);
+
+      const anim = lottie.loadAnimation({
+        container: el,
+        renderer: 'canvas',
+        loop: true,
+        autoplay: false,
+        path: path
+      });
+
+      anim.addEventListener('DOMLoaded', () => {
+        console.log(`✅ Анимация ${index} загружена`);
+      });
+
+      anim.addEventListener('data_failed', (e) => {
+        console.error(`❌ Ошибка загрузки анимации ${index}:`, path, e);
+      });
+
+      anim.setSubframe(false);
+      anim.setSpeed(0.8);
+
+      el._lottie = anim;
+      observer.observe(el);
     });
-  }, { threshold: 0.3 });
+  }
 
-  document.querySelectorAll('.lottie').forEach(el => {
-    const anim = lottie.loadAnimation({
-      container: el,
-      renderer: 'canvas',
-      loop: true,
-      autoplay: false,
-      path: el.dataset.src
-    });
-
-    anim.setSubframe(false);
-    anim.setSpeed(0.8);
-
-    el._lottie = anim;
-    observer.observe(el);
+  // Слушаем событие открытия каталога
+  window.addEventListener('load', () => {
+    // Если каталог уже открыт при загрузке
+    if (document.getElementById('catalogScreen').classList.contains('active')) {
+      initLottie();
+    }
   });
 </script>
-
 
 
   
