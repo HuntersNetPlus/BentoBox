@@ -509,6 +509,10 @@ body {
 }
 
 
+.lottie {
+  width: 128px;
+  height: 128px;
+}
 
 
   
@@ -644,22 +648,82 @@ body {
     </div>
 
 <div class="catalog-grid">
-  <div class="catalog-card"><img src="https://github.com/HuntersNetPlus/BentoBox/blob/main/Checkmate.webp?raw=true"><span>Наполеон</span></div>
-  <div class="catalog-card"><img src="https://github.com/HuntersNetPlus/BentoBox/blob/main/Honey%20Cake.webp?raw=true"><span>Медовик</span></div>
-  <div class="catalog-card"><img src="https://github.com/HuntersNetPlus/BentoBox/blob/main/Chocolate.webp?raw=true"><span>Эстерхази</span></div>
-  <div class="catalog-card"><img src="https://github.com/HuntersNetPlus/BentoBox/blob/main/Cheesecake.webp?raw=true"><span>Чизкейк</span></div>
-  <div class="catalog-card"><img src="https://github.com/HuntersNetPlus/BentoBox/blob/main/Razzle%20Dazzle.webp?raw=true"><span>Тирамису</span></div>
-  <div class="catalog-card"><img src="https://github.com/HuntersNetPlus/BentoBox/blob/main/Meatcake.webp?raw=true"><span>Прага</span></div>
-  <div class="catalog-card"><img src="https://github.com/HuntersNetPlus/BentoBox/blob/main/Ice%20Cream.webp?raw=true"><span>Захер</span></div>
-  <div class="catalog-card"><img src="https://github.com/HuntersNetPlus/BentoBox/blob/main/Volcano.webp?raw=true"><span>Трюфельный</span></div>
-  <div class="catalog-card"><img src="https://github.com/HuntersNetPlus/BentoBox/blob/main/SolarSystemCake.webp?raw=true"><span>Бенто</span></div>
-  <div class="catalog-card"><img src="https://github.com/HuntersNetPlus/BentoBox/blob/main/Circus%20Show.webp?raw=true"><span>Киевский</span></div>
-  <div class="catalog-card"><img src="https://github.com/HuntersNetPlus/BentoBox/blob/main/Scarlet%20Drip.webp?raw=true"><span>Монастырская изба</span></div>
-  <div class="catalog-card"><img src="https://github.com/HuntersNetPlus/BentoBox/blob/main/Gummy%20Bears.webp?raw=true"><span>Панчо</span></div>
-  <div class="catalog-card"><img src="https://github.com/HuntersNetPlus/BentoBox/blob/main/Stickers.webp?raw=true"><span>Пралине</span></div>
-  <div class="catalog-card"><img src="https://github.com/HuntersNetPlus/BentoBox/blob/main/Cherry%20Top.webp?raw=true"><span>Панакота</span></div>
-  <div class="catalog-card"><img src="https://github.com/HuntersNetPlus/BentoBox/blob/main/Cream.webp?raw=true"><span>Крем-брюле</span></div>
+  <div class="catalog-card">
+    <div class="lottie" data-src="/lottie/Checkmate.json"></div>
+    <span>Наполеон</span>
+  </div>
+
+  <div class="catalog-card">
+    <div class="lottie" data-src="/lottie/Honey_Cake.json"></div>
+    <span>Медовик</span>
+  </div>
+
+  <div class="catalog-card">
+    <div class="lottie" data-src="/lottie/Chocolate.json"></div>
+    <span>Эстерхази</span>
+  </div>
+
+  <div class="catalog-card">
+    <div class="lottie" data-src="/lottie/Cheesecake.json"></div>
+    <span>Чизкейк</span>
+  </div>
+
+  <div class="catalog-card">
+    <div class="lottie" data-src="/lottie/Razzle_Dazzle.json"></div>
+    <span>Тирамису</span>
+  </div>
+
+  <div class="catalog-card">
+    <div class="lottie" data-src="/lottie/Meatcake.json"></div>
+    <span>Прага</span>
+  </div>
+
+  <div class="catalog-card">
+    <div class="lottie" data-src="/lottie/Ice_Cream.json"></div>
+    <span>Захер</span>
+  </div>
+
+  <div class="catalog-card">
+    <div class="lottie" data-src="/lottie/Volcano.json"></div>
+    <span>Трюфельный</span>
+  </div>
+
+  <div class="catalog-card">
+    <div class="lottie" data-src="/lottie/SolarSystemCake.json"></div>
+    <span>Бенто</span>
+  </div>
+
+  <div class="catalog-card">
+    <div class="lottie" data-src="/lottie/Circus_Show.json"></div>
+    <span>Киевский</span>
+  </div>
+
+  <div class="catalog-card">
+    <div class="lottie" data-src="/lottie/Scarlet_Drip.json"></div>
+    <span>Монастырская изба</span>
+  </div>
+
+  <div class="catalog-card">
+    <div class="lottie" data-src="/lottie/Gummy_Bears.json"></div>
+    <span>Панчо</span>
+  </div>
+
+  <div class="catalog-card">
+    <div class="lottie" data-src="/lottie/Stickers.json"></div>
+    <span>Пралине</span>
+  </div>
+
+  <div class="catalog-card">
+    <div class="lottie" data-src="/lottie/Cherry_Top.json"></div>
+    <span>Панакота</span>
+  </div>
+
+  <div class="catalog-card">
+    <div class="lottie" data-src="/lottie/Cream.json"></div>
+    <span>Крем-брюле</span>
+  </div>
 </div>
+
 
 
 
@@ -1246,6 +1310,33 @@ function toggleDescription() {
 
  
 
+</script>
+<script src="https://unpkg.com/lottie-web@5.12.2/build/player/lottie.min.js"></script>
+<script>
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      const anim = entry.target._lottie;
+      if (!anim) return;
+
+      entry.isIntersecting ? anim.play() : anim.pause();
+    });
+  }, { threshold: 0.3 });
+
+  document.querySelectorAll('.lottie').forEach(el => {
+    const anim = lottie.loadAnimation({
+      container: el,
+      renderer: 'canvas',
+      loop: true,
+      autoplay: false,
+      path: el.dataset.src
+    });
+
+    anim.setSubframe(false);
+    anim.setSpeed(0.8);
+
+    el._lottie = anim;
+    observer.observe(el);
+  });
 </script>
 
 
