@@ -102,7 +102,7 @@ body {
   padding: 0;
   
   /* Размер и стиль текста */
-  font-size: clamp(14px, 3.5vw, 204px);
+  font-size: clamp(14px, 3.5vw, 24px);
   font-weight: 900;
   color: #1a4d2e;             /* 👈 МЕНЯЙ: цвет промокода */
   letter-spacing: 0.5px;
@@ -141,7 +141,7 @@ body {
   }
   
   .promo-code-box {
-    font-size: clamp(10px, 2.8vw, 18px);
+    font-size: clamp(12px, 2.8vw, 18px);
     letter-spacing: 0.3px;
   }
 }
@@ -149,7 +149,7 @@ body {
 /* ===== АДАПТИВ ДЛЯ ПЛАНШЕТОВ ===== */
 @media (min-width: 768px) {
   .promo-code-box {
-    font-size: clamp(18px, 2.5vw, 28px);
+    font-size: clamp(18px, 2.5vw, 22px);
   }
 }
 
@@ -1008,7 +1008,7 @@ function showCopyFeedback() {
   const originalText = promoCodeEl.textContent;
   
   promoCodeEl.classList.add("copied");
-  promoCodeEl.textContent = "✓ Промокод скопійовано!!";
+  promoCodeEl.textContent = "✓ Промокод скопійовано!";
   
   setTimeout(() => {
     promoCodeEl.textContent = originalText;
