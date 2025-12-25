@@ -13,6 +13,108 @@ body {
   color: white;
   overflow-x: hidden;
 }
+  /* ===== ПРОМОКОД ОВЕРЛЕЙ ===== */
+.promo-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 8888;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.promo-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.promo-card {
+  background: #1d2b3a;
+  border: 2px solid #6ab2f2;
+  border-radius: 16px;
+  padding: 24px;
+  max-width: 320px;
+  width: 90%;
+  text-align: center;
+  position: relative;
+  transform: scale(0.9);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.promo-overlay.active .promo-card {
+  transform: scale(1);
+}
+
+.promo-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #6ab2f2;
+  margin-bottom: 16px;
+}
+
+.promo-image-wrapper {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.promo-image {
+  width: 100%;
+  max-width: 250px;
+  height: auto;
+  border-radius: 12px;
+  display: block;
+  margin: 0 auto;
+}
+
+.promo-code-box {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(23, 33, 43, 0.95);
+  border: 2px solid #6af27d;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #6af27d;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.promo-code-box:hover {
+  background: rgba(23, 33, 43, 1);
+  transform: translateX(-50%) scale(1.05);
+}
+
+.promo-code-box:active {
+  transform: translateX(-50%) scale(0.95);
+}
+
+.promo-code-box.copied {
+  background: #1d3a22;
+  border-color: #6af27d;
+  animation: copyPulse 0.5s ease;
+}
+
+@keyframes copyPulse {
+  0%, 100% { transform: translateX(-50%) scale(1); }
+  50% { transform: translateX(-50%) scale(1.1); }
+}
+
+.promo-hint {
+  font-size: 13px;
+  color: #6ab2f2;
+  margin-top: 12px;
+  opacity: 0.8;
+}
   
 .faq-content1 a {
   color: #6ab2f2;
@@ -595,6 +697,23 @@ body {
 <div id="loader" class="loader active">
   <img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Objects/Hourglass%20Done.webp?raw=true" alt="Загрузка">
 </div>
+  <!-- ПРОМОКОД ОВЕРЛЕЙ -->
+<div id="promoOverlay" class="promo-overlay">
+  <div class="promo-card" onclick="event.stopPropagation()">
+    <div class="promo-title">🎉 Специальное предложение!</div>
+    <div class="promo-image-wrapper">
+      <img 
+        src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=400" 
+        alt="Промо" 
+        class="promo-image"
+      >
+      <div class="promo-code-box" id="promoCode" onclick="copyPromoCode()">
+        CAKE2025
+      </div>
+    </div>
+    <div class="promo-hint">Нажми на код, чтобы скопировать</div>
+  </div>
+</div>
 
 <div class="app">
 
@@ -791,7 +910,10 @@ body {
 </div> <!-- Конец app -->
 
 <script>
+
+
 const loader = document.getElementById("loader");
+const promoOverlay = document.getElementById("promoOverlay");
 const cakeScreen = document.getElementById("cakeScreen");
 const cakeDescription = document.getElementById("cakeDescription");
 const orderBtn = document.getElementById("orderBtn");
@@ -800,8 +922,76 @@ const orderBtn = document.getElementById("orderBtn");
 function showLoader(){ loader.classList.add("active"); }
 function hideLoader(){ loader.classList.remove("active"); }
 
+// Промокод
+function showPromo(){ promoOverlay.classList.add("active"); }
+function hidePromo(){ promoOverlay.classList.remove("active"); }
+
+// Копирование промокода
+function copyPromoCode() {
+  const promoCodeEl = document.getElementById("promoCode");
+  const code = promoCodeEl.textContent;
+  
+  // Копируем в буфер обмена
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(code).then(() => {
+      showCopyFeedback();
+    }).catch(() => {
+      fallbackCopyTextToClipboard(code);
+    });
+  } else {
+    fallbackCopyTextToClipboard(code);
+  }
+}
+
+// Fallback для старых браузеров
+function fallbackCopyTextToClipboard(text) {
+  const textArea = document.createElement("textarea");
+  textArea.value = text;
+  textArea.style.position = "fixed";
+  textArea.style.left = "-999999px";
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+  
+  try {
+    document.execCommand('copy');
+    showCopyFeedback();
+  } catch (err) {
+    console.error('Ошибка копирования:', err);
+  }
+  
+  document.body.removeChild(textArea);
+}
+
+// Визуальная обратная связь при копировании
+function showCopyFeedback() {
+  const promoCodeEl = document.getElementById("promoCode");
+  const originalText = promoCodeEl.textContent;
+  
+  promoCodeEl.classList.add("copied");
+  promoCodeEl.textContent = "✓ Скопировано!";
+  
+  setTimeout(() => {
+    promoCodeEl.textContent = originalText;
+    promoCodeEl.classList.remove("copied");
+    hidePromo();
+  }, 1000);
+}
+
+// Клик за пределами промокода закрывает оверлей
+promoOverlay.addEventListener('click', hidePromo);
+
 // Первая загрузка
-window.addEventListener("load", () => setTimeout(hideLoader, 1000));
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    hideLoader();
+    showPromo(); // Показываем промокод после загрузки
+  }, 1000);
+});
+
+
+
+  
 
 // Открытие каталога
 function openCatalog(){
