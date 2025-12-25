@@ -13,13 +13,13 @@ body {
   color: white;
   overflow-x: hidden;
 }
-  /* ===== ПРОМОКОД ОВЕРЛЕЙ ===== */
+/* ===== ПРОМОКОД ОВЕРЛЕЙ ===== */
 .promo-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: transparent;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   z-index: 8888;
   display: flex;
   align-items: center;
@@ -35,11 +35,9 @@ body {
 }
 
 .promo-card {
-  background: #1d2b3a;
-  border: 2px solid #6ab2f2;
-  border-radius: 16px;
-  padding: 24px;
-  max-width: 320px;
+  background: transparent;
+  border: none;
+  max-width: 512px;
   width: 90%;
   text-align: center;
   position: relative;
@@ -52,69 +50,72 @@ body {
 }
 
 .promo-title {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 700;
-  color: #6ab2f2;
-  margin-bottom: 16px;
+  color: #ffffff;
+  margin-bottom: 12px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+.promo-hint {
+  font-size: 14px;
+  color: #ffffff;
+  margin-bottom: 20px;
+  opacity: 0.9;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
 }
 
 .promo-image-wrapper {
   position: relative;
-  margin-bottom: 16px;
+  width: 100%;
+  aspect-ratio: 2 / 1;
 }
 
 .promo-image {
   width: 100%;
-  max-width: 250px;
-  height: auto;
-  border-radius: 12px;
+  height: 100%;
   display: block;
-  margin: 0 auto;
+  object-fit: contain;
 }
 
 .promo-code-box {
   position: absolute;
-  bottom: 12px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(23, 33, 43, 0.95);
-  border: 2px solid #6af27d;
-  border-radius: 8px;
-  padding: 10px 20px;
-  font-size: 18px;
-  font-weight: 700;
-  color: #6af27d;
+  top: 50%;
+  right: 20%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  padding: 8px 16px;
+  font-size: 36px;
+  font-weight: 900;
+  color: #1a4d2e;
   cursor: pointer;
   transition: all 0.2s ease;
   user-select: none;
+  letter-spacing: 2px;
 }
 
 .promo-code-box:hover {
-  background: rgba(23, 33, 43, 1);
-  transform: translateX(-50%) scale(1.05);
+  transform: translateY(-50%) scale(1.1);
+  text-shadow: 0 0 12px rgba(106, 242, 125, 0.6);
 }
 
 .promo-code-box:active {
-  transform: translateX(-50%) scale(0.95);
+  transform: translateY(-50%) scale(0.95);
 }
 
 .promo-code-box.copied {
-  background: #1d3a22;
-  border-color: #6af27d;
+  color: #6af27d;
   animation: copyPulse 0.5s ease;
 }
 
 @keyframes copyPulse {
-  0%, 100% { transform: translateX(-50%) scale(1); }
-  50% { transform: translateX(-50%) scale(1.1); }
+  0%, 100% { transform: translateY(-50%) scale(1); }
+  50% { transform: translateY(-50%) scale(1.2); }
 }
 
-.promo-hint {
-  font-size: 13px;
-  color: #6ab2f2;
-  margin-top: 12px;
-  opacity: 0.8;
-}
+
+  
   
 .faq-content1 a {
   color: #6ab2f2;
@@ -697,21 +698,21 @@ body {
 <div id="loader" class="loader active">
   <img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Objects/Hourglass%20Done.webp?raw=true" alt="Загрузка">
 </div>
-  <!-- ПРОМОКОД ОВЕРЛЕЙ -->
+ <!-- ПРОМОКОД ОВЕРЛЕЙ -->
 <div id="promoOverlay" class="promo-overlay">
   <div class="promo-card" onclick="event.stopPropagation()">
-    <div class="promo-title">🎉 Специальное предложение!</div>
+    <div class="promo-title">🎁 Специальное предложение для тебя!</div>
+    <div class="promo-hint">👇 Нажми на код, чтобы скопировать</div>
     <div class="promo-image-wrapper">
       <img 
         src="https://github.com/HuntersNetPlus/BentoBox/blob/main/Coupon150.png?raw=true" 
-        alt="Промо" 
+        alt="Промокод" 
         class="promo-image"
       >
       <div class="promo-code-box" id="promoCode" onclick="copyPromoCode()">
-        CAKE2025
+        150₴
       </div>
     </div>
-    <div class="promo-hint">Нажми на код, чтобы скопировать</div>
   </div>
 </div>
 
