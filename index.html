@@ -84,8 +84,11 @@ body {
   display: block;
   object-fit: contain;
   
-  /* Дополнительно для видео: */
-  filter: contrast(1.1) brightness(1.05); /* улучшает края */
+  /* Принудительная отрисовка через CPU, не GPU */
+  transform: translateZ(0);
+  will-change: transform;
+  
+  filter: contrast(1.1) brightness(1.05);
 }
 
 /* 🎯 ТЕКСТ ПРОМОКОДА НА КАРТИНКЕ */
@@ -158,7 +161,7 @@ body {
 }
 
 
-  /* ===== ТЕГИ НАЧИНОК ===== */
+/* ===== ТЕГИ НАЧИНОК ===== */
 .fillings-block {
   margin-bottom: 20px;
 }
@@ -173,35 +176,44 @@ body {
 .filling-tag {
   display: inline-block;
   padding: 8px 16px;
-  background: linear-gradient(135deg, #6ab2f2, #4a90e2);
-  color: white;
-  border-radius: 20px;
+  color: #17212b; /* ← цвет текста = цвет фона сайта */
+  border-radius: 4px; /* ← закругление 4px */
   font-size: 13px;
   font-weight: 600;
-  box-shadow: 0 2px 8px rgba(106, 178, 242, 0.3);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.2s ease, opacity 0.2s ease;
   cursor: default;
   user-select: none;
 }
 
 .filling-tag:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(106, 178, 242, 0.5);
+  opacity: 0.85;
 }
 
-/* Разные цвета для тегов */
-.filling-tag:nth-child(3n+1) {
-  background: linear-gradient(135deg, #f58529, #dd2a7b);
+/* Разные цвета для тегов (однородные, без градиента) */
+.filling-tag:nth-child(6n+1) {
+  background: #6ab2f2; /* голубой */
 }
 
-.filling-tag:nth-child(3n+2) {
-  background: linear-gradient(135deg, #6af27d, #4ac95f);
+.filling-tag:nth-child(6n+2) {
+  background: #f58529; /* оранжевый */
 }
 
-.filling-tag:nth-child(3n+3) {
-  background: linear-gradient(135deg, #f2c96a, #e2a83e);
+.filling-tag:nth-child(6n+3) {
+  background: #6af27d; /* зелёный */
 }
-  
+
+.filling-tag:nth-child(6n+4) {
+  background: #dd2a7b; /* розовый */
+}
+
+.filling-tag:nth-child(6n+5) {
+  background: #f2c96a; /* жёлтый */
+}
+
+.filling-tag:nth-child(6n) {
+  background: #9b6af2; /* фиолетовый */
+}
   
 .faq-content1 a {
   color: #6ab2f2;
@@ -969,10 +981,9 @@ body {
 </div>
   
 <!-- НАЧИНКИ -->
+
 <div class="fillings-block">
-  <div class="faq-content1">
-    <div id="cakeFillings" class="fillings-container"></div>
-  </div>
+  <div id="cakeFillings" class="fillings-container"></div>
 </div>
 
   
