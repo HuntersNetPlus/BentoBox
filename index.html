@@ -43,6 +43,7 @@ body {
   position: relative;
   transform: scale(0.9);
   transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  padding: 0 16px;
 }
 
 .promo-overlay.active .promo-card {
@@ -50,12 +51,13 @@ body {
 }
 
 .promo-title {
-  font-size: 22px;
+  font-size: clamp(16px, 5vw, 22px);
   font-weight: 700;
   color: #6ab2f2;
   margin-bottom: 12px;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .promo-hint {
@@ -63,8 +65,8 @@ body {
   color: #6ab2f2;
   margin-bottom: 20px;
   opacity: 0.9;
-  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
 }
+
 .promo-image-wrapper {
   position: relative;
   width: 100%;
@@ -80,24 +82,23 @@ body {
 
 .promo-code-box {
   position: absolute;
-  top: 83%;
-  right: -10%;
+  top: 50%;
+  right: 15%;
   transform: translateY(-50%);
   background: transparent;
   border: none;
   padding: 8px 16px;
-  font-size: 16px;
+  font-size: clamp(24px, 7vw, 36px);
   font-weight: 900;
   color: #1a4d2e;
   cursor: pointer;
   transition: all 0.2s ease;
   user-select: none;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
 }
 
 .promo-code-box:hover {
   transform: translateY(-50%) scale(1.1);
-  text-shadow: 0 0 12px rgba(106, 242, 125, 0.6);
 }
 
 .promo-code-box:active {
@@ -106,12 +107,28 @@ body {
 
 .promo-code-box.copied {
   color: #6af27d;
-  animation: copyPulse 0.5s ease;
 }
 
-@keyframes copyPulse {
-  0%, 100% { transform: translateY(-50%) scale(1); }
-  50% { transform: translateY(-50%) scale(1.2); }
+/* Адаптив для маленьких экранов */
+@media (max-width: 480px) {
+  .promo-title {
+    font-size: 16px;
+  }
+  
+  .promo-hint {
+    font-size: 12px;
+  }
+  
+  .promo-code-box {
+    right: 12%;
+    font-size: 28px;
+  }
+}
+
+@media (min-width: 768px) {
+  .promo-code-box {
+    right: 18%;
+  }
 }
 
 
@@ -976,7 +993,7 @@ function showCopyFeedback() {
     promoCodeEl.textContent = originalText;
     promoCodeEl.classList.remove("copied");
     hidePromo();
-  }, 1000);
+  }, 2000);
 }
 
 // Клик за пределами промокода закрывает оверлей
