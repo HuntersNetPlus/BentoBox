@@ -657,6 +657,13 @@ body {
   display: block; /* чтобы margin работал */
 }
 
+#fireCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
 
   
 .top-row {
@@ -747,6 +754,7 @@ body {
         alt="Промокод" 
         class="promo-image"
       >
+       <canvas id="fireCanvas"></canvas>
       <div class="promo-code-box" id="promoCode" onclick="copyPromoCode()">
         H5Y2-WB7T-OP4N-G1R5N
       </div>
@@ -1645,6 +1653,79 @@ function toggleDescription() {
       });
     }
   });
+
+
+
+
+
+  let fireCtx, fireCanvas, contour = [], fireIndex = 0;
+
+function initFireEffect() {
+  const img = document.querySelector('.promo-image');
+  fireCanvas = document.getElementById('fireCanvas');
+  fireCanvas.width = img.clientWidth;
+  fireCanvas.height = img.clientHeight;
+  fireCtx = fireCanvas.getContext('2d');
+
+  extractContour(img, fireCanvas.width, fireCanvas.height);
+  requestAnimationFrame(fireLoop);
+}
+function extractContour(img, w, h) {
+  const temp = document.createElement('canvas');
+  temp.width = w;
+  temp.height = h;
+  const ctx = temp.getContext('2d');
+
+  ctx.drawImage(img, 0, 0, w, h);
+  const data = ctx.getImageData(0, 0, w, h).data;
+
+  contour = [];
+
+  for (let y = 1; y < h - 1; y += 2) {
+    for (let x = 1; x < w - 1; x += 2) {
+      const i = (y * w + x) * 4 + 3;
+      if (data[i] > 20) {
+        const neighbors = [
+          data[((y-1)*w+x)*4+3],
+          data[((y+1)*w+x)*4+3],
+          data[(y*w+x-1)*4+3],
+          data[(y*w+x+1)*4+3]
+        ];
+        if (neighbors.some(a => a < 20)) {
+          contour.push({ x, y });
+        }
+      }
+    }
+  }
+}
+function fireLoop() {
+  fireCtx.clearRect(0, 0, fireCanvas.width, fireCanvas.height);
+
+  for (let i = 0; i < 6; i++) {
+    const p = contour[Math.floor(fireIndex) % contour.length];
+    drawSpark(p.x, p.y);
+    fireIndex += 0.6;
+  }
+
+  requestAnimationFrame(fireLoop);
+}
+function drawSpark(x, y) {
+  const r = Math.random() * 2 + 1;
+  fireCtx.beginPath();
+  fireCtx.arc(x, y, r, 0, Math.PI * 2);
+  fireCtx.fillStyle = `rgba(255, ${120 + Math.random()*80}, 0, 0.8)`;
+  fireCtx.shadowBlur = 8;
+  fireCtx.shadowColor = 'orange';
+  fireCtx.fill();
+}
+function hidePromo() {
+  promoOverlay.classList.remove("active");
+  if (fireCanvas) {
+    fireCanvas.remove();
+    fireCanvas = null;
+  }
+}
+
 </script>
 
   
