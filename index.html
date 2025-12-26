@@ -798,8 +798,8 @@ body {
 /* ===== КОНФЕТТИ ===== */
 .confetti-piece {
   position: absolute;
-  width: 8px;
-  height: 8px;
+  width: 4px;
+  height: 4px;
   opacity: 0.9;
   border-radius: 2px;
 }
@@ -1869,7 +1869,7 @@ function launchWelcomeConfetti() {
   
   confettiContainer.innerHTML = "";
 
-  for (let i = 0; i < 90; i++) {
+  for (let i = 0; i < 390; i++) {
     const c = document.createElement("div");
     c.className = "confetti-piece";
 
