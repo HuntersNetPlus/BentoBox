@@ -18,7 +18,7 @@ body {
 .promo-overlay {
   position: fixed;
   inset: 0;
-  background: transparent;ь
+  background: transparent;
   backdrop-filter: blur(50px);
   -webkit-backdrop-filter: blur(50px);
   z-index: 8888;
@@ -1198,17 +1198,23 @@ function disintegratePromo() {
       }
     });
     
-    if (!allGone || elapsed < totalDuration) {
-      requestAnimationFrame(animate);
-    } else {
-      // Анимация завершена
-      canvas.style.display = 'none';
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      promoCard.style.clipPath = 'none';
-      promoCard.style.opacity = '1';
-      hidePromo();
-    }
-  }
+if (!allGone || elapsed < totalDuration) {
+  requestAnimationFrame(animate);
+} else {
+  // Анимация завершена
+  canvas.style.display = 'none';
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  // 🎯 НЕ ВОЗВРАЩАЕМ ВИДИМОСТЬ КАРТОЧКЕ
+  // promoCard.style.clipPath = 'none';
+  // promoCard.style.opacity = '1';
+  hidePromo();
+  
+  // 🎯 СБРАСЫВАЕМ СТИЛИ ПОСЛЕ ЗАКРЫТИЯ
+  setTimeout(() => {
+    promoCard.style.clipPath = 'none';
+    promoCard.style.opacity = '1';
+  }, 500);
+}
   
   canvas.style.display = 'block';
   animate();
