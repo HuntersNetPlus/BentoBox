@@ -1084,8 +1084,9 @@ function disintegratePromo() {
     '#163920', '#0f2818', '#1e5a38', '#2d7a4f'
   ];
   
-  // Максимальное расстояние от правого нижнего угла
-  const maxDistance = Math.sqrt(rect.width * rect.width + rect.height * rect.height);
+ // Максимальное расстояние от правого нижнего угла
+const maxDistance = Math.sqrt(rect.width * rect.width + rect.height * rect.height);
+const speedScale = rect.width / 512; // 👈 ДОБАВЬ ЭТУ СТРОКУ - масштабирование под размер экрана
   
   // Генерируем частицы для всей карточки
   for (let y = 0; y < rect.height; y += particleSize) {
@@ -1100,17 +1101,17 @@ function disintegratePromo() {
       // Нормализуем расстояние (0 до 1)
       const normalizedDistance = distanceFromBottomRight / maxDistance;
       
-      particles.push({
-        x: rect.left + x,
-        y: rect.top + y,
-        size: Math.random() < 0.5 ? 1 : 2,
-        color: greenShades[Math.floor(Math.random() * greenShades.length)],
-        speedX: -(Math.random() * 3 + 2),
-        speedY: -(Math.random() * 4 + 1),
-        opacity: 0,
-        burnDelay: normalizedDistance * burnDuration,
-        active: false
-      });
+     particles.push({
+  x: rect.left + x,
+  y: rect.top + y,
+  size: Math.random() < 0.5 ? 1 : 2,
+  color: greenShades[Math.floor(Math.random() * greenShades.length)],
+  speedX: -(Math.random() * 3 + 2) * speedScale,  // 👈 ДОБАВЬ * speedScale
+  speedY: -(Math.random() * 4 + 1) * speedScale,  // 👈 ДОБАВЬ * speedScale
+  opacity: 0,
+  burnDelay: normalizedDistance * burnDuration,
+  active: false
+});
     }
   }
   
@@ -1184,11 +1185,11 @@ function disintegratePromo() {
           ctx.fillStyle = p.color;
           ctx.fillRect(p.x, p.y, p.size, p.size);
           
-          // Движение вверх и влево
-          p.x += p.speedX;
-          p.y += p.speedY;
-          p.speedX -= 0.05;
-          p.speedY -= 0.005;
+       // Движение вверх и влево
+p.x += p.speedX;
+p.y += p.speedY;
+p.speedX -= 0.05 * speedScale;  // 👈 ДОБАВЬ * speedScale
+p.speedY -= 0.005 * speedScale;  // 👈 ДОБАВЬ * speedScale
           
           // Затухание
           p.opacity -= 0.015;
