@@ -80,15 +80,9 @@ body {
 .promo-image {
   width: 100%;
   height: 100%;
-  mix-blend-mode: overlay;
   display: block;
   object-fit: contain;
-  
-  /* Принудительная отрисовка через CPU, не GPU */
-  transform: translateZ(0);
-  will-change: transform;
-  
-  filter: contrast(1.1) brightness(1.05);
+ 
 }
 
 /* 🎯 ТЕКСТ ПРОМОКОДА НА КАРТИНКЕ */
