@@ -53,8 +53,19 @@ body {
   padding: 0 16px;
 }
 
+/* 🎯 АНИМАЦИЯ ПОКАЧИВАНИЯ */
+@keyframes gentle-sway {
+  0%, 100% {
+    transform: scale(1) rotate(-2deg);
+  }
+  50% {
+    transform: scale(1) rotate(2deg);
+  }
+}
+
 .promo-overlay.active .promo-card {
   transform: scale(1);
+  animation: gentle-sway 4s ease-in-out infinite;  /* 🎯 покачивание 4 секунды */
 }
 
 .promo-title {
