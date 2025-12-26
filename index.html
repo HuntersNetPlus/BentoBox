@@ -1076,7 +1076,7 @@ function disintegratePromo() {
   const particleSize = 2;
   const totalDuration = 2000; // 2 секунды на всю анимацию
   const burnDuration = 1200; // скорость частиц
-  const eraserDuration = 8000; // 🎯 ЛАСТИК в 2 РАЗА МЕДЛЕННЕЕ
+  const eraserDuration = 8100; // 🎯 ЛАСТИК в 2 РАЗА МЕДЛЕННЕЕ
   
   // Тёмно-зелёный цвет и его оттенки
   const greenShades = [
@@ -1119,7 +1119,7 @@ function disintegratePromo() {
   // Генерируем рваный край для clip-path (МЕЛКИЙ ПЕСОК)
   function generateJaggedPath(progress) {
     const points = [];
-    const numPoints = 480; // 🎯 БОЛЬШЕ ТОЧЕК = более мелкий край
+    const numPoints = 980; // 🎯 БОЛЬШЕ ТОЧЕК = более мелкий край
     const radius = progress * maxDistance * 1.4;
     
     for (let i = 0; i <= numPoints; i++) {
