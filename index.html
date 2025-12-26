@@ -1056,7 +1056,7 @@ function startPromoTimer() {
   }, 15000);
 }
 
-// Эффект распада на частицы (как в Telegram)
+// Эффект распада на частицы (ветром вверх и влево)
 function disintegratePromo() {
   promoDisintegrated = true;
   
@@ -1067,49 +1067,36 @@ function disintegratePromo() {
   
   const rect = promoCard.getBoundingClientRect();
   
-  // Создаём снимок карточки
-  const tempCanvas = document.createElement('canvas');
-  const tempCtx = tempCanvas.getContext('2d');
-  tempCanvas.width = rect.width;
-  tempCanvas.height = rect.height;
-  
-  // Рисуем карточку на временном canvas
-  const cardClone = promoCard.cloneNode(true);
-  cardClone.style.position = 'absolute';
-  cardClone.style.left = '-9999px';
-  document.body.appendChild(cardClone);
-  
-  // Создаём частицы из пикселей
+  // Создаём много мелких частиц
   const particles = [];
-  const gridSize = 8; // размер каждого квадратика
+  const particleSize = 2; // 1-2 пикселя
   
-  // Получаем цвета из видео и элементов карточки
-  for (let y = 0; y < rect.height; y += gridSize) {
-    for (let x = 0; x < rect.width; x += gridSize) {
-      // Берём случайные цвета из палитры карточки
-      const colors = ['#2f7cf6', '#6ab2f2', '#1d2b3a', '#17212b', '#1a4d2e', '#ffffff'];
-      const color = colors[Math.floor(Math.random() * colors.length)];
-      
-      particles.push({
-        x: rect.left + x,
-        y: rect.top + y,
-        size: gridSize,
-        color: color,
-        speedX: (Math.random() - 0.5) * 4,
-        speedY: Math.random() * -3 - 1,
-        rotation: Math.random() * Math.PI * 2,
-        rotationSpeed: (Math.random() - 0.5) * 0.3,
-        opacity: 1,
-        gravity: 0.4 + Math.random() * 0.3
-      });
+  // Цвета из твоей карточки
+  const colors = ['#2f7cf6', '#6ab2f2', '#1d2b3a', '#17212b', '#1a4d2e', '#6af27d', '#ffffff', '#377c82'];
+  
+  // Генерируем частицы по всей площади карточки
+  for (let y = 0; y < rect.height; y += particleSize) {
+    for (let x = 0; x < rect.width; x += particleSize) {
+      // Не все пиксели создаём (для естественности)
+      if (Math.random() > 0.3) {
+        particles.push({
+          x: rect.left + x,
+          y: rect.top + y,
+          size: Math.random() < 0.5 ? 1 : 2, // 1 или 2 пикселя
+          color: colors[Math.floor(Math.random() * colors.length)],
+          // Ветер уносит вверх и влево
+          speedX: -(Math.random() * 3 + 2), // влево от -2 до -5
+          speedY: -(Math.random() * 4 + 1), // вверх от -1 до -5
+          opacity: 1,
+          delay: Math.random() * 200 // задержка появления для волнового эффекта
+        });
+      }
     }
   }
   
-  document.body.removeChild(cardClone);
-  
   // Скрываем оригинальную карточку
   promoCard.style.opacity = '0';
-  promoCard.style.transition = 'opacity 0.2s ease';
+  promoCard.style.transition = 'opacity 0.3s ease';
   
   // Анимация частиц
   let startTime = Date.now();
@@ -1121,34 +1108,35 @@ function disintegratePromo() {
     let allGone = true;
     
     particles.forEach(p => {
-      // Частицы исчезают через 2 секунды
-      if (elapsed < 2000 && p.y < canvas.height + 50) {
+      // Проверяем задержку
+      if (elapsed < p.delay) {
+        allGone = false;
+        return;
+      }
+      
+      const particleTime = elapsed - p.delay;
+      
+      // Частица видна 1.5 секунды
+      if (particleTime < 1500 && p.opacity > 0) {
         allGone = false;
         
-        ctx.save();
+        // Рисуем пиксель
         ctx.globalAlpha = p.opacity;
-        ctx.translate(p.x + p.size / 2, p.y + p.size / 2);
-        ctx.rotate(p.rotation);
-        
-        // Рисуем квадратик
         ctx.fillStyle = p.color;
-        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+        ctx.fillRect(p.x, p.y, p.size, p.size);
         
-        ctx.restore();
-        
-        // Обновляем позицию
+        // Движение: вверх и влево (ветер)
         p.x += p.speedX;
         p.y += p.speedY;
-        p.speedY += p.gravity; // гравитация
-        p.rotation += p.rotationSpeed;
         
-        // Затухание в конце
-        if (elapsed > 1500) {
+        // Ускорение ветра со временем
+        p.speedX -= 0.05;
+        p.speedY -= 0.03;
+        
+        // Затухание
+        if (particleTime > 1000) {
           p.opacity -= 0.02;
         }
-        
-        // Замедление горизонтального движения
-        p.speedX *= 0.98;
       }
     });
     
@@ -1165,7 +1153,6 @@ function disintegratePromo() {
   canvas.style.display = 'block';
   animate();
 }
-
 // Копирование промокода
 function copyPromoCode() {
   const promoCodeEl = document.getElementById("promoCode");
