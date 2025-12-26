@@ -1070,7 +1070,7 @@ function disintegratePromo() {
   // Создаём частицы
   const particles = [];
   const particleSize = 2;
-  const burnSpeed = 150; // скорость "горения" (чем меньше, тем быстрее)
+  const totalDuration = 1000; // 1 секунда на всю анимацию
   
   // Тёмно-зелёный цвет и его оттенки
   const greenShades = [
@@ -1078,15 +1078,21 @@ function disintegratePromo() {
     '#163920', '#0f2818', '#1e5a38', '#2d7a4f'
   ];
   
+  // Максимальное расстояние от правого нижнего угла
+  const maxDistance = Math.sqrt(rect.width * rect.width + rect.height * rect.height);
+  
   // Генерируем частицы для всей карточки
   for (let y = 0; y < rect.height; y += particleSize) {
     for (let x = 0; x < rect.width; x += particleSize) {
       if (Math.random() > 0.5) continue;
       
-      // Расстояние от правого нижнего угла (волна горения)
+      // Расстояние от правого нижнего угла
       const distanceFromBottomRight = Math.sqrt(
         Math.pow(rect.width - x, 2) + Math.pow(rect.height - y, 2)
       );
+      
+      // Нормализуем расстояние (0 до 1)
+      const normalizedDistance = distanceFromBottomRight / maxDistance;
       
       particles.push({
         x: rect.left + x,
@@ -1095,8 +1101,9 @@ function disintegratePromo() {
         color: greenShades[Math.floor(Math.random() * greenShades.length)],
         speedX: -(Math.random() * 3 + 2),
         speedY: -(Math.random() * 4 + 1),
-        opacity: 0, // начинаем с невидимых
-        burnTime: distanceFromBottomRight * burnSpeed, // когда начнёт "гореть"
+        opacity: 0,
+        // Время когда частица начнёт гореть (от 0 до 600мс)
+        burnDelay: normalizedDistance * 600,
         active: false
       });
     }
@@ -1109,85 +1116,74 @@ function disintegratePromo() {
     const elapsed = Date.now() - startTime;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-    // Рисуем оригинальную карточку с маской
-    ctx.save();
-    
-    // Создаём маску "сгоревшей" области
-    const burnRadius = elapsed / burnSpeed;
-    
-    // Рисуем карточку (симулируем)
-    ctx.globalAlpha = 1;
-    ctx.fillStyle = '#17212b';
-    ctx.fillRect(rect.left, rect.top, rect.width, rect.height);
-    
-    // "Вырезаем" сгоревшую часть
-    ctx.globalCompositeOperation = 'destination-out';
-    ctx.beginPath();
-    ctx.arc(
-      rect.left + rect.width, 
-      rect.top + rect.height, 
-      burnRadius, 
-      0, 
-      Math.PI * 2
-    );
-    ctx.fill();
-    ctx.globalCompositeOperation = 'source-over';
-    ctx.restore();
-    
     // Рисуем частицы
     let allGone = true;
-    let hasActiveParticles = false;
     
     particles.forEach(p => {
       // Активируем частицу когда до неё дойдёт "огонь"
-      if (!p.active && elapsed >= p.burnTime) {
+      if (!p.active && elapsed >= p.burnDelay) {
         p.active = true;
         p.opacity = 1;
       }
       
-      if (p.active && p.opacity > 0) {
+      if (p.active) {
+        const particleAge = elapsed - p.burnDelay;
+        
+        if (particleAge < 400 && p.opacity > 0) {
+          allGone = false;
+          
+          // Рисуем частицу
+          ctx.globalAlpha = p.opacity;
+          ctx.fillStyle = p.color;
+          ctx.fillRect(p.x, p.y, p.size, p.size);
+          
+          // Движение вверх и влево
+          p.x += p.speedX;
+          p.y += p.speedY;
+          p.speedX -= 0.08;
+          p.speedY -= 0.05;
+          
+          // Быстрое затухание
+          p.opacity -= 0.025;
+        }
+      } else {
         allGone = false;
-        hasActiveParticles = true;
-        
-        // Рисуем частицу
-        ctx.globalAlpha = p.opacity;
-        ctx.fillStyle = p.color;
-        ctx.fillRect(p.x, p.y, p.size, p.size);
-        
-        // Движение вверх и влево
-        p.x += p.speedX;
-        p.y += p.speedY;
-        p.speedX -= 0.05;
-        p.speedY -= 0.03;
-        
-        // Затухание
-        p.opacity -= 0.015;
-      } else if (!p.active) {
-        allGone = false; // ещё есть неактивные частицы
       }
     });
     
-    // Скрываем оригинальную карточку постепенно
-    const fadeProgress = Math.min(elapsed / 3000, 1);
-    promoCard.style.opacity = 1 - fadeProgress;
+    // Скрываем оригинальную карточку волной от правого нижнего угла
+    const burnProgress = Math.min(elapsed / 600, 1);
+    const burnRadius = burnProgress * maxDistance;
     
-    if (!allGone || elapsed < 3000) {
+    // Создаём маску для карточки
+    const distanceFromCenter = Math.sqrt(
+      Math.pow(rect.width / 2, 2) + Math.pow(rect.height / 2, 2)
+    );
+    
+    if (burnProgress < 1) {
+      allGone = false;
+      // Постепенно скрываем карточку
+      const fadeAmount = burnProgress * 1.5;
+      promoCard.style.clipPath = `circle(${100 - fadeAmount * 100}% at 100% 100%)`;
+    } else {
+      promoCard.style.opacity = '0';
+    }
+    
+    if (!allGone || elapsed < totalDuration) {
       requestAnimationFrame(animate);
     } else {
       // Анимация завершена
       canvas.style.display = 'none';
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      hidePromo();
+      promoCard.style.clipPath = 'none';
       promoCard.style.opacity = '1';
+      hidePromo();
     }
   }
   
   canvas.style.display = 'block';
   animate();
 }
-
-
-
 
   
 // Копирование промокода
