@@ -34,7 +34,13 @@ body {
   opacity: 1;
   pointer-events: all;
 }
-
+/* Канвас для частиц */
+#particleCanvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 8889;
+}
 .promo-card {
   background: transparent;
   border: none;
@@ -791,8 +797,10 @@ body {
   <img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Objects/Hourglass%20Done.webp?raw=true" alt="Загрузка">
 </div>
  <!-- ПРОМОКОД ОВЕРЛЕЙ -->
+<!-- ПРОМОКОД ОВЕРЛЕЙ -->
+<canvas id="particleCanvas"></canvas>
 <div id="promoOverlay" class="promo-overlay">
-  <div class="promo-card" onclick="event.stopPropagation()">
+<div class="promo-card" id="promoCard" onclick="event.stopPropagation()">
     <div class="promo-title">Привіт! Лови бонус на перше замовлення!</div>
     <div class="promo-hint">швидше тисни на промокод, щоб скопіювати</div>
     <div class="promo-image-wrapper">
@@ -1017,22 +1025,117 @@ body {
 
 const loader = document.getElementById("loader");
 const promoOverlay = document.getElementById("promoOverlay");
+const promoCard = document.getElementById("promoCard");
 const cakeScreen = document.getElementById("cakeScreen");
 const cakeDescription = document.getElementById("cakeDescription");
 const orderBtn = document.getElementById("orderBtn");
+
+let promoTimer = null;
+let promoDisintegrated = false;
 
 // Лоадер
 function showLoader(){ loader.classList.add("active"); }
 function hideLoader(){ loader.classList.remove("active"); }
 
 // Промокод
-function showPromo(){ promoOverlay.classList.add("active"); }
-function hidePromo(){ promoOverlay.classList.remove("active"); }
+function showPromo(){ 
+  promoOverlay.classList.add("active"); 
+  startPromoTimer();
+}
+function hidePromo(){ 
+  clearTimeout(promoTimer);
+  promoOverlay.classList.remove("active"); 
+}
+
+// Таймер промокода (15 секунд)
+function startPromoTimer() {
+  promoTimer = setTimeout(() => {
+    if (!promoDisintegrated) {
+      disintegratePromo();
+    }
+  }, 15000);
+}
+
+// Эффект распада на частицы
+function disintegratePromo() {
+  promoDisintegrated = true;
+  
+  const canvas = document.getElementById('particleCanvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  
+  const rect = promoCard.getBoundingClientRect();
+  
+  // Создаём частицы из карточки промокода
+  const particles = [];
+  const particleCount = 150;
+  
+  for (let i = 0; i < particleCount; i++) {
+    particles.push({
+      x: rect.left + Math.random() * rect.width,
+      y: rect.top + Math.random() * rect.height,
+      size: Math.random() * 8 + 2,
+      speedX: (Math.random() - 0.5) * 6,
+      speedY: (Math.random() - 0.5) * 6 - 2,
+      opacity: 1,
+      color: `hsl(${Math.random() * 60 + 30}, 70%, ${Math.random() * 30 + 40}%)`
+    });
+  }
+  
+  // Скрываем карточку
+  promoCard.style.opacity = '0';
+  promoCard.style.transform = 'scale(0.8)';
+  promoCard.style.transition = 'all 0.3s ease';
+  
+  // Анимация частиц
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    let allFaded = true;
+    
+    particles.forEach(p => {
+      if (p.opacity > 0) {
+        allFaded = false;
+        
+        // Рисуем частицу
+        ctx.globalAlpha = p.opacity;
+        ctx.fillStyle = p.color;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Обновляем позицию
+        p.x += p.speedX;
+        p.y += p.speedY;
+        p.speedY += 0.2; // гравитация
+        p.opacity -= 0.015;
+        p.size *= 0.99;
+      }
+    });
+    
+    if (!allFaded) {
+      requestAnimationFrame(animate);
+    } else {
+      // Анимация завершена — закрываем оверлей
+      hidePromo();
+      canvas.style.display = 'none';
+      promoCard.style.opacity = '1';
+      promoCard.style.transform = 'scale(1)';
+    }
+  }
+  
+  canvas.style.display = 'block';
+  animate();
+}
 
 // Копирование промокода
 function copyPromoCode() {
   const promoCodeEl = document.getElementById("promoCode");
   const code = promoCodeEl.textContent;
+  
+  // Останавливаем таймер
+  clearTimeout(promoTimer);
   
   // Копируем в буфер обмена
   if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -1082,7 +1185,12 @@ function showCopyFeedback() {
 }
 
 // Клик за пределами промокода закрывает оверлей
-promoOverlay.addEventListener('click', hidePromo);
+promoOverlay.addEventListener('click', () => {
+  clearTimeout(promoTimer);
+  hidePromo();
+});
+
+
 
 // Первая загрузка
 window.addEventListener("load", () => {
