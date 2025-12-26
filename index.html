@@ -70,7 +70,7 @@ body {
 .promo-hint {
   font-size: 18px;
   color: #17212b;
-  margin-bottom:100px;
+  margin-bottom:10px;
   opacity: 0.9;
 }
 
@@ -1252,7 +1252,7 @@ function showCopyFeedback() {
   const originalText = promoCodeEl.textContent;
   
   promoCodeEl.classList.add("copied");
-  promoCodeEl.textContent = "✓ Промокод скопійовано!";
+  promoCodeEl.textContent = "промокод скопійовано ✓";
   
   setTimeout(() => {
     promoCodeEl.textContent = originalText;
