@@ -18,7 +18,7 @@ body {
 .promo-overlay {
   position: fixed;
   inset: 0;
-  background: transparent;
+  background: transparent;ь
   backdrop-filter: blur(50px);
   -webkit-backdrop-filter: blur(50px);
   z-index: 8888;
@@ -810,7 +810,7 @@ body {
       <video 
   src="https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/main/Alpha150Glow.webm"" 
   class="promo-image"
-  autoplay
+  id="promoVideo"
   loop
   muted
   playsinline
@@ -1283,6 +1283,15 @@ window.addEventListener("load", () => {
   setTimeout(() => {
     hideLoader();
     showPromo();
+    
+    // 🎯 ЗАПУСКАЕМ ВИДЕО
+    const promoVideo = document.getElementById('promoVideo');
+    if (promoVideo) {
+      promoVideo.play().catch(err => {
+        console.log('Автозапуск видео заблокирован:', err);
+      });
+    }
+    
     // 🎯 ТАЙМЕР СТАРТУЕТ ЗДЕСЬ (после закрытия лоадера)
     startPromoTimer();
   }, 1000);
