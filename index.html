@@ -1888,11 +1888,11 @@ function launchWelcomeConfetti() {
       { transform: "translate(0,0) rotate(0deg)", opacity: 1 },
       { transform: `translate(${dx}px, ${dy}px) rotate(360deg)`, opacity: 0 }
     ], {
-      duration: 3200 + Math.random() * 700,
+      duration: 4500 + Math.random() * 1000,
       easing: "cubic-bezier(.2,.7,.2,1)"
     });
 
-    setTimeout(() => c.remove(), 5000);
+    setTimeout(() => c.remove(), 8000);
   }
 }
 
