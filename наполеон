@@ -710,11 +710,11 @@ body {
 }
 
 
-.lottie {
+.catalog-card img {
   width: 64px;
   height: 64px;
-  margin: 0 auto; /* центрирование по горизонтали */
-  display: block; /* чтобы margin работал */
+  margin: 0 auto;
+  display: block;
 }
 
 
@@ -872,77 +872,77 @@ body {
 
 <div class="catalog-grid">
   <div class="catalog-card">
-    <div class="lottie" data-src="https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/main/Meringue.json"></div>
+  <img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food%20and%20Drink/Cream.webp?raw=true" alt="Крем-брюле">
     <span>Наполеон</span>
   </div>
 
   <div class="catalog-card">
-    <div class="lottie" data-src="https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/main/Honey%20Cake.json"></div>
+   <img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food%20and%20Drink/Cream.webp?raw=true" alt="Крем-брюле">
     <span>Медовик</span>
   </div>
 
   <div class="catalog-card">
-    <div class="lottie" data-src="https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/main/Chocolate.json"></div>
+    <img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food%20and%20Drink/Cream.webp?raw=true" alt="Крем-брюле">
     <span>Эстерхази</span>
   </div>
 
   <div class="catalog-card">
-    <div class="lottie" data-src="https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/main/Cheesecake.json"></div>
+    <img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food%20and%20Drink/Cream.webp?raw=true" alt="Крем-брюле">
     <span>Чизкейк</span>
   </div>
 
   <div class="catalog-card">
-    <div class="lottie" data-src="https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/main/Razzle%20Dazzle.json"></div>
+    <img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food%20and%20Drink/Cream.webp?raw=true" alt="Крем-брюле">
     <span>Тирамису</span>
   </div>
 
   <div class="catalog-card">
-    <div class="lottie" data-src="https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/main/Meatcake.json"></div>
+   <img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food%20and%20Drink/Cream.webp?raw=true" alt="Крем-брюле">
     <span>Прага</span>
   </div>
 
   <div class="catalog-card">
-    <div class="lottie" data-src="https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/main/Ice%20Cream.json"></div>
+   <img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food%20and%20Drink/Cream.webp?raw=true" alt="Крем-брюле">
     <span>Захер</span>
   </div>
 
   <div class="catalog-card">
-    <div class="lottie" data-src="https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/main/Pumpkin.json"></div>
+  <img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food%20and%20Drink/Cream.webp?raw=true" alt="Крем-брюле">
     <span>Трюфельный</span>
   </div>
 
   <div class="catalog-card">
-    <div class="lottie" data-src="https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/main/SolarSystemCake.json"></div>
+   <img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food%20and%20Drink/Cream.webp?raw=true" alt="Крем-брюле">
     <span>Бенто</span>
   </div>
 
   <div class="catalog-card">
-    <div class="lottie" data-src="https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/main/Circus%20Show.json"></div>
+    <img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food%20and%20Drink/Cream.webp?raw=true" alt="Крем-брюле">
     <span>Киевский</span>
   </div>
 
   <div class="catalog-card">
-    <div class="lottie" data-src="https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/main/Scarlet%20Drip.json"></div>
+   <img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food%20and%20Drink/Cream.webp?raw=true" alt="Крем-брюле">
     <span>Монастырская изба</span>
   </div>
 
   <div class="catalog-card">
-    <div class="lottie" data-src="https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/main/Gummy%20Bears.json"></div>
+  <img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food%20and%20Drink/Cream.webp?raw=true" alt="Крем-брюле">
     <span>Панчо</span>
   </div>
 
   <div class="catalog-card">
-    <div class="lottie" data-src="https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/main/Cinnabon.json"></div>
+ <img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food%20and%20Drink/Cream.webp?raw=true" alt="Крем-брюле">
     <span>Пралине</span>
   </div>
 
   <div class="catalog-card">
-    <div class="lottie" data-src="https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/main/Cherry%20Top.json"></div>
+    <img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food%20and%20Drink/Cream.webp?raw=true" alt="Крем-брюле">
     <span>Панакота</span>
   </div>
 
   <div class="catalog-card">
-    <div class="lottie" data-src="https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/main/Honolulu.json"></div>
+     <img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food%20and%20Drink/Cream.webp?raw=true" alt="Крем-брюле">
     <span>Крем-брюле</span>
   </div>
 
@@ -1108,12 +1108,6 @@ function openCatalog(){
   setTimeout(()=>{
     document.getElementById("mainScreen").classList.remove("active");
     document.getElementById("catalogScreen").classList.add("active");
-    
-    // Инициализируем Lottie ПОСЛЕ показа каталога
-    setTimeout(() => {
-      initLottie();
-    }, 100);
-    
     hideLoader();
   },500);
 }
@@ -1417,7 +1411,7 @@ const cakes = [
 },
 {
   name:"Крем-брюле", 
-  img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food%20and%20Drink/Pouring%20Liquid.webp?raw=true", 
+  img:"https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food%20and%20Drink/Cream.webp?raw=true", 
   shortDesc:"Торт с карамельным вкусом крем-брюле и хрустящей карамельной корочкой.", 
   ingredients:["Яйца","Сливки","Сахар","Ванилин","Мука","Масло сливочное","Карамель"],
   kbju: {
@@ -1636,100 +1630,8 @@ function toggleDescription() {
 
 </script>
 
-<script src="https://unpkg.com/lottie-web@5.12.2/build/player/lottie.min.js"></script>
-<script>
-  let lottieInitialized = false;
+ 
 
-  function initLottie() {
-    if (lottieInitialized) return;
-    lottieInitialized = true;
-
-    // Ленивая загрузка: анимации запускаются только когда видны
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        const anim = entry.target._lottie;
-        if (!anim) return;
-        
-        if (entry.isIntersecting) {
-          anim.play();
-        } else {
-          anim.pause();
-          // Сброс на первый кадр для экономии памяти
-          anim.goToAndStop(0, true);
-        }
-      });
-    }, { 
-      threshold: 0.1,
-      rootMargin: '50px' // Предзагрузка за 50px до появления
-    });
-
-    // Постепенная инициализация анимаций (батчинг)
-    const lottieElements = Array.from(document.querySelectorAll('.lottie'));
-    const batchSize = 3; // Загружаем по 3 анимации за раз
-    let currentBatch = 0;
-
-    function loadBatch() {
-      const start = currentBatch * batchSize;
-      const end = Math.min(start + batchSize, lottieElements.length);
-      
-      for (let i = start; i < end; i++) {
-        const el = lottieElements[i];
-        const path = el.dataset.src;
-
-        const anim = lottie.loadAnimation({
-          container: el,
-          renderer: 'svg', // SVG для прозрачности
-          loop: true,
-          autoplay: false,
-          path: path,
-          rendererSettings: {
-            preserveAspectRatio: 'xMidYMid slice',
-            progressiveLoad: true,
-            hideOnTransparent: true,
-            // Оптимизации для SVG
-            className: 'lottie-svg',
-            filterSize: {
-              width: '200%',
-              height: '200%',
-              x: '-50%',
-              y: '-50%'
-            }
-          }
-        });
-
-        // Отключаем субфреймы для стабильного FPS
-        anim.setSubframe(false);
-        
-        // Устанавливаем целевую скорость 60 FPS
-        anim.setSpeed(1);
-
-        el._lottie = anim;
-        observer.observe(el);
-      }
-
-      currentBatch++;
-      
-      // Загружаем следующий батч с задержкой
-      if (end < lottieElements.length) {
-        requestIdleCallback(() => loadBatch(), { timeout: 100 });
-      }
-    }
-
-    // Начинаем загрузку первого батча
-    loadBatch();
-  }
-
-  window.addEventListener('load', () => {
-    if (document.getElementById('catalogScreen').classList.contains('active')) {
-      // Даём браузеру время на рендер интерфейса
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          initLottie();
-        });
-      });
-    }
-  });
-</script>
 
   
 </body>
