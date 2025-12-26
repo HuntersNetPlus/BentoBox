@@ -1071,6 +1071,7 @@ function disintegratePromo() {
   const particles = [];
   const particleSize = 2;
   const totalDuration = 2000; // 2 секунды на всю анимацию
+  const burnDuration = 1200; // 🎯 СКОРОСТЬ ЛАСТИКА И ЧАСТИЦ (одно значение для обоих)
   
   // Тёмно-зелёный цвет и его оттенки
   const greenShades = [
@@ -1102,8 +1103,8 @@ function disintegratePromo() {
         speedX: -(Math.random() * 3 + 2),
         speedY: -(Math.random() * 4 + 1),
         opacity: 0,
-        // Время когда частица начнёт гореть (от 0 до 1200мс)
-        burnDelay: normalizedDistance * 1200,
+        // Время когда частица начнёт гореть — используем burnDuration
+        burnDelay: normalizedDistance * burnDuration,
         active: false
       });
     }
@@ -1140,7 +1141,8 @@ function disintegratePromo() {
   // Анимация
   function animate() {
     const elapsed = Date.now() - startTime;
-    const burnProgress = Math.min(elapsed / 1200, 1); // прогресс "горения"
+    // Прогресс "горения" — используем burnDuration
+    const burnProgress = Math.min(elapsed / burnDuration, 1);
     
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
