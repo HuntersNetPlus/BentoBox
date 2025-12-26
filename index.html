@@ -1070,7 +1070,7 @@ function disintegratePromo() {
   // Создаём частицы
   const particles = [];
   const particleSize = 2;
-  const totalDuration = 1000; // 1 секунда на всю анимацию
+  const totalDuration = 2000; // 2 секунды на всю анимацию
   
   // Тёмно-зелёный цвет и его оттенки
   const greenShades = [
@@ -1102,23 +1102,54 @@ function disintegratePromo() {
         speedX: -(Math.random() * 3 + 2),
         speedY: -(Math.random() * 4 + 1),
         opacity: 0,
-        // Время когда частица начнёт гореть (от 0 до 600мс)
-        burnDelay: normalizedDistance * 600,
+        // Время когда частица начнёт гореть (от 0 до 1200мс)
+        burnDelay: normalizedDistance * 1200,
         active: false
       });
     }
   }
   
-  // Сразу скрываем карточку
-  promoCard.style.opacity = '0';
-  promoCard.style.transition = 'opacity 0.2s ease';
-  
   let startTime = Date.now();
+  
+  // Генерируем рваный край для clip-path
+  function generateJaggedPath(progress) {
+    const points = [];
+    const numPoints = 20; // количество точек на рваном крае
+    const radius = progress * maxDistance * 1.4;
+    
+    for (let i = 0; i <= numPoints; i++) {
+      const angle = (i / numPoints) * Math.PI * 0.5; // от 0 до 90 градусов
+      const jitter = (Math.sin(i * 2.5 + progress * 10) * 0.15 + Math.cos(i * 1.8) * 0.1) * radius;
+      const r = radius + jitter;
+      
+      const x = 100 + r * Math.cos(angle + Math.PI); // от правого края
+      const y = 100 + r * Math.sin(angle + Math.PI); // от нижнего края
+      
+      points.push(`${x}% ${y}%`);
+    }
+    
+    // Добавляем углы для замыкания пути
+    points.push('100% 100%'); // правый нижний угол (начало)
+    points.push('100% 0%');   // правый верхний
+    points.push('0% 0%');     // левый верхний
+    points.push('0% 100%');   // левый нижний
+    
+    return `polygon(${points.join(', ')})`;
+  }
   
   // Анимация
   function animate() {
     const elapsed = Date.now() - startTime;
+    const burnProgress = Math.min(elapsed / 1200, 1); // прогресс "горения"
+    
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    // Применяем рваную маску к карточке
+    if (burnProgress < 1) {
+      promoCard.style.clipPath = generateJaggedPath(burnProgress);
+    } else {
+      promoCard.style.opacity = '0';
+    }
     
     // Рисуем частицы
     let allGone = true;
@@ -1133,7 +1164,7 @@ function disintegratePromo() {
       if (p.active) {
         const particleAge = elapsed - p.burnDelay;
         
-        if (particleAge < 400 && p.opacity > 0) {
+        if (particleAge < 800 && p.opacity > 0) {
           allGone = false;
           
           // Рисуем частицу
@@ -1144,11 +1175,11 @@ function disintegratePromo() {
           // Движение вверх и влево
           p.x += p.speedX;
           p.y += p.speedY;
-          p.speedX -= 0.08;
-          p.speedY -= 0.05;
+          p.speedX -= 0.05;
+          p.speedY -= 0.03;
           
-          // Быстрое затухание
-          p.opacity -= 0.025;
+          // Затухание
+          p.opacity -= 0.015;
         }
       } else {
         allGone = false;
@@ -1161,6 +1192,7 @@ function disintegratePromo() {
       // Анимация завершена
       canvas.style.display = 'none';
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+      promoCard.style.clipPath = 'none';
       promoCard.style.opacity = '1';
       hidePromo();
     }
@@ -1169,7 +1201,6 @@ function disintegratePromo() {
   canvas.style.display = 'block';
   animate();
 }
-
 
   
 // Копирование промокода
