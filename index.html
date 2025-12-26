@@ -1067,38 +1067,111 @@ function disintegratePromo() {
   
   const rect = promoCard.getBoundingClientRect();
   
-  // Создаём много мелких частиц
+  // Создаём временный canvas для захвата изображения карточки
+  const tempCanvas = document.createElement('canvas');
+  const tempCtx = tempCanvas.getContext('2d');
+  tempCanvas.width = rect.width;
+  tempCanvas.height = rect.height;
+  
+  // Используем html2canvas для захвата карточки (простой способ)
+  // Но так как у нас нет библиотеки, сделаем проще - возьмём цвета из видео
+  const video = promoCard.querySelector('video');
+  const videoRect = video.getBoundingClientRect();
+  
+  // Создаём частицы
   const particles = [];
-  const particleSize = 2; // 1-2 пикселя
+  const particleSize = 2;
   
-  // Цвета из твоей карточки
-  const colors = ['#2f7cf6', '#6ab2f2', '#1d2b3a', '#17212b', '#1a4d2e', '#6af27d', '#ffffff', '#377c82'];
+  // Рисуем видео на временный canvas
+  tempCtx.drawImage(video, 0, 0, videoRect.width, videoRect.height);
   
-  // Генерируем частицы по всей площади карточки
+  // Получаем данные пикселей
+  let imageData;
+  try {
+    imageData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
+  } catch (e) {
+    // Если не получилось из-за CORS, используем цвета по умолчанию
+    const colors = ['#2f7cf6', '#6ab2f2', '#1d2b3a', '#17212b', '#1a4d2e', '#6af27d', '#ffffff', '#377c82', '#ffd700', '#ff6b9d'];
+    createParticlesWithColors(colors);
+    return;
+  }
+  
+  // Генерируем частицы с реальными цветами
   for (let y = 0; y < rect.height; y += particleSize) {
     for (let x = 0; x < rect.width; x += particleSize) {
-      // Не все пиксели создаём (для естественности)
-      if (Math.random() > 0.3) {
-        particles.push({
-          x: rect.left + x,
-          y: rect.top + y,
-          size: Math.random() < 0.5 ? 1 : 2, // 1 или 2 пикселя
-          color: colors[Math.floor(Math.random() * colors.length)],
-          // Ветер уносит вверх и влево
-          speedX: -(Math.random() * 3 + 2), // влево от -2 до -5
-          speedY: -(Math.random() * 4 + 1), // вверх от -1 до -5
-          opacity: 1,
-          delay: Math.random() * 200 // задержка появления для волнового эффекта
-        });
-      }
+      if (Math.random() > 0.4) continue; // не все пиксели
+      
+      // Получаем цвет пикселя
+      const pixelIndex = (Math.floor(y) * tempCanvas.width + Math.floor(x)) * 4;
+      const r = imageData.data[pixelIndex];
+      const g = imageData.data[pixelIndex + 1];
+      const b = imageData.data[pixelIndex + 2];
+      const a = imageData.data[pixelIndex + 3];
+      
+      if (a < 50) continue; // пропускаем прозрачные пиксели
+      
+      // Расстояние от правого нижнего угла (для волнового эффекта)
+      const distanceFromBottomRight = Math.sqrt(
+        Math.pow(rect.width - x, 2) + Math.pow(rect.height - y, 2)
+      );
+      
+      particles.push({
+        x: rect.left + x,
+        y: rect.top + y,
+        size: Math.random() < 0.5 ? 1 : 2,
+        color: `rgba(${r}, ${g}, ${b}, 1)`,
+        speedX: -(Math.random() * 3 + 2),
+        speedY: -(Math.random() * 4 + 1),
+        opacity: 1,
+        // Задержка зависит от расстояния до правого нижнего угла
+        delay: (distanceFromBottomRight / 3) * 2 // волна по диагонали
+      });
     }
   }
+  
+  animateParticles(particles);
+}
+
+// Функция создания частиц с дефолтными цветами (если CORS блокирует видео)
+function createParticlesWithColors(colors) {
+  const canvas = document.getElementById('particleCanvas');
+  const rect = promoCard.getBoundingClientRect();
+  const particles = [];
+  const particleSize = 2;
+  
+  for (let y = 0; y < rect.height; y += particleSize) {
+    for (let x = 0; x < rect.width; x += particleSize) {
+      if (Math.random() > 0.4) continue;
+      
+      const distanceFromBottomRight = Math.sqrt(
+        Math.pow(rect.width - x, 2) + Math.pow(rect.height - y, 2)
+      );
+      
+      particles.push({
+        x: rect.left + x,
+        y: rect.top + y,
+        size: Math.random() < 0.5 ? 1 : 2,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        speedX: -(Math.random() * 3 + 2),
+        speedY: -(Math.random() * 4 + 1),
+        opacity: 1,
+        delay: (distanceFromBottomRight / 3) * 2
+      });
+    }
+  }
+  
+  animateParticles(particles);
+}
+
+// Общая функция анимации частиц
+function animateParticles(particles) {
+  const canvas = document.getElementById('particleCanvas');
+  const ctx = canvas.getContext('2d');
   
   // Скрываем оригинальную карточку
   promoCard.style.opacity = '0';
   promoCard.style.transition = 'opacity 0.3s ease';
   
-  // Анимация частиц
   let startTime = Date.now();
   
   function animate() {
@@ -1108,7 +1181,6 @@ function disintegratePromo() {
     let allGone = true;
     
     particles.forEach(p => {
-      // Проверяем задержку
       if (elapsed < p.delay) {
         allGone = false;
         return;
@@ -1116,24 +1188,18 @@ function disintegratePromo() {
       
       const particleTime = elapsed - p.delay;
       
-      // Частица видна 1.5 секунды
       if (particleTime < 1500 && p.opacity > 0) {
         allGone = false;
         
-        // Рисуем пиксель
         ctx.globalAlpha = p.opacity;
         ctx.fillStyle = p.color;
         ctx.fillRect(p.x, p.y, p.size, p.size);
         
-        // Движение: вверх и влево (ветер)
         p.x += p.speedX;
         p.y += p.speedY;
-        
-        // Ускорение ветра со временем
         p.speedX -= 0.05;
         p.speedY -= 0.03;
         
-        // Затухание
         if (particleTime > 1000) {
           p.opacity -= 0.02;
         }
@@ -1143,7 +1209,6 @@ function disintegratePromo() {
     if (!allGone) {
       requestAnimationFrame(animate);
     } else {
-      // Анимация завершена
       canvas.style.display = 'none';
       hidePromo();
       promoCard.style.opacity = '1';
@@ -1153,6 +1218,11 @@ function disintegratePromo() {
   canvas.style.display = 'block';
   animate();
 }
+
+
+
+
+  
 // Копирование промокода
 function copyPromoCode() {
   const promoCodeEl = document.getElementById("promoCode");
