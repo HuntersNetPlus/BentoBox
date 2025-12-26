@@ -1876,13 +1876,14 @@ function launchWelcomeConfetti() {
     const colors = ["#ff4757", "#ffa502", "#2ed573", "#1e90ff", "#ff6b81"];
     c.style.background = colors[Math.floor(Math.random() * colors.length)];
 
-    c.style.left = (Math.random() * 100) + "%";
-    c.style.top = "100%";
+   c.style.left = (Math.random() * 100) + "%";  // ← случайная позиция по горизонтали
+    c.style.top = "100%";  // ← стартуют снизу экрана
 
     confettiContainer.appendChild(c);
 
-    const dx = (Math.random() - 0.5) * 600;
-    const dy = -600 - Math.random() * 400;
+    // 🎯 НОВОЕ: летят строго вверх (без разброса по сторонам)
+    const dx = (Math.random() - 0.5) * 200;  // ← уменьшил разброс (было 600, стало 200)
+    const dy = -800 - Math.random() * 400;  // ← летят выше (было -600, стало -800)
 
     c.animate([
       { transform: "translate(0,0) rotate(0deg)", opacity: 1 },
