@@ -1070,7 +1070,7 @@ function disintegratePromo() {
   // Создаём частицы
   const particles = [];
   const particleSize = 2;
-  const totalDuration = 3000; // 1 секунда на всю анимацию
+  const totalDuration = 1000; // 1 секунда на всю анимацию
   
   // Тёмно-зелёный цвет и его оттенки
   const greenShades = [
@@ -1108,6 +1108,10 @@ function disintegratePromo() {
       });
     }
   }
+  
+  // Сразу скрываем карточку
+  promoCard.style.opacity = '0';
+  promoCard.style.transition = 'opacity 0.2s ease';
   
   let startTime = Date.now();
   
@@ -1151,31 +1155,12 @@ function disintegratePromo() {
       }
     });
     
-    // Скрываем оригинальную карточку волной от правого нижнего угла
-    const burnProgress = Math.min(elapsed / 600, 1);
-    const burnRadius = burnProgress * maxDistance;
-    
-    // Создаём маску для карточки
-    const distanceFromCenter = Math.sqrt(
-      Math.pow(rect.width / 2, 2) + Math.pow(rect.height / 2, 2)
-    );
-    
-    if (burnProgress < 1) {
-      allGone = false;
-      // Постепенно скрываем карточку
-      const fadeAmount = burnProgress * 1.5;
-      promoCard.style.clipPath = `circle(${100 - fadeAmount * 100}% at 100% 100%)`;
-    } else {
-      promoCard.style.opacity = '0';
-    }
-    
     if (!allGone || elapsed < totalDuration) {
       requestAnimationFrame(animate);
     } else {
       // Анимация завершена
       canvas.style.display = 'none';
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      promoCard.style.clipPath = 'none';
       promoCard.style.opacity = '1';
       hidePromo();
     }
@@ -1184,6 +1169,7 @@ function disintegratePromo() {
   canvas.style.display = 'block';
   animate();
 }
+
 
   
 // Копирование промокода
