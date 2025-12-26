@@ -791,6 +791,20 @@ body {
 }
 .loader.active { opacity: 1; pointer-events: all; }
 .loader img { width: 150px; height: 150px; }
+
+
+
+
+/* ===== КОНФЕТТИ ===== */
+.confetti-piece {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  opacity: 0.9;
+  border-radius: 2px;
+}
+
+  
 </style>
 </head>
 <body>
@@ -823,6 +837,7 @@ body {
 </div>
 
 <div class="app">
+  <div id="confetti-container" style="position:fixed; top:0; left:0; width:100vw; height:100vh; pointer-events:none; overflow:hidden; z-index:9998;"></div>
 
   <!-- ПЕРВЫЙ ЭКРАН -->
   <div class="screen active" id="mainScreen">
@@ -1845,6 +1860,47 @@ function toggleDescription() {
   }
 }
 
+ }
+
+// ===== КОНФЕТТИ ПРИ ЗАГРУЗКЕ =====
+function launchWelcomeConfetti() {
+  const confettiContainer = document.getElementById("confetti-container");
+  if (!confettiContainer) return;
+  
+  confettiContainer.innerHTML = "";
+
+  for (let i = 0; i < 90; i++) {
+    const c = document.createElement("div");
+    c.className = "confetti-piece";
+
+    const colors = ["#ff4757", "#ffa502", "#2ed573", "#1e90ff", "#ff6b81"];
+    c.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+    c.style.left = (Math.random() * 100) + "%";
+    c.style.top = "100%";
+
+    confettiContainer.appendChild(c);
+
+    const dx = (Math.random() - 0.5) * 600;
+    const dy = -600 - Math.random() * 400;
+
+    c.animate([
+      { transform: "translate(0,0) rotate(0deg)", opacity: 1 },
+      { transform: `translate(${dx}px, ${dy}px) rotate(360deg)`, opacity: 0 }
+    ], {
+      duration: 3200 + Math.random() * 700,
+      easing: "cubic-bezier(.2,.7,.2,1)"
+    });
+
+    setTimeout(() => c.remove(), 5000);
+  }
+}
+
+// Запуск конфетти после лоадера
+setTimeout(() => {
+  launchWelcomeConfetti();
+}, 1100);
+ 
  
 
  
