@@ -1056,7 +1056,7 @@ function startPromoTimer() {
   }, 15000);
 }
 
-// Эффект распада на частицы (ветром вверх и влево)
+// Эффект распада на частицы (как горящая бумага)
 function disintegratePromo() {
   promoDisintegrated = true;
   
@@ -1067,50 +1067,23 @@ function disintegratePromo() {
   
   const rect = promoCard.getBoundingClientRect();
   
-  // Создаём временный canvas для захвата изображения карточки
-  const tempCanvas = document.createElement('canvas');
-  const tempCtx = tempCanvas.getContext('2d');
-  tempCanvas.width = rect.width;
-  tempCanvas.height = rect.height;
-  
-  // Используем html2canvas для захвата карточки (простой способ)
-  // Но так как у нас нет библиотеки, сделаем проще - возьмём цвета из видео
-  const video = promoCard.querySelector('video');
-  const videoRect = video.getBoundingClientRect();
-  
   // Создаём частицы
   const particles = [];
   const particleSize = 2;
+  const burnSpeed = 150; // скорость "горения" (чем меньше, тем быстрее)
   
-  // Рисуем видео на временный canvas
-  tempCtx.drawImage(video, 0, 0, videoRect.width, videoRect.height);
+  // Тёмно-зелёный цвет и его оттенки
+  const greenShades = [
+    '#1a4d2e', '#2a6d4e', '#1d3a22', '#24502f', 
+    '#163920', '#0f2818', '#1e5a38', '#2d7a4f'
+  ];
   
-  // Получаем данные пикселей
-  let imageData;
-  try {
-    imageData = tempCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
-  } catch (e) {
-    // Если не получилось из-за CORS, используем цвета по умолчанию
-    const colors = ['#2f7cf6', '#6ab2f2', '#1d2b3a', '#17212b', '#1a4d2e', '#6af27d', '#ffffff', '#377c82', '#ffd700', '#ff6b9d'];
-    createParticlesWithColors(colors);
-    return;
-  }
-  
-  // Генерируем частицы с реальными цветами
+  // Генерируем частицы для всей карточки
   for (let y = 0; y < rect.height; y += particleSize) {
     for (let x = 0; x < rect.width; x += particleSize) {
-      if (Math.random() > 0.4) continue; // не все пиксели
+      if (Math.random() > 0.5) continue;
       
-      // Получаем цвет пикселя
-      const pixelIndex = (Math.floor(y) * tempCanvas.width + Math.floor(x)) * 4;
-      const r = imageData.data[pixelIndex];
-      const g = imageData.data[pixelIndex + 1];
-      const b = imageData.data[pixelIndex + 2];
-      const a = imageData.data[pixelIndex + 3];
-      
-      if (a < 50) continue; // пропускаем прозрачные пиксели
-      
-      // Расстояние от правого нижнего угла (для волнового эффекта)
+      // Расстояние от правого нижнего угла (волна горения)
       const distanceFromBottomRight = Math.sqrt(
         Math.pow(rect.width - x, 2) + Math.pow(rect.height - y, 2)
       );
@@ -1119,97 +1092,91 @@ function disintegratePromo() {
         x: rect.left + x,
         y: rect.top + y,
         size: Math.random() < 0.5 ? 1 : 2,
-        color: `rgba(${r}, ${g}, ${b}, 1)`,
+        color: greenShades[Math.floor(Math.random() * greenShades.length)],
         speedX: -(Math.random() * 3 + 2),
         speedY: -(Math.random() * 4 + 1),
-        opacity: 1,
-        // Задержка зависит от расстояния до правого нижнего угла
-        delay: (distanceFromBottomRight / 3) * 2 // волна по диагонали
+        opacity: 0, // начинаем с невидимых
+        burnTime: distanceFromBottomRight * burnSpeed, // когда начнёт "гореть"
+        active: false
       });
     }
   }
-  
-  animateParticles(particles);
-}
-
-// Функция создания частиц с дефолтными цветами (если CORS блокирует видео)
-function createParticlesWithColors(colors) {
-  const canvas = document.getElementById('particleCanvas');
-  const rect = promoCard.getBoundingClientRect();
-  const particles = [];
-  const particleSize = 2;
-  
-  for (let y = 0; y < rect.height; y += particleSize) {
-    for (let x = 0; x < rect.width; x += particleSize) {
-      if (Math.random() > 0.4) continue;
-      
-      const distanceFromBottomRight = Math.sqrt(
-        Math.pow(rect.width - x, 2) + Math.pow(rect.height - y, 2)
-      );
-      
-      particles.push({
-        x: rect.left + x,
-        y: rect.top + y,
-        size: Math.random() < 0.5 ? 1 : 2,
-        color: colors[Math.floor(Math.random() * colors.length)],
-        speedX: -(Math.random() * 3 + 2),
-        speedY: -(Math.random() * 4 + 1),
-        opacity: 1,
-        delay: (distanceFromBottomRight / 3) * 2
-      });
-    }
-  }
-  
-  animateParticles(particles);
-}
-
-// Общая функция анимации частиц
-function animateParticles(particles) {
-  const canvas = document.getElementById('particleCanvas');
-  const ctx = canvas.getContext('2d');
-  
-  // Скрываем оригинальную карточку
-  promoCard.style.opacity = '0';
-  promoCard.style.transition = 'opacity 0.3s ease';
   
   let startTime = Date.now();
   
+  // Анимация
   function animate() {
     const elapsed = Date.now() - startTime;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
+    // Рисуем оригинальную карточку с маской
+    ctx.save();
+    
+    // Создаём маску "сгоревшей" области
+    const burnRadius = elapsed / burnSpeed;
+    
+    // Рисуем карточку (симулируем)
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = '#17212b';
+    ctx.fillRect(rect.left, rect.top, rect.width, rect.height);
+    
+    // "Вырезаем" сгоревшую часть
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.beginPath();
+    ctx.arc(
+      rect.left + rect.width, 
+      rect.top + rect.height, 
+      burnRadius, 
+      0, 
+      Math.PI * 2
+    );
+    ctx.fill();
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.restore();
+    
+    // Рисуем частицы
     let allGone = true;
+    let hasActiveParticles = false;
     
     particles.forEach(p => {
-      if (elapsed < p.delay) {
-        allGone = false;
-        return;
+      // Активируем частицу когда до неё дойдёт "огонь"
+      if (!p.active && elapsed >= p.burnTime) {
+        p.active = true;
+        p.opacity = 1;
       }
       
-      const particleTime = elapsed - p.delay;
-      
-      if (particleTime < 1500 && p.opacity > 0) {
+      if (p.active && p.opacity > 0) {
         allGone = false;
+        hasActiveParticles = true;
         
+        // Рисуем частицу
         ctx.globalAlpha = p.opacity;
         ctx.fillStyle = p.color;
         ctx.fillRect(p.x, p.y, p.size, p.size);
         
+        // Движение вверх и влево
         p.x += p.speedX;
         p.y += p.speedY;
         p.speedX -= 0.05;
         p.speedY -= 0.03;
         
-        if (particleTime > 1000) {
-          p.opacity -= 0.02;
-        }
+        // Затухание
+        p.opacity -= 0.015;
+      } else if (!p.active) {
+        allGone = false; // ещё есть неактивные частицы
       }
     });
     
-    if (!allGone) {
+    // Скрываем оригинальную карточку постепенно
+    const fadeProgress = Math.min(elapsed / 3000, 1);
+    promoCard.style.opacity = 1 - fadeProgress;
+    
+    if (!allGone || elapsed < 3000) {
       requestAnimationFrame(animate);
     } else {
+      // Анимация завершена
       canvas.style.display = 'none';
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
       hidePromo();
       promoCard.style.opacity = '1';
     }
