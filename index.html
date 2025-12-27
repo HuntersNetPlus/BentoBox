@@ -1172,7 +1172,7 @@ function disintegratePromo() {
   const particleSize = 2;
   const totalDuration = 2000; // 2 секунды на всю анимацию
   const burnDuration = 1200; // скорость частиц
-  const eraserDuration = 8500; // 🎯 ЛАСТИК в 2 РАЗА МЕДЛЕННЕЕ
+  const eraserDuration = 2400; // 🎯 ЛАСТИК в 2 РАЗА МЕДЛЕННЕЕ
   
   // Тёмно-зелёный цвет и его оттенки
   const greenShades = [
@@ -1223,9 +1223,9 @@ const speedScale = rect.width / 512; // 👈 ДОБАВЬ ЭТУ СТРОКУ - 
       circle at 100% 100%,
       transparent 0%,
       transparent ${radius}px,
-      rgba(0,0,0,0.3) ${radius + 20}px,
-      rgba(0,0,0,0.7) ${radius + 40}px,
-      black ${radius + 60}px
+      rgba(0,0,0,0.3) ${radius + 10}px,
+      rgba(0,0,0,0.7) ${radius + 20}px,
+      black ${radius + 30}px
     )`;
   }
   
