@@ -1219,7 +1219,7 @@ const speedScale = rect.width / 512; // 👈 ДОБАВЬ ЭТУ СТРОКУ - 
     const radius = progress * maxDistance * 1.4;
     
     // Создаём radial-gradient с мягкими краями
-    return `radial-gradient(
+    return `linear-gradient(
       to left,
       transparent 0%,
       transparent ${radius}px,
