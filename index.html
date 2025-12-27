@@ -169,6 +169,7 @@ body {
 
 
 /* 🎯 SHIMMER ЭФФЕКТ ПОВЕРХ ВСЕГО */
+/* 🎯 SHIMMER ЭФФЕКТ ПОВЕРХ ВСЕГО */
 .promo-shimmer {
   position: absolute;
   top: 0;
@@ -178,7 +179,16 @@ body {
   z-index: 4;  /* поверх всех слоёв */
   pointer-events: none;
   overflow: hidden;
-  border-radius: inherit;
+  
+  /* 🎯 МАСКА ПО ФОРМЕ SVG */
+  mask-image: url('https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/e5a6d4d055bc14e2da10d324d12c566a2f1247f5/CPNSVG1.svg');
+  -webkit-mask-image: url('https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/e5a6d4d055bc14e2da10d324d12c566a2f1247f5/CPNSVG1.svg');
+  mask-size: contain;
+  -webkit-mask-size: contain;
+  mask-position: center;
+  -webkit-mask-position: center;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
 }
 
 .promo-shimmer::before {
@@ -1171,7 +1181,7 @@ function disintegratePromo() {
   const particles = [];
   const particleSize = 2;
   const totalDuration = 2000; // 2 секунды на всю анимацию
-  const burnDuration = 1200; // скорость частиц
+  const burnDuration = 1300; // скорость частиц
   const eraserDuration = 2750; // 🎯 ЛАСТИК в 2 РАЗА МЕДЛЕННЕЕ
   
   // Тёмно-зелёный цвет и его оттенки
@@ -1202,8 +1212,8 @@ const speedScale = rect.width / 512; // 👈 ДОБАВЬ ЭТУ СТРОКУ - 
   y: rect.top + y,
   size: Math.random() < 0.5 ? 1 : 2,
   color: greenShades[Math.floor(Math.random() * greenShades.length)],
-  speedX: -(Math.random() * 5 + 3) * speedScale,  // 👈 БЫСТРЕЕ влево
-  speedY: (Math.random() * 0.5 - 0.25) * speedScale,  // 👈 МИНИМАЛЬНОЕ колебание вверх-вниз
+  speedX: -(Math.random() * 2.5 + 1.5) * speedScale,  // 👈 В 2 РАЗА МЕДЛЕННЕЕ влево (от -1.5 до -4)
+  speedY: -(Math.random() * 2.5 + 1.5) * speedScale,  // 👈 В 2 РАЗА МЕДЛЕННЕЕ вверх (от -1.5 до -4)
   opacity: 0,
   burnDelay: normalizedDistance * burnDuration,
   active: false
