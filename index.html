@@ -2204,12 +2204,22 @@ function openOrderModal(cakeName, cakePrice) {
   modal.classList.add('active');
 }
 
+// Закрытие модального окна
+function closeOrderModal() {
+  const modal = document.getElementById('orderModal');
+  modal.classList.remove('active');
+}
+
 // Закрытие по клику вне модального окна
 document.getElementById('orderModal').addEventListener('click', function(e) {
+  // Если клик был НЕ по самому чеку (.order-modal-content), а по фону
   if (e.target === this) {
     closeOrderModal();
   }
 });
+
+
+  
  // ← ДОБАВЬ ЭТОТ БЛОК: Теги начинок
 if (cake.fillings && cake.fillings.length) {
   let fillingsHtml = '';
