@@ -96,13 +96,27 @@ body {
   animation: gentle-sway 4s ease-in-out infinite;  /* 🎯 КАЧАЕТСЯ ВЕСЬ БЛОК */
 }
 
-.promo-image {
+ /* 🎯 SVG БАЗОВЫЙ СЛОЙ */
+.promo-base-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  background: transparent;
-  display: block;
   object-fit: contain;
- 
+  z-index: 1;  /* нижний слой */
+}
+
+/* 🎯 WEBM АНИМАЦИЯ ПОВЕРХ */
+.promo-animation-webm {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  z-index: 2;  /* верхний слой */
+  mix-blend-mode: normal;  /* можно поменять на screen, multiply и т.д. для эффектов */
 }
 
 /* 🎯 ТЕКСТ ПРОМОКОДА НА КАРТИНКЕ */
@@ -831,19 +845,28 @@ body {
 <div class="promo-card" id="promoCard" onclick="event.stopPropagation()">
     <div class="promo-title">Привіт! Лови бонус на перше замовлення!</div>
     <div class="promo-hint">нумо, швидше тисни на промокод, щоб скопіювати його</div>
-    <div class="promo-image-wrapper">
-      <video 
-  src="https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/main/Alpha150Glow.webm"" 
-  class="promo-image"
-  id="promoVideo"
-  loop
-  muted
-  playsinline
-></video>
-      <div class="promo-code-box" id="promoCode" onclick="copyPromoCode()">
-        H5Y2-WB7T-OP4N-G1R5N
-      </div>
-    </div>
+   <div class="promo-image-wrapper">
+  <!-- 🎯 SVG СЛОЙ (нижний, статичный) -->
+  <img 
+    src="https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/e5a6d4d055bc14e2da10d324d12c566a2f1247f5/CPNSVG1.svg" 
+    class="promo-base-svg"
+    alt="Base"
+  >
+  
+  <!-- 🎯 WEBM СЛОЙ (верхний, анимация) -->
+  <video 
+    src="https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/main/Alpha150Glow.webm" 
+    class="promo-animation-webm"
+    id="promoVideo"
+    loop
+    muted
+    playsinline
+  ></video>
+  
+  <div class="promo-code-box" id="promoCode" onclick="copyPromoCode()">
+    H5Y2-WB7T-OP4N-G1R5N
+  </div>
+</div>
   </div>
 </div>
 
