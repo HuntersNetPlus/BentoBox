@@ -893,6 +893,123 @@ body {
   border-radius: 2px;
 }
 
+
+
+
+
+/* ===== МОДАЛЬНОЕ ОКНО ЗАКАЗА ===== */
+.order-modal {
+  position: fixed;
+  inset: 0;
+  background: transparent;
+  backdrop-filter: blur(0);
+  -webkit-backdrop-filter: blur(0);
+  z-index: 9000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.4s ease;
+}
+
+.order-modal.active {
+  opacity: 1;
+  pointer-events: all;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.order-modal-content {
+  position: relative;
+  width: 90%;
+  max-width: 400px;
+  margin-bottom: 20px;
+  transform: translateY(150%);
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.order-modal.active .order-modal-content {
+  transform: translateY(0);
+}
+
+.order-receipt-bg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.order-receipt-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 85%;
+  text-align: center;
+  color: #17212b;
+}
+
+.order-cake-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 15px;
+}
+
+.order-receipt-content h3 {
+  font-size: 24px;
+  margin: 0 0 10px;
+  color: #1a4d2e;
+}
+
+.order-price {
+  font-size: 28px;
+  font-weight: 900;
+  color: #1a4d2e;
+  margin: 0 0 15px;
+}
+
+.order-description {
+  font-size: 14px;
+  margin: 0 0 20px;
+  opacity: 0.8;
+  color: #17212b;
+}
+
+.order-telegram-btn {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #0088cc, #00c6ff);
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  margin-bottom: 10px;
+  transition: transform 0.15s ease;
+}
+
+.order-telegram-btn:active {
+  transform: scale(0.96);
+}
+
+.order-close-btn {
+  width: 100%;
+  padding: 12px;
+  background: #1d2b3a;
+  border: 1px solid #6ab2f2;
+  color: #6ab2f2;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.order-close-btn:active {
+  transform: scale(0.96);
+}
+
+
   
 </style>
 </head>
@@ -1139,6 +1256,41 @@ body {
   </div>
   <button class="cake-lightbox-arrow next" onclick="changeCakeImage(1)">›</button>
 </div>
+
+
+
+
+<!-- МОДАЛЬНОЕ ОКНО ЗАКАЗА -->
+<div id="orderModal" class="order-modal">
+  <div class="order-modal-content">
+    <!-- SVG чек -->
+    <img 
+      src="https://твоя-ссылка-на-svg-чека.svg" 
+      class="order-receipt-bg"
+      alt="Receipt"
+    >
+    
+    <!-- Контент поверх чека -->
+    <div class="order-receipt-content">
+      <img 
+        src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food%20and%20Drink/Birthday%20Cake.webp?raw=true" 
+        class="order-cake-icon"
+        alt="Cake"
+      >
+      <h3 id="orderCakeName">Наполеон</h3>
+      <p class="order-price" id="orderPrice">от 450 ₴</p>
+      <p class="order-description">Нажмите кнопку ниже, чтобы оформить заказ через Telegram</p>
+      
+      <a href="#" id="orderTelegramLink" class="order-telegram-btn">
+        Заказать в Telegram
+      </a>
+      
+      <button class="order-close-btn" onclick="closeOrderModal()">Закрыть</button>
+    </div>
+  </div>
+</div>
+
+  
 
 </div> <!-- Конец app -->
 
@@ -1819,8 +1971,14 @@ function openCake(index){
 
     cakeIngredients.innerHTML = html;
 
-    orderBtn.href = "https://t.me/USERNAME?start=" + encodeURIComponent(cake.name);
-    orderBtn.textContent = "Заказать от " + cake.price + " ₴";
+// Сохраняем данные торта для модального окна
+orderBtn.dataset.cakeName = cake.name;
+orderBtn.dataset.cakePrice = cake.price;
+orderBtn.onclick = function(e) {
+  e.preventDefault();
+  openOrderModal(cake.name, cake.price);
+};
+orderBtn.textContent = "Заказать от " + cake.price + " ₴";
 
     hideLoader();
   },500);
@@ -1999,7 +2157,34 @@ setTimeout(() => {
 }, 1100);
  
  
+// Открытие модального окна заказа
+function openOrderModal(cakeName, cakePrice) {
+  const modal = document.getElementById('orderModal');
+  
+  // Заполняем данные
+  document.getElementById('orderCakeName').textContent = cakeName;
+  document.getElementById('orderPrice').textContent = `от ${cakePrice} ₴`;
+  
+  // Ссылка на Telegram
+  const telegramLink = document.getElementById('orderTelegramLink');
+  telegramLink.href = `https://t.me/your_username?start=${encodeURIComponent(cakeName)}`;
+  
+  // Показываем модальное окно
+  modal.classList.add('active');
+}
 
+// Закрытие модального окна
+function closeOrderModal() {
+  const modal = document.getElementById('orderModal');
+  modal.classList.remove('active');
+}
+
+// Закрытие по клику вне модального окна
+document.getElementById('orderModal').addEventListener('click', function(e) {
+  if (e.target === this) {
+    closeOrderModal();
+  }
+});
  
 
 </script>
