@@ -183,7 +183,17 @@ body {
   color: #1a4d2e;             /* 👈 МЕНЯЙ: цвет после копирования */
 }
 
+.order-filling {
+  font-size: 14px;
+  margin: 10px 0;
+  color: #17212b;
+  font-weight: 600;
+}
 
+.order-filling span {
+  color: #1a4d2e;
+  font-weight: 900;
+}
 
 /* 🎯 SHIMMER ЭФФЕКТ ПОВЕРХ ВСЕГО */
 /* 🎯 SHIMMER ЭФФЕКТ ПОВЕРХ ВСЕГО */
@@ -268,18 +278,27 @@ body {
 .filling-tag {
   display: inline-block;
   padding: 8px 16px;
-  color: #6ab2f2; /* ← цвет текста = цвет фона сайта */
-  border-radius: 4px; /* ← закругление 4px */
+  color: #6ab2f2;
+  border-radius: 4px;
   font-size: 13px;
   font-weight: 600;
-  transition: transform 0.2s ease, opacity 0.2s ease;
-  cursor: default;
+  transition: transform 0.2s ease, opacity 0.2s ease, background 0.2s ease, color 0.2s ease;
+  cursor: pointer;  /* 🎯 ИЗМЕНИЛ с default на pointer */
   user-select: none;
+  border: 2px solid transparent;  /* 🎯 ДОБАВЬ */
 }
 
 .filling-tag:hover {
   transform: translateY(-2px);
   opacity: 0.85;
+}
+
+/* 🎯 ДОБАВЬ: стиль для выбранной начинки */
+.filling-tag.selected {
+  background: #6af27d !important;  /* зелёный фон */
+  color: #1d3a22 !important;       /* тёмно-зелёный текст */
+  border: 2px solid #6af27d;
+  transform: translateY(-2px);
 }
 
 /* Разные цвета для тегов (однородные, без градиента) */
@@ -1265,28 +1284,34 @@ body {
   <div class="order-modal-content">
     <!-- SVG чек -->
     <img 
-      src="https://github.com/HuntersNetPlus/BentoBox/blob/main/RecW.svg" 
+      src="https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/fbe3ce720267c9132b04a4e3a381d60d8971ca93/RecW.svg" 
       class="order-receipt-bg"
       alt="Receipt"
     >
     
     <!-- Контент поверх чека -->
     <div class="order-receipt-content">
-      <img 
-        src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food%20and%20Drink/Birthday%20Cake.webp?raw=true" 
-        class="order-cake-icon"
-        alt="Cake"
-      >
-      <h3 id="orderCakeName">Наполеон</h3>
-      <p class="order-price" id="orderPrice">от 450 ₴</p>
-      <p class="order-description">Нажмите кнопку ниже, чтобы оформить заказ через Telegram</p>
-      
-      <a href="#" id="orderTelegramLink" class="order-telegram-btn">
-        Заказать в Telegram
-      </a>
-      
-      <button class="order-close-btn" onclick="closeOrderModal()">Закрыть</button>
-    </div>
+  <img 
+    src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food%20and%20Drink/Birthday%20Cake.webp?raw=true" 
+    class="order-cake-icon"
+    alt="Cake"
+  >
+  <h3 id="orderCakeName">Наполеон</h3>
+  
+  <!-- 🎯 ДОБАВЬ: блок с выбранной начинкой -->
+  <p class="order-filling">
+    Начинка: <span id="orderFilling">стандартная</span>
+  </p>
+  
+  <p class="order-price" id="orderPrice">от 450 ₴</p>
+  <p class="order-description">Нажмите кнопку ниже, чтобы оформить заказ через Telegram</p>
+  
+  <a href="#" id="orderTelegramLink" class="order-telegram-btn">
+    Заказать в Telegram
+  </a>
+  
+  <button class="order-close-btn" onclick="closeOrderModal()">Закрыть</button>
+</div>
   </div>
 </div>
 
@@ -2158,25 +2183,25 @@ setTimeout(() => {
  
  
 // Открытие модального окна заказа
+// Открытие модального окна заказа
 function openOrderModal(cakeName, cakePrice) {
   const modal = document.getElementById('orderModal');
   
+  // 🎯 ПРОВЕРЯЕМ ВЫБРАННУЮ НАЧИНКУ
+  const selectedFilling = document.querySelector('.filling-tag.selected');
+  const filling = selectedFilling ? selectedFilling.textContent : 'стандартная';
+  
   // Заполняем данные
   document.getElementById('orderCakeName').textContent = cakeName;
+  document.getElementById('orderFilling').textContent = filling;
   document.getElementById('orderPrice').textContent = `от ${cakePrice} ₴`;
   
   // Ссылка на Telegram
   const telegramLink = document.getElementById('orderTelegramLink');
-  telegramLink.href = `https://t.me/your_username?start=${encodeURIComponent(cakeName)}`;
+  telegramLink.href = `https://t.me/your_username?start=${encodeURIComponent(cakeName)}_${encodeURIComponent(filling)}`;
   
   // Показываем модальное окно
   modal.classList.add('active');
-}
-
-// Закрытие модального окна
-function closeOrderModal() {
-  const modal = document.getElementById('orderModal');
-  modal.classList.remove('active');
 }
 
 // Закрытие по клику вне модального окна
@@ -2185,7 +2210,27 @@ document.getElementById('orderModal').addEventListener('click', function(e) {
     closeOrderModal();
   }
 });
- 
+ // ← ДОБАВЬ ЭТОТ БЛОК: Теги начинок
+if (cake.fillings && cake.fillings.length) {
+  let fillingsHtml = '';
+  cake.fillings.forEach(filling => {
+    fillingsHtml += `<span class="filling-tag">${filling}</span>`;
+  });
+  cakeFillings.innerHTML = fillingsHtml;
+  document.querySelector('.fillings-block').style.display = 'block';
+  
+  // 🎯 ДОБАВЬ: делаем начинки кликабельными
+  document.querySelectorAll('.filling-tag').forEach(tag => {
+    tag.addEventListener('click', function() {
+      // Убираем выделение у всех
+      document.querySelectorAll('.filling-tag').forEach(t => t.classList.remove('selected'));
+      // Выделяем текущую
+      this.classList.add('selected');
+    });
+  });
+} else {
+  document.querySelector('.fillings-block').style.display = 'none';
+}
 
 </script>
 
