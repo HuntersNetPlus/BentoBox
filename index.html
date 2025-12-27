@@ -1213,7 +1213,7 @@ const speedScale = rect.width / 512; // 👈 ДОБАВЬ ЭТУ СТРОКУ - 
   size: Math.random() < 0.5 ? 1 : 2,
   color: greenShades[Math.floor(Math.random() * greenShades.length)],
   speedX: -(Math.random() * 2.5 + 1.5) * speedScale,  // 👈 В 2 РАЗА МЕДЛЕННЕЕ влево (от -1.5 до -4)
-  speedY: -(Math.random() * 2.5 + 1.5) * speedScale,  // 👈 В 2 РАЗА МЕДЛЕННЕЕ вверх (от -1.5 до -4)
+  speedY: -(Math.random() * 2.5 + 0.5) * speedScale,  // 👈 В 2 РАЗА МЕДЛЕННЕЕ вверх (от -1.5 до -4)
   opacity: 0,
   burnDelay: normalizedDistance * burnDuration,
   active: false
