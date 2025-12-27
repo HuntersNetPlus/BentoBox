@@ -1197,13 +1197,13 @@ const speedScale = rect.width / 512; // 👈 ДОБАВЬ ЭТУ СТРОКУ - 
       // Нормализуем расстояние (0 до 1)
       const normalizedDistance = distanceFromBottomRight / maxDistance;
       
-     particles.push({
+  particles.push({
   x: rect.left + x,
   y: rect.top + y,
   size: Math.random() < 0.5 ? 1 : 2,
   color: greenShades[Math.floor(Math.random() * greenShades.length)],
-  speedX: -(Math.random() * 3 + 2) * speedScale,  // 👈 ДОБАВЬ * speedScale
-  speedY: -(Math.random() * 4 + 1) * speedScale,  // 👈 ДОБАВЬ * speedScale
+  speedX: -(Math.random() * 5 + 3) * speedScale,  // 👈 БЫСТРЕЕ влево
+  speedY: (Math.random() * 0.5 - 0.25) * speedScale,  // 👈 МИНИМАЛЬНОЕ колебание вверх-вниз
   opacity: 0,
   burnDelay: normalizedDistance * burnDuration,
   active: false
@@ -1220,7 +1220,7 @@ const speedScale = rect.width / 512; // 👈 ДОБАВЬ ЭТУ СТРОКУ - 
     
     // Создаём radial-gradient с мягкими краями
     return `radial-gradient(
-      circle at 100% 100%,
+      to left,
       transparent 0%,
       transparent ${radius}px,
       rgba(0,0,0,0.3) ${radius + 10}px,
