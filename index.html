@@ -1214,35 +1214,19 @@ const speedScale = rect.width / 512; // 👈 ДОБАВЬ ЭТУ СТРОКУ - 
   let startTime = Date.now();
   
   // Генерируем рваный край для clip-path (МЕЛКИЙ ПЕСОК)
-  function generateJaggedPath(progress) {
-    const points = [];
-    const numPoints = 980; // 🎯 БОЛЬШЕ ТОЧЕК = более мелкий край
+// 🎯 РАЗМЫТЫЙ ЛАСТИК (как в Photoshop)
+  function generateSoftEraser(progress) {
     const radius = progress * maxDistance * 1.4;
     
-    for (let i = 0; i <= numPoints; i++) {
-      const angle = (i / numPoints) * Math.PI * 0.5;
-      
-      // 🎯 МЕЛКИЙ ХАОС (короткие зазубрины как песок)
-      const jitter1 = Math.sin(i * 8.3 + progress * 15) * 0.03;
-      const jitter2 = Math.cos(i * 6.7 + progress * 12) * 0.025;
-      const jitter3 = Math.sin(i * 11.2) * 0.02;
-      const totalJitter = (jitter1 + jitter2 + jitter3) * radius;
-      
-      const r = radius + totalJitter;
-      
-      const x = 100 + r * Math.cos(angle + Math.PI);
-      const y = 100 + r * Math.sin(angle + Math.PI);
-      
-      points.push(`${x}% ${y}%`);
-    }
-    
-    // Добавляем углы для замыкания пути
-    points.push('100% 100%');
-    points.push('100% 0%');
-    points.push('0% 0%');
-    points.push('0% 100%');
-    
-    return `polygon(${points.join(', ')})`;
+    // Создаём radial-gradient с мягкими краями
+    return `radial-gradient(
+      circle at 100% 100%,
+      transparent 0%,
+      transparent ${radius}px,
+      rgba(0,0,0,0.3) ${radius + 20}px,
+      rgba(0,0,0,0.7) ${radius + 40}px,
+      black ${radius + 60}px
+    )`;
   }
   
   // Анимация
@@ -1253,9 +1237,10 @@ const speedScale = rect.width / 512; // 👈 ДОБАВЬ ЭТУ СТРОКУ - 
     
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-    // Применяем рваную маску к карточке
+      // Применяем размытую маску к карточке (как ластик в Photoshop)
     if (burnProgress < 1) {
-      promoCard.style.clipPath = generateJaggedPath(burnProgress);
+      promoCard.style.maskImage = generateSoftEraser(burnProgress);
+      promoCard.style.webkitMaskImage = generateSoftEraser(burnProgress);
     } else {
       promoCard.style.opacity = '0';
     }
@@ -1306,9 +1291,10 @@ if (!allGone || elapsed < totalDuration) {
       // promoCard.style.opacity = '1';
       hidePromo();
       
-      // 🎯 СБРАСЫВАЕМ СТИЛИ ПОСЛЕ ЗАКРЫТИЯ
+     // 🎯 СБРАСЫВАЕМ СТИЛИ ПОСЛЕ ЗАКРЫТИЯ
       setTimeout(() => {
-        promoCard.style.clipPath = 'none';
+        promoCard.style.maskImage = 'none';
+        promoCard.style.webkitMaskImage = 'none';
         promoCard.style.opacity = '1';
       }, 500);
     }
