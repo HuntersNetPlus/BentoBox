@@ -1172,7 +1172,7 @@ function disintegratePromo() {
   const particleSize = 2;
   const totalDuration = 2000; // 2 секунды на всю анимацию
   const burnDuration = 1200; // скорость частиц
-  const eraserDuration = 2600; // 🎯 ЛАСТИК в 2 РАЗА МЕДЛЕННЕЕ
+  const eraserDuration = 2750; // 🎯 ЛАСТИК в 2 РАЗА МЕДЛЕННЕЕ
   
   // Тёмно-зелёный цвет и его оттенки
   const greenShades = [
@@ -1220,7 +1220,7 @@ const speedScale = rect.width / 512; // 👈 ДОБАВЬ ЭТУ СТРОКУ - 
     
     // Создаём radial-gradient с мягкими краями
     return `linear-gradient(
-      -45deg,
+      -30deg,
       transparent 0%,
       transparent ${radius}px,
       rgba(0,0,0,0.3) ${radius + 10}px,
