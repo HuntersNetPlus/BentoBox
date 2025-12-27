@@ -94,6 +94,17 @@ body {
   max-width: 600px;           /* 👈 Максимальная ширина */
   margin: 0 auto;
   animation: gentle-sway 4s ease-in-out infinite;  /* 🎯 КАЧАЕТСЯ ВЕСЬ БЛОК */
+
+
+  /* 🎯 МАСКА ДЛЯ ВСЕГО КОНТЕЙНЕРА (все слои обрежутся автоматически) */
+  mask-image: url('https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/e5a6d4d055bc14e2da10d324d12c566a2f1247f5/CPNSVG1.svg');
+  -webkit-mask-image: url('https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/e5a6d4d055bc14e2da10d324d12c566a2f1247f5/CPNSVG1.svg');
+  mask-size: contain;
+  -webkit-mask-size: contain;
+  mask-position: center;
+  -webkit-mask-position: center;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
 }
 
  /* 🎯 SVG БАЗОВЫЙ СЛОЙ */
@@ -122,15 +133,7 @@ body {
 
   transform:   scale(1.45);
   
-  /* 🎯 МАСКА ПО ФОРМЕ SVG */
-  mask-image: url('https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/e5a6d4d055bc14e2da10d324d12c566a2f1247f5/CPNSVG1.svg');
-  -webkit-mask-image: url('https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/e5a6d4d055bc14e2da10d324d12c566a2f1247f5/CPNSVG1.svg');
-  mask-size: contain;
-  -webkit-mask-size: contain;
-  mask-position: center;
-  -webkit-mask-position: center;
-  mask-repeat: no-repeat;
-  -webkit-mask-repeat: no-repeat;
+
 }
 
 /* 🎯 ТЕКСТ ПРОМОКОДА НА КАРТИНКЕ */
@@ -194,15 +197,7 @@ body {
   pointer-events: none;
   overflow: hidden;
   
-  /* 🎯 МАСКА ПО ФОРМЕ SVG */
-  mask-image: url('https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/e5a6d4d055bc14e2da10d324d12c566a2f1247f5/CPNSVG1.svg');
-  -webkit-mask-image: url('https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/e5a6d4d055bc14e2da10d324d12c566a2f1247f5/CPNSVG1.svg');
-  mask-size: contain;
-  -webkit-mask-size: contain;
-  mask-position: center;
-  -webkit-mask-position: center;
-  mask-repeat: no-repeat;
-  -webkit-mask-repeat: no-repeat;
+ 
 }
 
 .promo-shimmer::before {
