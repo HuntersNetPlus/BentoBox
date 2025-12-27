@@ -108,17 +108,18 @@ body {
 }
 
 /* 🎯 WEBM АНИМАЦИЯ ПОВЕРХ */
+/* 🎯 WEBM АНИМАЦИЯ ПОВЕРХ */
 .promo-animation-webm {
   position: absolute;
   top: 0;
   left: 0;
-  width: 200%;
-  height: 200%;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
   z-index: 2;  /* верхний слой */
-  mix-blend-mode: normal;  /* можно поменять на screen, multiply и т.д. для эффектов */
-
-    /* 🎯 МАСКА ПО ФОРМЕ SVG (как у shimmer) */
+  mix-blend-mode: normal;
+  
+  /* 🎯 МАСКА ПО ФОРМЕ SVG */
   mask-image: url('https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/e5a6d4d055bc14e2da10d324d12c566a2f1247f5/CPNSVG1.svg');
   -webkit-mask-image: url('https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/e5a6d4d055bc14e2da10d324d12c566a2f1247f5/CPNSVG1.svg');
   mask-size: contain;
@@ -127,7 +128,6 @@ body {
   -webkit-mask-position: center;
   mask-repeat: no-repeat;
   -webkit-mask-repeat: no-repeat;
-}
 }
 
 /* 🎯 ТЕКСТ ПРОМОКОДА НА КАРТИНКЕ */
