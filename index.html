@@ -135,6 +135,7 @@ body {
   background: transparent;
   border: none;
   padding: 0;
+   z-index: 3;
   
   /* Размер и стиль текста */
   font-size: clamp(14px, 3.5vw, 20px);
@@ -1348,10 +1349,9 @@ window.addEventListener("load", () => {
     hideLoader();
     showPromo();
     
-    // 🎯 ЗАПУСКАЕМ ВИДЕО ТОЛЬКО ЗДЕСЬ
+    // 🎯 ЗАПУСКАЕМ ВИДЕО
     const promoVideo = document.getElementById('promoVideo');
     if (promoVideo) {
-      promoVideo.currentTime = 0;  // 👈 СБРАСЫВАЕМ НА НАЧАЛО (на всякий случай)
       promoVideo.play().catch(err => {
         console.log('Автозапуск видео заблокирован:', err);
       });
@@ -1361,7 +1361,6 @@ window.addEventListener("load", () => {
     startPromoTimer();
   }, 1000);
 });
-
 
   
 
