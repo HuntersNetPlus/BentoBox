@@ -1333,17 +1333,25 @@ promoOverlay.addEventListener('click', () => {
 });
 
 
+// 🎯 ОСТАНАВЛИВАЕМ ВИДЕО ПРИ ЗАГРУЗКЕ СТРАНИЦЫ
+document.addEventListener('DOMContentLoaded', () => {
+  const promoVideo = document.getElementById('promoVideo');
+  if (promoVideo) {
+    promoVideo.pause();  // 👈 СТАВИМ НА ПАУЗУ
+    promoVideo.currentTime = 0;  // 👈 СБРАСЫВАЕМ НА НАЧАЛО
+  }
+});
 
-// Первая загрузка
 // Первая загрузка
 window.addEventListener("load", () => {
   setTimeout(() => {
     hideLoader();
     showPromo();
     
-    // 🎯 ЗАПУСКАЕМ ВИДЕО
+    // 🎯 ЗАПУСКАЕМ ВИДЕО ТОЛЬКО ЗДЕСЬ
     const promoVideo = document.getElementById('promoVideo');
     if (promoVideo) {
+      promoVideo.currentTime = 0;  // 👈 СБРАСЫВАЕМ НА НАЧАЛО (на всякий случай)
       promoVideo.play().catch(err => {
         console.log('Автозапуск видео заблокирован:', err);
       });
@@ -1353,7 +1361,6 @@ window.addEventListener("load", () => {
     startPromoTimer();
   }, 1000);
 });
-
 
 
   
