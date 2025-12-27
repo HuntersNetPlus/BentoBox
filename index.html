@@ -966,7 +966,7 @@ body {
   transform: translate(-50%, -50%);
   width: 85%;
   text-align: center;
-  color: #17212b;
+  color: #000 !important;
 }
 
 .order-cake-icon {
@@ -1025,6 +1025,40 @@ body {
 }
 
 .order-close-btn:active {
+  transform: scale(0.96);
+}
+/* ===== КНОПКИ В ЧЕКЕ ===== */
+.order-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.order-outline-btn {
+  display: block;
+  width: 100%;
+  padding: 14px 0;
+
+  text-align: center;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 15px;
+
+  color: #000;
+  background: transparent;
+
+  border: 2px solid #000;
+  border-radius: 12px;
+
+  transition: transform 0.15s ease, background 0.2s ease;
+}
+
+.order-outline-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.order-outline-btn:active {
   transform: scale(0.96);
 }
 
@@ -1306,9 +1340,20 @@ body {
   <p class="order-price" id="orderPrice">от 450 ₴</p>
   <p class="order-description">Нажмите кнопку ниже, чтобы оформить заказ через Telegram</p>
   
-  <a href="#" id="orderTelegramLink" class="order-telegram-btn">
+ <div class="order-actions">
+  <a href="#" id="orderTelegramLink" class="order-outline-btn">
     Заказать в Telegram
   </a>
+
+  <a href="https://instagram.com/your_username" target="_blank" class="order-outline-btn">
+    Заказать в Instagram
+  </a>
+
+  <a href="tel:+380000000000" class="order-outline-btn">
+    Позвонить
+  </a>
+</div>
+
   
   <button class="order-close-btn" onclick="closeOrderModal()">Закрыть</button>
 </div>
