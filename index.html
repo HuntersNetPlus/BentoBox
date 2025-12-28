@@ -995,6 +995,14 @@ body {
   font-weight: 600;
   text-align: left;
 }
+  /* Жирная строка "Итого" */
+.order-line-total {
+  font-weight: 900;
+  font-size: 15px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #000;
+}
 
 .order-name-filling {
   flex-shrink: 0;
@@ -1397,41 +1405,94 @@ body {
     playsinline>
   </video>
 
-  <!-- 🎯 НОМЕР ЗАКАЗА -->
+  <!-- Номер заказа -->
   <p class="order-number" id="orderNumber">Замовлення #12345 сформовано успішно!</p>
   
-  <!-- Строка с названием, начинкой, точками и ценой -->
+  <!-- Строка 1: Торт -->
   <div class="order-line">
     <span class="order-name-filling">
-      <span id="orderCakeName">Наполеон</span> <span id="orderFilling">#стандарт</span>
+      <span id="orderCakeName">Наполеон</span>
     </span>
     <span class="order-dots"></span>
     <span class="order-price">
-      від <span id="orderPrice">450</span>
+      <span id="orderPrice">450</span>
       <img src="https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/d9eaa4642cfb16353e4f876852434c936c70d1c6/HRN.svg" alt="₴" style="display: inline-block; vertical-align: baseline; margin-left: 2px; width: 8px; height: 12px;">
     </span>
   </div>
-      <p class="order-description">Оформіть ваше замовлення у зручний спосіб.</p>
-      
-      <div class="order-buttons">
-        <a href="https://t.me/your_username" id="orderTelegramLink" class="order-action-btn">
-          Замовити в Telegram
-        </a>
-        
-        <a href="https://instagram.com/your_username" class="order-action-btn">
-          Замовити в Instagram
-        </a>
-      </div>
-      
-      <a href="tel:+380123456789" class="order-action-btn order-phone-btn">
-        Зателефонувати
-      </a>
-      
-      <!-- Предсказание на чеке -->
-      <div class="order-fortune">
-        <p id="orderFortune"></p>
-      </div>
-    </div>
+
+  <!-- Строка 2: Начинка -->
+  <div class="order-line">
+    <span class="order-name-filling">
+      <span id="orderFilling">#стандарт</span>
+    </span>
+    <span class="order-dots"></span>
+    <span class="order-price">
+      0
+      <img src="https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/d9eaa4642cfb16353e4f876852434c936c70d1c6/HRN.svg" alt="₴" style="display: inline-block; vertical-align: baseline; margin-left: 2px; width: 8px; height: 12px;">
+    </span>
+  </div>
+
+  <!-- Строка 3: Упаковка -->
+  <div class="order-line">
+    <span class="order-name-filling">Упаковка</span>
+    <span class="order-dots"></span>
+    <span class="order-price">
+      0
+      <img src="https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/d9eaa4642cfb16353e4f876852434c936c70d1c6/HRN.svg" alt="₴" style="display: inline-block; vertical-align: baseline; margin-left: 2px; width: 8px; height: 12px;">
+    </span>
+  </div>
+
+  <!-- Строка 4: Открытка -->
+  <div class="order-line">
+    <span class="order-name-filling">Відкритка</span>
+    <span class="order-dots"></span>
+    <span class="order-price">
+      0
+      <img src="https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/d9eaa4642cfb16353e4f876852434c936c70d1c6/HRN.svg" alt="₴" style="display: inline-block; vertical-align: baseline; margin-left: 2px; width: 8px; height: 12px;">
+    </span>
+  </div>
+
+  <!-- Строка 5: Подарок -->
+  <div class="order-line">
+    <span class="order-name-filling">Подарунок</span>
+    <span class="order-dots"></span>
+    <span class="order-price">
+      0
+      <img src="https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/d9eaa4642cfb16353e4f876852434c936c70d1c6/HRN.svg" alt="₴" style="display: inline-block; vertical-align: baseline; margin-left: 2px; width: 8px; height: 12px;">
+    </span>
+  </div>
+
+  <!-- Строка 6: Итого (жирная) -->
+  <div class="order-line order-line-total">
+    <span class="order-name-filling">Усього</span>
+    <span class="order-dots"></span>
+    <span class="order-price">
+      <span id="orderTotal">450</span>
+      <img src="https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/d9eaa4642cfb16353e4f876852434c936c70d1c6/HRN.svg" alt="₴" style="display: inline-block; vertical-align: baseline; margin-left: 2px; width: 8px; height: 12px;">
+    </span>
+  </div>
+
+  <p class="order-description">Оформіть ваше замовлення у зручний спосіб.</p>
+  
+  <div class="order-buttons">
+    <a href="https://t.me/your_username" id="orderTelegramLink" class="order-action-btn">
+      Замовити в Telegram
+    </a>
+    
+    <a href="https://instagram.com/your_username" class="order-action-btn">
+      Замовити в Instagram
+    </a>
+  </div>
+  
+  <a href="tel:+380123456789" class="order-action-btn order-phone-btn">
+    Зателефонувати
+  </a>
+  
+  <!-- Предсказание на чеке -->
+  <div class="order-fortune">
+    <p id="orderFortune"></p>
+  </div>
+</div>
   </div>
 </div>
   
@@ -2335,7 +2396,7 @@ setTimeout(() => {
 function openOrderModal(cakeName, cakePrice) {
   const modal = document.getElementById('orderModal');
 
-  // 🎯 ГЕНЕРИРУЕМ РАНДОМНЫЙ 5-ЗНАЧНЫЙ НОМЕР
+  // Генерируем рандомный 5-значный номер
   const orderNumber = Math.floor(10000 + Math.random() * 90000);
   document.getElementById('orderNumber').textContent = `Замовлення #${orderNumber} успішно сформовано!`;
   
@@ -2347,6 +2408,7 @@ function openOrderModal(cakeName, cakePrice) {
   document.getElementById('orderCakeName').textContent = cakeName;
   document.getElementById('orderFilling').textContent = filling;
   document.getElementById('orderPrice').textContent = cakePrice;
+  document.getElementById('orderTotal').textContent = cakePrice; // 🎯 Итого = цена торта
   
   // Массив предсказаний для чека
   const fortunes = [
@@ -2370,10 +2432,10 @@ function openOrderModal(cakeName, cakePrice) {
   const telegramLink = document.getElementById('orderTelegramLink');
   telegramLink.href = `https://t.me/your_username?start=${encodeURIComponent(cakeName)}_${encodeURIComponent(filling)}`;
   
-   // Показываем модальное окно
+  // Показываем модальное окно
   modal.classList.add('active');
   
-  // 🎯 ЗАПУСКАЕМ КОНФЕТТИ ПОСЛЕ НЕБОЛЬШОЙ ЗАДЕРЖКИ (ВНУТРИ ФУНКЦИИ!)
+  // Запускаем конфетти после небольшой задержки
   setTimeout(() => {
     launchWelcomeConfetti();
   }, 10);
