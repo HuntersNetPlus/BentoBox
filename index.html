@@ -1031,11 +1031,13 @@ body {
 }
 
 /* Контейнер кнопок */
+/* Контейнер кнопок */
 .order-buttons {
   display: flex;
   flex-direction: row;
   gap: 8px;
   margin-bottom: 8px;
+  width: 100%;
 }
 
 .order-action-btn {
@@ -1055,8 +1057,10 @@ body {
 
 .order-phone-btn {
   width: 100%;
+  max-width: 100%;
   font-size: 14px;
-  flex: none;
+  flex: 1 1 100%;
+  box-sizing: border-box;
 }
 
 .order-action-btn:hover {
@@ -1375,10 +1379,8 @@ body {
         </span>
         <span class="order-dots"></span>
        <span class="order-price">
-  <span id="orderPrice">450</span>
-  <svg width="12" height="16" viewBox="0 0 12 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: inline-block; vertical-align: baseline; margin-left: 2px;">
-    <path d="M6.5 0V2H9.5C10.88 2 12 3.12 12 4.5C12 5.88 10.88 7 9.5 7H6.5V9H10.5C11.33 9 12 9.67 12 10.5C12 11.33 11.33 12 10.5 12H6.5V16H5.5V12H2C0.9 12 0 11.1 0 10V9H5.5V7H2.5C1.12 7 0 5.88 0 4.5C0 3.12 1.12 2 2.5 2H5.5V0H6.5ZM2.5 3C1.67 3 1 3.67 1 4.5C1 5.33 1.67 6 2.5 6H5.5V3H2.5ZM6.5 9V11H10.5C10.78 11 11 10.78 11 10.5C11 10.22 10.78 10 10.5 10H6.5V9ZM9.5 3H6.5V6H9.5C10.33 6 11 5.33 11 4.5C11 3.67 10.33 3 9.5 3Z" fill="currentColor"/>
-  </svg>
+ <span id="orderPrice">450</span>
+<img src="https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/d9eaa4642cfb16353e4f876852434c936c70d1c6/HRN.svg" alt="₴" style="display: inline-block; vertical-align: baseline; margin-left: 2px; width: 12px; height: 16px;">
 </span>
       </div>
       
