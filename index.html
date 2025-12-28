@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Кремуа | Солодощi на замовлення</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <style>
 body { 
@@ -12,6 +12,15 @@ body {
   background: #17212b;
   color: white;
   overflow-x: hidden;
+  /* 🎯 ЗАПРЕТ ЗУМА И СКРОЛЛА НА МОБИЛЬНЫХ */
+  touch-action: pan-y pinch-zoom;
+  -webkit-overflow-scrolling: touch;
+}
+
+html {
+  overflow-x: hidden;
+  width: 100%;
+  position: relative;
 }
 /* ===== ПРОМОКОД ОВЕРЛЕЙ ===== */
 /* ===== ПРОМОКОД ОВЕРЛЕЙ ===== */
