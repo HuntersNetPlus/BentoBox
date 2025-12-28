@@ -952,15 +952,14 @@ body {
   -webkit-mask-image: url('https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/0952b754adc2750992fdb1aa13e2a2898a46a967/RecR3F.svg');
   mask-size: contain;
   -webkit-mask-size: contain;
-  mask-position: translateY(150%);
-  -webkit-mask-position: translateY(150%);
+  mask-position: center;
+  -webkit-mask-position: center;
   mask-repeat: no-repeat;
   -webkit-mask-repeat: no-repeat;
   }
 
 .order-modal.active .order-modal-content {
   transform: translateY(0);
-  box-shadow: 0 0 0 5px green;
   }
 
 .order-receipt-bg {
@@ -2452,10 +2451,15 @@ function closeOrderModal() {
 
 // Закрытие по клику вне модального окна
 document.getElementById('orderModal').addEventListener('click', function(e) {
-  // Если клик был НЕ по самому чеку (.order-modal-content), а по фону
+  // Если клик был по фону (не по .order-modal-content)
   if (e.target === this) {
     closeOrderModal();
   }
+});
+
+// 🎯 ДОБАВЬ: запретить всплытие кликов с чека
+document.querySelector('.order-modal-content').addEventListener('click', function(e) {
+  e.stopPropagation();  // клики по чеку не закрывают модалку
 });
 
 
