@@ -2197,11 +2197,11 @@ if (cake.fillings && cake.fillings.length) {
     currentCakeGallery = cake.gallery || [];
     createCakeStack(cake);
 
-    // Ингредиенты
+   // Ингредиенты
     let html = '';
     if(cake.ingredients.length){
       html += "<strong style='display: block; text-align: left; margin-top: 12px; margin-bottom: 8px; color: #6ab2f2;'>Інгредієнти:</strong>";
-      html += "<ul>";
+      html += "<ul style='color: #6ab2f2;'>";
       cake.ingredients.forEach(item=>{
         html += `<li>${item}</li>`;
       });
