@@ -2377,7 +2377,7 @@ function launchWelcomeConfetti() {
 
    c.style.left = (Math.random() * 100) + "%";  // ← случайная позиция по горизонтали
     c.style.top = "150%";  // ← стартуют снизу экрана
-    c.style.position = "fixed";
+    
 
     confettiContainer.appendChild(c);
 
@@ -2387,7 +2387,7 @@ function launchWelcomeConfetti() {
 
       c.animate([
       { transform: "translate(0,0) rotate(0deg)", opacity: 1 },
-      { transform: `translate(${dx}px, ${dy}px) rotate(360deg)`, opacity: 1, offset: 0.7 },
+      { transform: `translate(${dx}px, ${dy}px) rotate(360deg)`, opacity: 1},
       { transform: `translate(${dx}px, ${dy}px) rotate(360deg)`, opacity: 0 }
     ], {
       duration: 4500 + Math.random() * 1000,
