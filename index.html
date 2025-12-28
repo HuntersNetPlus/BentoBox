@@ -991,7 +991,7 @@ body {
   justify-content: space-between;
   margin: 0 0 15px;
   color: #000;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 600;
   text-align: left;
 }
@@ -1113,13 +1113,16 @@ body {
   line-height: 1.4;
 }
 
-  .order-number {
-  font-size: 14px;
+.order-number {
+  font-size: 16px;
   font-weight: 700;
   color: #000;
   margin: 0 0 15px;
   text-align: center;
   letter-spacing: 0.3px;
+  white-space: nowrap;  /* 🎯 ЗАПРЕЩАЕМ ПЕРЕНОС */
+  overflow: hidden;      /* 🎯 ОБРЕЗАЕМ ЕСЛИ НЕ ВЛЕЗЛО */
+  text-overflow: ellipsis; /* 🎯 ДОБАВЛЯЕМ ... ЕСЛИ ОБРЕЗАНО */
 }
   
   
