@@ -2369,6 +2369,12 @@ function openOrderModal(cakeName, cakePrice) {
   modal.classList.add('active');
 }
 
+  // 🎯 ЗАПУСКАЕМ КОНФЕТТИ ПОСЛЕ НЕБОЛЬШОЙ ЗАДЕРЖКИ
+  setTimeout(() => {
+    launchWelcomeConfetti();
+  }, 300);
+}
+
 // Закрытие модального окна
 function closeOrderModal() {
   const modal = document.getElementById('orderModal');
