@@ -1114,7 +1114,7 @@ body {
 }
 
 .order-number {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
   color: #000;
   margin: 0 0 15px;
@@ -1403,23 +1403,23 @@ body {
   <!-- Строка с названием, начинкой, точками и ценой -->
   <div class="order-line">
     <span class="order-name-filling">
-      <span id="orderCakeName">Наполеон</span> <span id="orderFilling">стандартная</span>
+      <span id="orderCakeName">Наполеон</span> <span id="orderFilling">#стандартна</span>
     </span>
     <span class="order-dots"></span>
     <span class="order-price">
-      <span id="orderPrice">450</span>
+      від<span id="orderPrice">450</span>
       <img src="https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/d9eaa4642cfb16353e4f876852434c936c70d1c6/HRN.svg" alt="₴" style="display: inline-block; vertical-align: baseline; margin-left: 2px; width: 8px; height: 12px;">
     </span>
   </div>
-      <p class="order-description">Для оформления заказа нажмите на одну из кнопок ниже</p>
+      <p class="order-description">Оформіть замовлення у зручний спосіб.</p>
       
       <div class="order-buttons">
         <a href="https://t.me/your_username" id="orderTelegramLink" class="order-action-btn">
-          Заказать в Telegram
+          Замовити в Telegram
         </a>
         
         <a href="https://instagram.com/your_username" class="order-action-btn">
-          Заказать в Instagram
+          Замовити в Instagram
         </a>
       </div>
       
@@ -2341,7 +2341,7 @@ function openOrderModal(cakeName, cakePrice) {
   
   // Проверяем выбранную начинку
   const selectedFilling = document.querySelector('.filling-tag.selected');
-  const filling = selectedFilling ? selectedFilling.textContent : 'стандартная';
+  const filling = selectedFilling ? selectedFilling.textContent : '#стандартна';
   
   // Заполняем данные
   document.getElementById('orderCakeName').textContent = cakeName;
