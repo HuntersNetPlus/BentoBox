@@ -2449,17 +2449,15 @@ function closeOrderModal() {
   modal.classList.remove('active');
 }
 
-// Закрытие по клику вне модального окна
+// 🎯 УПРОЩЁННОЕ ЗАКРЫТИЕ: клик в любом месте вне SVG-картинки закрывает чек
 document.getElementById('orderModal').addEventListener('click', function(e) {
-  // Если клик был по фону (не по .order-modal-content)
-  if (e.target === this) {
+  // Проверяем, что клик НЕ по SVG-картинке и НЕ по контенту чека
+  const receiptBg = document.querySelector('.order-receipt-bg');
+  const receiptContent = document.querySelector('.order-receipt-content');
+  
+  if (!receiptBg.contains(e.target) && !receiptContent.contains(e.target)) {
     closeOrderModal();
   }
-});
-
-// 🎯 ДОБАВЬ: запретить всплытие кликов с чека
-document.querySelector('.order-modal-content').addEventListener('click', function(e) {
-  e.stopPropagation();  // клики по чеку не закрывают модалку
 });
 
 
