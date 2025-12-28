@@ -1018,6 +1018,18 @@ body {
   line-height: 1.4;
 }
 
+.order-filling {
+  font-size: 14px;
+  margin: 10px 0;
+  color: #000;
+  font-weight: 600;
+}
+
+.order-filling span {
+  color: #000;
+  font-weight: 900;
+}
+
 /* Контейнер кнопок */
 .order-buttons {
   display: flex;
@@ -1029,7 +1041,7 @@ body {
 .order-action-btn {
   display: block;
   flex: 1;
-  padding: 12px;
+  padding: 12px 8px;
   text-align: center;
   text-decoration: none;
   color: #000;
@@ -1037,12 +1049,14 @@ body {
   border: 2px solid #000;
   border-radius: 8px;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 11px;
   transition: transform 0.15s ease, background 0.2s ease;
 }
 
 .order-phone-btn {
-  width: 100%;
+  width: calc(100% - 4px);
+  margin: 0 2px;
+  font-size: 14px;
 }
 
 .order-action-btn:hover {
@@ -1070,6 +1084,21 @@ body {
   transform: scale(0.96);
 }
 
+/* Предсказание на чеке */
+.order-fortune {
+  margin-top: 12px;
+  padding: 8px 12px;
+  border-top: 1px dashed #000;
+  text-align: center;
+}
+
+.order-fortune p {
+  margin: 0;
+  font-size: 11px;
+  color: #000;
+  font-style: italic;
+  line-height: 1.4;
+}
   
   
 </style>
@@ -1322,7 +1351,6 @@ body {
 
 
 <!-- МОДАЛЬНОЕ ОКНО ЗАКАЗА -->
-<!-- МОДАЛЬНОЕ ОКНО ЗАКАЗА -->
 <div id="orderModal" class="order-modal">
   <div class="order-modal-content">
     <!-- SVG чек -->
@@ -1364,6 +1392,11 @@ body {
       <a href="tel:+380123456789" class="order-action-btn order-phone-btn">
         Позвонить
       </a>
+      
+      <!-- Предсказание на чеке -->
+      <div class="order-fortune">
+        <p id="orderFortune"></p>
+      </div>
     </div>
   </div>
 </div>
@@ -2239,16 +2272,29 @@ setTimeout(() => {
 function openOrderModal(cakeName, cakePrice) {
   const modal = document.getElementById('orderModal');
   
-  // 🎯 ПРОВЕРЯЕМ ВЫБРАННУЮ НАЧИНКУ
+  // Проверяем выбранную начинку
   const selectedFilling = document.querySelector('.filling-tag.selected');
   const filling = selectedFilling ? selectedFilling.textContent : 'стандартная';
   
   // Заполняем данные
   document.getElementById('orderCakeName').textContent = cakeName;
   document.getElementById('orderFilling').textContent = filling;
-  document.getElementById('orderPrice').textContent = `от ${cakePrice} ₴`;
+  document.getElementById('orderPrice').textContent = `${cakePrice} ₴`;
   
-  // Ссылка на Telegram
+  // Массив предсказаний для чека
+  const fortunes = [
+    "Сьогодні — ваш день! Смакуйте кожну мить 🍰",
+    "Солодке життя починається з правильного вибору ✨",
+    "Ваша посмішка варта найкращого торта 🎂",
+    "Удача на вашому боці — як крем на торті! 🌟",
+    "Життя солодке, коли поруч правильні люди 💫"
+  ];
+  
+  // Выбираем случайное предсказание
+  const randomFortune = fortunes[Math.floor(Math.random() * fortunes.length)];
+  document.getElementById('orderFortune').textContent = randomFortune;
+  
+  // Ссылки на контакты
   const telegramLink = document.getElementById('orderTelegramLink');
   telegramLink.href = `https://t.me/your_username?start=${encodeURIComponent(cakeName)}_${encodeURIComponent(filling)}`;
   
