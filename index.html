@@ -966,7 +966,7 @@ body {
   transform: translate(-50%, -50%);
   width: 85%;
   text-align: center;
-  color: #17212b;
+  color: #000;
 }
 
 .order-cake-icon {
@@ -975,40 +975,81 @@ body {
   margin: 0 auto 15px;
 }
 
-.order-receipt-content h3 {
-  font-size: 24px;
-  margin: 0 0 10px;
-  color: #1a4d2e;
+/* Строка с названием, начинкой, точками и ценой */
+.order-line {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin: 0 0 15px;
+  color: #000;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: left;
+}
+
+.order-name-filling {
+  flex-shrink: 0;
+  color: #000;
+  text-align: left;
+}
+
+.order-dots {
+  flex-grow: 1;
+  border-bottom: 2px dotted #000;
+  margin: 0 8px;
+  min-width: 20px;
+  height: 1px;
+  position: relative;
+  bottom: 3px;
 }
 
 .order-price {
-  font-size: 28px;
+  flex-shrink: 0;
+  font-size: 18px;
   font-weight: 900;
-  color: #1a4d2e;
-  margin: 0 0 15px;
+  color: #000;
+  text-align: right;
 }
 
 .order-description {
-  font-size: 14px;
-  margin: 0 0 20px;
-  opacity: 0.8;
-  color: #17212b;
+  font-size: 13px;
+  margin: 0 0 15px;
+  color: #000;
+  line-height: 1.4;
 }
 
-.order-telegram-btn {
+/* Контейнер кнопок */
+.order-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.order-action-btn {
   display: block;
-  width: 100%;
-  padding: 14px;
-  background: linear-gradient(135deg, #0088cc, #00c6ff);
-  color: white;
+  flex: 1;
+  padding: 12px;
+  text-align: center;
   text-decoration: none;
+  color: #000;
+  background: transparent;
+  border: 2px solid #000;
   border-radius: 8px;
   font-weight: 600;
-  margin-bottom: 10px;
-  transition: transform 0.15s ease;
+  font-size: 14px;
+  transition: transform 0.15s ease, background 0.2s ease;
 }
 
-.order-telegram-btn:active {
+.order-phone-btn {
+  width: 100%;
+}
+
+.order-action-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.order-action-btn:active {
   transform: scale(0.96);
 }
 
@@ -1022,41 +1063,10 @@ body {
   font-weight: 600;
   cursor: pointer;
   transition: transform 0.15s ease;
+  display: none;
 }
 
 .order-close-btn:active {
-  transform: scale(0.96);
-}
-
-
-/* Контейнер кнопок */
-.order-buttons {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-
-.order-action-btn {
-  display: block;
-  width: 100%;
-  padding: 12px;
-  text-align: center;
-  text-decoration: none;
-  color: #000;
-  background: transparent;
-  border: 2px solid #000;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 14px;
-  transition: transform 0.15s ease, background 0.2s ease;
-}
-
-.order-action-btn:hover {
-  background: rgba(0, 0, 0, 0.05);
-}
-
-.order-action-btn:active {
   transform: scale(0.96);
 }
 
@@ -1312,6 +1322,7 @@ body {
 
 
 <!-- МОДАЛЬНОЕ ОКНО ЗАКАЗА -->
+<!-- МОДАЛЬНОЕ ОКНО ЗАКАЗА -->
 <div id="orderModal" class="order-modal">
   <div class="order-modal-content">
     <!-- SVG чек -->
@@ -1329,10 +1340,10 @@ body {
         alt="Cake"
       >
       
-      <!-- Строка с названием, точками и ценой -->
+      <!-- Строка с названием, начинкой, точками и ценой -->
       <div class="order-line">
         <span class="order-name-filling">
-          <span id="orderCakeName">Наполеон</span> (<span id="orderFilling">стандартная</span>)
+          <span id="orderCakeName">Наполеон</span>, <span id="orderFilling">стандартная</span>
         </span>
         <span class="order-dots"></span>
         <span class="order-price" id="orderPrice">450 ₴</span>
@@ -1348,17 +1359,14 @@ body {
         <a href="https://instagram.com/your_username" class="order-action-btn">
           Заказать в Instagram
         </a>
-        
-        <a href="tel:+380123456789" class="order-action-btn">
-          Позвонить
-        </a>
       </div>
       
-      <button class="order-close-btn" onclick="closeOrderModal()">Закрыть</button>
+      <a href="tel:+380123456789" class="order-action-btn order-phone-btn">
+        Позвонить
+      </a>
     </div>
   </div>
 </div>
-
   
 
 </div> <!-- Конец app -->
