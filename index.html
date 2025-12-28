@@ -972,8 +972,18 @@ body {
 .order-cake-icon {
   width: 200px;
   height: 200px;
-  transform: translateY(-10px);
+  transform: translateY(-5px);
   margin: 0 auto 15px;
+    /* 🎯 МАСКА ПО SVG ЧЕКА */
+  mask-image: url('https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/bb721b2ded878415f9a16c019ec34b7624d037df/RecR.svg');
+  -webkit-mask-image: url('https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/bb721b2ded878415f9a16c019ec34b7624d037df/RecR.svg');
+  mask-size: contain;
+  -webkit-mask-size: contain;
+  mask-position: center;
+  -webkit-mask-position: center;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+}
 }
 
 /* Строка с названием, начинкой, точками и ценой */
@@ -1365,31 +1375,28 @@ body {
       alt="Receipt">
     
     
-    <!-- Контент поверх чека -->
-    <div class="order-receipt-content">
-      <video 
+html<!-- Контент поверх чека -->
+<div class="order-receipt-content">
+  <video 
     src="https://github.com/HuntersNetPlus/BentoBox/blob/main/KFC%20Overlay.webm?raw=true"
     class="order-cake-icon"
     autoplay
     loop
     muted
     playsinline>
-</video>
-
-      >
-      
-      <!-- Строка с названием, начинкой, точками и ценой -->
-      <div class="order-line">
-        <span class="order-name-filling">
-          <span id="orderCakeName">Наполеон</span>, <span id="orderFilling">стандартная</span>
-        </span>
-        <span class="order-dots"></span>
-       <span class="order-price">
- <span id="orderPrice">450</span>
-<img src="https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/d9eaa4642cfb16353e4f876852434c936c70d1c6/HRN.svg" alt="₴" style="display: inline-block; vertical-align: baseline; margin-left: 2px; width: 12px; height: 16px;">
-</span>
-      </div>
-      
+  </video>
+  
+  <!-- Строка с названием, начинкой, точками и ценой -->
+  <div class="order-line">
+    <span class="order-name-filling">
+      <span id="orderCakeName">Наполеон</span>, <span id="orderFilling">стандартная</span>
+    </span>
+    <span class="order-dots"></span>
+    <span class="order-price">
+      <span id="orderPrice">450</span>
+      <img src="https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/d9eaa4642cfb16353e4f876852434c936c70d1c6/HRN.svg" alt="₴" style="display: inline-block; vertical-align: baseline; margin-left: 2px; width: 12px; height: 16px;">
+    </span>
+  </div>
       <p class="order-description">Для оформления заказа нажмите на одну из кнопок ниже</p>
       
       <div class="order-buttons">
