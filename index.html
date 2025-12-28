@@ -2364,11 +2364,10 @@ function openOrderModal(cakeName, cakePrice) {
   const telegramLink = document.getElementById('orderTelegramLink');
   telegramLink.href = `https://t.me/your_username?start=${encodeURIComponent(cakeName)}_${encodeURIComponent(filling)}`;
   
-  // Показываем модальное окно
+   // Показываем модальное окно
   modal.classList.add('active');
-}
-
-  // 🎯 ЗАПУСКАЕМ КОНФЕТТИ ПОСЛЕ НЕБОЛЬШОЙ ЗАДЕРЖКИ
+  
+  // 🎯 ЗАПУСКАЕМ КОНФЕТТИ ПОСЛЕ НЕБОЛЬШОЙ ЗАДЕРЖКИ (ВНУТРИ ФУНКЦИИ!)
   setTimeout(() => {
     launchWelcomeConfetti();
   }, 300);
