@@ -2122,7 +2122,7 @@ if (cake.fillings && cake.fillings.length) {
     // Ингредиенты
     let html = '';
     if(cake.ingredients.length){
-      html += "<strong style='display: block; text-align: left; margin-top: 12px; margin-bottom: 8px; color: #6ab2f2;'>Ингредиенты:</strong>";
+      html += "<strong style='display: block; text-align: left; margin-top: 12px; margin-bottom: 8px; color: #6ab2f2;'>Інгредієнти:</strong>";
       html += "<ul>";
       cake.ingredients.forEach(item=>{
         html += `<li>${item}</li>`;
@@ -2132,12 +2132,12 @@ if (cake.fillings && cake.fillings.length) {
 
     // КБЖУ таблица
     if(cake.kbju) {
-      html += '<strong style="display: block; text-align: left; margin-top: 8px; margin-bottom: 8px; color: #6ab2f2;">КБЖУ на 100г:</strong>';
+      html += '<strong style="display: block; text-align: left; margin-top: 8px; margin-bottom: 8px; color: #6ab2f2;">КБЖВ на 100г:</strong>';
       html += '<table style="width:100%; border-collapse: collapse; margin-top: 8px;">';
-      html += '<tr style="background: #24364a;"><td style="padding: 6px; border: 1px solid #6ab2f2;">Калории</td><td style="padding: 6px; border: 1px solid #6ab2f2;">' + cake.kbju.calories + ' ккал</td></tr>';
-      html += '<tr><td style="padding: 6px; border: 1px solid #6ab2f2;">Белки</td><td style="padding: 6px; border: 1px solid #6ab2f2;">' + cake.kbju.protein + ' г</td></tr>';
-      html += '<tr style="background: #24364a;"><td style="padding: 6px; border: 1px solid #6ab2f2;">Жиры</td><td style="padding: 6px; border: 1px solid #6ab2f2;">' + cake.kbju.fat + ' г</td></tr>';
-      html += '<tr><td style="padding: 6px; border: 1px solid #6ab2f2;">Углеводы</td><td style="padding: 6px; border: 1px solid #6ab2f2;">' + cake.kbju.carbs + ' г</td></tr>';
+      html += '<tr style="background: #24364a;"><td style="padding: 6px; border: 1px solid #6ab2f2;">Калорії</td><td style="padding: 6px; border: 1px solid #6ab2f2;">' + cake.kbju.calories + ' ккал</td></tr>';
+      html += '<tr><td style="padding: 6px; border: 1px solid #6ab2f2;">Білки</td><td style="padding: 6px; border: 1px solid #6ab2f2;">' + cake.kbju.protein + ' г</td></tr>';
+      html += '<tr style="background: #24364a;"><td style="padding: 6px; border: 1px solid #6ab2f2;">Жири</td><td style="padding: 6px; border: 1px solid #6ab2f2;">' + cake.kbju.fat + ' г</td></tr>';
+      html += '<tr><td style="padding: 6px; border: 1px solid #6ab2f2;">Вуглеводи</td><td style="padding: 6px; border: 1px solid #6ab2f2;">' + cake.kbju.carbs + ' г</td></tr>';
       html += '</table>';
       html += '<br>';
     }
@@ -2151,7 +2151,7 @@ orderBtn.onclick = function(e) {
   e.preventDefault();
   openOrderModal(cake.name, cake.price);
 };
-orderBtn.textContent = "Заказать от " + cake.price + " ₴";
+orderBtn.textContent = "Замовити вiд " + cake.price + " ₴";
 
     hideLoader();
   },500);
@@ -2278,12 +2278,12 @@ function toggleDescription() {
     wrapper.classList.remove('open');
 
     setTimeout(() => {
-      text.textContent = 'Открыть полное описание';
+      text.textContent = 'Відкрити повний опис';
     }, 350); // ← 50–100 мс, можно менять
   } else {
     /* РАЗВОРАЧИВАНИЕ — сразу меняем текст */
     wrapper.classList.add('open');
-    text.textContent = 'Закрыть полное описание';
+    text.textContent = 'Закрити повний опис';
   }
 }
 
@@ -2341,7 +2341,7 @@ function openOrderModal(cakeName, cakePrice) {
   
   // Проверяем выбранную начинку
   const selectedFilling = document.querySelector('.filling-tag.selected');
-  const filling = selectedFilling ? selectedFilling.textContent : '#стандартна';
+  const filling = selectedFilling ? selectedFilling.textContent : '#стандарт';
   
   // Заполняем данные
   document.getElementById('orderCakeName').textContent = cakeName;
@@ -2350,11 +2350,16 @@ function openOrderModal(cakeName, cakePrice) {
   
   // Массив предсказаний для чека
   const fortunes = [
-    "Сьогодні — ваш день! Смакуйте кожну мить 🍰",
-    "Солодке життя починається з правильного вибору ✨",
-    "Ваша посмішка варта найкращого торта 🎂",
-    "Удача на вашому боці — як крем на торті! 🌟",
-    "Життя солодке, коли поруч правильні люди 💫"
+    "Мед ніколи не псується. Як і добрі спогади.",
+    "У восьминога три серця - але жодне з них не любить понеділки.",
+    "Посмішка напружує менше м'язів, ніж похмурий погляд. Заощаджуй енергію.",
+    "Сьогодні можна трохи більше, ніж зазвичай. Особливо солодкого.",
+    "У полуниці насіння зовні. Світ взагалі любить сюрпризи.",
+    "Іноді майбутнє пророкується дуже просто: буде смачно.",
+    "Солодке не вирішує всі питання, але з ним вони не такі серйозні.",
+    "У всесвіті завжди ніч.",
+    "Бджоли ніколи не сплять.",
+    "У світі більше смаків, аніж проблем. Почни з цього."
   ];
   
   // Выбираем случайное предсказание
