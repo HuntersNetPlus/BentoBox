@@ -1168,7 +1168,7 @@ html {
    <div class="promo-image-wrapper">
   <!-- 🎯 SVG СЛОЙ (нижний, статичный) -->
   <img 
-    src="https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/e5a6d4d055bc14e2da10d324d12c566a2f1247f5/CPNSVG1.svg" 
+    src="https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/1507c4b4d18117936cc3fe055462921ef8f57553/CPNSVG20.svg" 
     class="promo-base-svg"
     alt="Base"
   >
@@ -1541,6 +1541,26 @@ function hidePromo(){
   clearTimeout(promoTimer);
   promoOverlay.classList.remove("active"); 
 }
+  
+
+  // 🎯 ОПРЕДЕЛЕНИЕ iOS И ЗАМЕНА SVG
+document.addEventListener('DOMContentLoaded', () => {
+  const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
+  
+  if (isIOS) {
+    // Скрываем WebM видео
+    const promoVideo = document.getElementById('promoVideo');
+    if (promoVideo) {
+      promoVideo.style.display = 'none';
+    }
+    
+    // Меняем SVG на альтернативный (без анимации)
+    const promoBaseSvg = document.querySelector('.promo-base-svg');
+    if (promoBaseSvg) {
+      promoBaseSvg.src = 'https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/705d9d52321f20de0635cb3c4f78c41cc3745262/CPNSVG15Static.svg';
+    }
+  }
+});
 
 // Таймер промокода (15 секунд)
 function startPromoTimer() {
