@@ -1112,6 +1112,16 @@ body {
   font-style: normal;
   line-height: 1.4;
 }
+
+  .order-number {
+  font-size: 14px;
+  font-weight: 700;
+  color: #000;
+  margin: 0 0 15px;
+  text-align: center;
+  letter-spacing: 0.3px;
+}
+  
   
   
 </style>
@@ -1383,6 +1393,9 @@ body {
     muted
     playsinline>
   </video>
+
+  <!-- 🎯 НОМЕР ЗАКАЗА -->
+  <p class="order-number" id="orderNumber">Заказ #12345 успешно сформирован!</p>
   
   <!-- Строка с названием, начинкой, точками и ценой -->
   <div class="order-line">
@@ -2289,6 +2302,10 @@ setTimeout(() => {
 // Открытие модального окна заказа
 function openOrderModal(cakeName, cakePrice) {
   const modal = document.getElementById('orderModal');
+
+  // 🎯 ГЕНЕРИРУЕМ РАНДОМНЫЙ 5-ЗНАЧНЫЙ НОМЕР
+  const orderNumber = Math.floor(10000 + Math.random() * 90000);
+  document.getElementById('orderNumber').textContent = `Замовлення #${orderNumber} успішно сформовано!`;
   
   // Проверяем выбранную начинку
   const selectedFilling = document.querySelector('.filling-tag.selected');
