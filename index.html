@@ -272,7 +272,7 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  justify-content: space-evenly;
+  justify-content: flex-start;  /* 🎯 было space-evenly, стало flex-start */
 }
 
 .filling-tag {
@@ -991,7 +991,7 @@ body {
   justify-content: space-between;
   margin: 0 0 15px;
   color: #000;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   text-align: left;
 }
@@ -1114,7 +1114,7 @@ body {
 }
 
 .order-number {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 700;
   color: #000;
   margin: 0 0 15px;
@@ -1408,7 +1408,7 @@ body {
     <span class="order-dots"></span>
     <span class="order-price">
       <span id="orderPrice">450</span>
-      <img src="https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/d9eaa4642cfb16353e4f876852434c936c70d1c6/HRN.svg" alt="₴" style="display: inline-block; vertical-align: baseline; margin-left: 2px; width: 12px; height: 16px;">
+      <img src="https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/d9eaa4642cfb16353e4f876852434c936c70d1c6/HRN.svg" alt="₴" style="display: inline-block; vertical-align: baseline; margin-left: 2px; width: 8px; height: 12px;">
     </span>
   </div>
       <p class="order-description">Для оформления заказа нажмите на одну из кнопок ниже</p>
@@ -2094,11 +2094,17 @@ if (cake.fillings && cake.fillings.length) {
   cakeFillings.innerHTML = fillingsHtml;
   document.querySelector('.fillings-block').style.display = 'block';
   
-  // 🎯 ДЕЛАЕМ ТЕГИ КЛИКАБЕЛЬНЫМИ
+  // 🎯 ДЕЛАЕМ ТЕГИ КЛИКАБЕЛЬНЫМИ С DESELECT
   document.querySelectorAll('.filling-tag').forEach(tag => {
     tag.addEventListener('click', function() {
-      document.querySelectorAll('.filling-tag').forEach(t => t.classList.remove('selected'));
-      this.classList.add('selected');
+      // Если уже выбран — снимаем выделение
+      if (this.classList.contains('selected')) {
+        this.classList.remove('selected');
+      } else {
+        // Иначе снимаем у всех и выделяем текущий
+        document.querySelectorAll('.filling-tag').forEach(t => t.classList.remove('selected'));
+        this.classList.add('selected');
+      }
     });
   });
 } else {
