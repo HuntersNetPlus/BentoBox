@@ -2386,7 +2386,7 @@ function launchWelcomeConfetti() {
     const dy = -800 - Math.random() * 400;  // ← летят выше (было -600, стало -800)
 
           c.animate([
-      { transform: "translate(0,0) rotate(0deg)", opacity: 1 },
+      { transform: "translate(0,0) rotate(0deg)", opacity: 1, offset: 0.3},
       { transform: `translate(${dx}px, ${dy}px) rotate(360deg)`, opacity: 0 }
     ], {
       duration: 4500 + Math.random() * 1000,
