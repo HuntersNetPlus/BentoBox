@@ -1029,6 +1029,38 @@ body {
 }
 
 
+/* Контейнер кнопок */
+.order-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.order-action-btn {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  text-align: center;
+  text-decoration: none;
+  color: #000;
+  background: transparent;
+  border: 2px solid #000;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  transition: transform 0.15s ease, background 0.2s ease;
+}
+
+.order-action-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.order-action-btn:active {
+  transform: scale(0.96);
+}
+
+  
   
 </style>
 </head>
@@ -1291,27 +1323,39 @@ body {
     
     <!-- Контент поверх чека -->
     <div class="order-receipt-content">
-  <img 
-    src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food%20and%20Drink/Birthday%20Cake.webp?raw=true" 
-    class="order-cake-icon"
-    alt="Cake"
-  >
-  <h3 id="orderCakeName">Наполеон</h3>
-  
-  <!-- 🎯 ДОБАВЬ: блок с выбранной начинкой -->
-  <p class="order-filling">
-    Начинка: <span id="orderFilling">стандартная</span>
-  </p>
-  
-  <p class="order-price" id="orderPrice">от 450 ₴</p>
-  <p class="order-description">Нажмите кнопку ниже, чтобы оформить заказ через Telegram</p>
-  
-  <a href="#" id="orderTelegramLink" class="order-telegram-btn">
-    Заказать в Telegram
-  </a>
-  
-  <button class="order-close-btn" onclick="closeOrderModal()">Закрыть</button>
-</div>
+      <img 
+        src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Food%20and%20Drink/Birthday%20Cake.webp?raw=true" 
+        class="order-cake-icon"
+        alt="Cake"
+      >
+      
+      <!-- Строка с названием, точками и ценой -->
+      <div class="order-line">
+        <span class="order-name-filling">
+          <span id="orderCakeName">Наполеон</span> (<span id="orderFilling">стандартная</span>)
+        </span>
+        <span class="order-dots"></span>
+        <span class="order-price" id="orderPrice">450 ₴</span>
+      </div>
+      
+      <p class="order-description">Для оформления заказа нажмите на одну из кнопок ниже</p>
+      
+      <div class="order-buttons">
+        <a href="https://t.me/your_username" id="orderTelegramLink" class="order-action-btn">
+          Заказать в Telegram
+        </a>
+        
+        <a href="https://instagram.com/your_username" class="order-action-btn">
+          Заказать в Instagram
+        </a>
+        
+        <a href="tel:+380123456789" class="order-action-btn">
+          Позвонить
+        </a>
+      </div>
+      
+      <button class="order-close-btn" onclick="closeOrderModal()">Закрыть</button>
+    </div>
   </div>
 </div>
 
