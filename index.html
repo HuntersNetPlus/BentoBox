@@ -1190,7 +1190,7 @@ html {
 </div>
 
 <div class="app">
-  <div id="confetti-container" style="position:fixed; top:0; left:0; width:100vw; height:100vh; pointer-events:none; overflow:hidden; z-index:9998;"></div>
+  <div id="confetti-container" style="position:fixed; top:0; left:0; width:100vw; height:100vh; pointer-events:none; overflow:hidden; z-index:8999;"></div>
 
   <!-- ПЕРВЫЙ ЭКРАН -->
   <div class="screen active" id="mainScreen">
@@ -2384,8 +2384,9 @@ function launchWelcomeConfetti() {
     const dx = (Math.random() - 0.5) * 200;  // ← уменьшил разброс (было 600, стало 200)
     const dy = -800 - Math.random() * 400;  // ← летят выше (было -600, стало -800)
 
-    c.animate([
+      c.animate([
       { transform: "translate(0,0) rotate(0deg)", opacity: 1 },
+      { transform: `translate(${dx}px, ${dy}px) rotate(360deg)`, opacity: 1, offset: 0.7 },
       { transform: `translate(${dx}px, ${dy}px) rotate(360deg)`, opacity: 0 }
     ], {
       duration: 4500 + Math.random() * 1000,
