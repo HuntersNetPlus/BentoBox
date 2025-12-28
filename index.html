@@ -443,21 +443,24 @@ html {
 
 
 /* Telegram — синий градиент */
+/* Telegram — синий как "Заказать" */
 .telegram-btn {
-  background: linear-gradient(135deg, #0088cc, #00c6ff);
-  border: none;
+  background: #1d2b3a;
+  border: 1px solid #6ab2f2;
+  color: #6ab2f2;
 }
 .telegram-btn:hover {
-  transform: scale(1.05);
+  background: #22364a;
 }
 
-/* Instagram — розово-жёлтый градиент */
+/* Instagram — розовый как "Заказать" */
 .instagram-btn {
-  background: linear-gradient(135deg, #f58529, #dd2a7b, #feda75);
-  border: none;
+  background: #3a1d2b;
+  border: 1px solid #f27db0;
+  color: #f27db0;
 }
 .instagram-btn:hover {
-  transform: scale(1.05);
+  background: #4a2236;
 }
 
 .action-btn:active { transform: scale(0.96); }
@@ -786,10 +789,11 @@ html {
 .description-toggle {
   display: flex;
   align-items: center;
-  justify-content: space-between; 
+  justify-content: center;
 
-  background: #2f7cf6;
-  color: white;
+  background: #17212b;
+  color: #6ab2f2;
+  border: 1px solid #6ab2f2;
 
   padding: 10px 14px;
   font-size: 16px;
@@ -797,15 +801,15 @@ html {
 
   cursor: pointer;
   user-select: none;
-   border: none;  /* ← ДОБАВЬ: убрать рамку */
-  gap: 8px;  /* ← ДОБАВЬ: расстояние между текстом и стрелкой */
+  gap: 8px;
+  border-radius: 6px;
 }
 
 /* стрелка */
 .description-toggle .arrow {
   font-size: 18px;  /* ← можно увеличить стрелку тоже */
   transition: transform 0.25s ease;
-  color: white;  /* ← ДОБАВЬ: цвет стрелки (например зелёный) */
+  color: #6ab2f2;  /* ← ДОБАВЬ: цвет стрелки (например зелёный) */
 }
 
 /* ===== КОНТЕНТ ===== */
@@ -1769,6 +1773,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Первая загрузка
 window.addEventListener("load", () => {
+  window.scrollTo(0, 0); // 🎯 СКРОЛЛ ВВЕРХ ПРИ ЗАГРУЗКЕ
   setTimeout(() => {
     hideLoader();
     showPromo();
@@ -1794,10 +1799,10 @@ function openCatalog(){
   setTimeout(()=>{
     document.getElementById("mainScreen").classList.remove("active");
     document.getElementById("catalogScreen").classList.add("active");
+    window.scrollTo(0, 0); // 🎯 СКРОЛЛ ВВЕРХ
     hideLoader();
   },500);
 }
-
 // Массив всех 15 тортов
 const cakes = [
 {
@@ -2138,6 +2143,7 @@ function openCake(index){
   setTimeout(()=>{
     document.getElementById("catalogScreen").classList.remove("active");
     cakeScreen.classList.add("active");
+    window.scrollTo(0, 0); // 🎯 СКРОЛЛ ВВЕРХ
 
     const cake = cakes[index];
     const cakeShortDesc = document.getElementById('cakeShortDesc');
@@ -2202,10 +2208,10 @@ if (cake.fillings && cake.fillings.length) {
       html += "</ul>";
     }
 
-    // КБЖУ таблица
+        // КБЖУ таблица
     if(cake.kbju) {
       html += '<strong style="display: block; text-align: left; margin-top: 8px; margin-bottom: 8px; color: #6ab2f2;">КБЖВ на 100г:</strong>';
-      html += '<table style="width:100%; border-collapse: collapse; margin-top: 8px;">';
+      html += '<table style="width:100%; border-collapse: collapse; margin-top: 8px; color: #6ab2f2;">';
       html += '<tr style="background: #24364a;"><td style="padding: 6px; border: 1px solid #6ab2f2;">Калорії</td><td style="padding: 6px; border: 1px solid #6ab2f2;">' + cake.kbju.calories + ' ккал</td></tr>';
       html += '<tr><td style="padding: 6px; border: 1px solid #6ab2f2;">Білки</td><td style="padding: 6px; border: 1px solid #6ab2f2;">' + cake.kbju.protein + ' г</td></tr>';
       html += '<tr style="background: #24364a;"><td style="padding: 6px; border: 1px solid #6ab2f2;">Жири</td><td style="padding: 6px; border: 1px solid #6ab2f2;">' + cake.kbju.fat + ' г</td></tr>';
@@ -2236,6 +2242,7 @@ function backToCatalog(){
   setTimeout(()=>{
     cakeScreen.classList.remove("active");
     document.getElementById("catalogScreen").classList.add("active");
+    window.scrollTo(0, 0); // 🎯 СКРОЛЛ ВВЕРХ
     hideLoader();
   },500);
 }
