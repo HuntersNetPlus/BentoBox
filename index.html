@@ -2377,8 +2377,8 @@ if (cake.formats) {
         
         // Обновляем цену на кнопке
         const price = this.dataset.price;
-        orderBtn.textContent = "Замовити " + this.dataset.format + " — " + price + " ₴";
-        orderBtn.dataset.cakePrice = price;
+orderBtn.textContent = "Замовити від " + price + " ₴";
+orderBtn.dataset.cakePrice = price;
       }
     });
   });
@@ -2609,11 +2609,14 @@ function openOrderModal(cakeName, cakePrice) {
   const selectedFilling = document.querySelector('.filling-tag.selected');
   const filling = selectedFilling ? selectedFilling.textContent : '#стандарт';
   
-  // Заполняем данные
-  document.getElementById('orderCakeName').textContent = `${cakeName} (${format})`;
-  document.getElementById('orderFilling').textContent = filling;
-  document.getElementById('orderPrice').textContent = cakePrice;
-  document.getElementById('orderTotal').textContent = cakePrice; // 🎯 Итого = цена торта
+ // Заполняем данные в ПЕРВУЮ строку (название + начинка + формат)
+document.getElementById('orderCakeName').textContent = `${cakeName} ${filling} ${format}`;
+document.getElementById('orderPrice').textContent = cakePrice;
+
+// Скрываем ВТОРУЮ строку (начинка отдельно)
+document.querySelector('.order-line:nth-child(3)').style.display = 'none';
+
+document.getElementById('orderTotal').textContent = cakePrice;
   
   // Массив предсказаний для чека
   const fortunes = [
