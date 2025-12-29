@@ -1496,7 +1496,7 @@ html {
   <!-- Строка 2: Начинка -->
   <div class="order-line">
     <span class="order-name-filling">
-      <span id="orderFilling">#стандарт</span>
+      <span id="orderFilling">#базовий</span>
     </span>
     <span class="order-dots"></span>
     <span class="order-price">
@@ -1866,6 +1866,17 @@ window.addEventListener("load", () => {
     
     // 🎯 ТАЙМЕР СТАРТУЕТ ЗДЕСЬ (после закрытия лоадера)
     startPromoTimer();
+  }, 1000);
+});
+  // 👇 ДОБАВЬ ЭТО: Анимация дашборда с задержкой
+    setTimeout(() => {
+      document.querySelectorAll('.stat-card').forEach((card, index) => {
+        setTimeout(() => {
+          card.classList.add('visible');
+        }, index * 150); // каждая карточка с задержкой 150мс
+      });
+    }, 300); // начинается через 300мс после закрытия лоадера
+    
   }, 1000);
 });
 
@@ -2413,7 +2424,7 @@ orderBtn.onclick = function(e) {
   e.preventDefault();
   openOrderModal(cake.name, cake.price);
   const selectedFormat = document.querySelector('.format-tag.selected');
-const format = selectedFormat ? selectedFormat.dataset.format : 'стандарт';
+const format = selectedFormat ? selectedFormat.dataset.format : '#стандарт';
 };
     
 orderBtn.textContent = "Замовити вiд " + cake.price + " ₴";
@@ -2569,25 +2580,46 @@ function launchWelcomeConfetti() {
     const colors = ["#ff4757", "#ffa502", "#2ed573", "#1e90ff", "#ff6b81"];
     c.style.background = colors[Math.floor(Math.random() * colors.length)];
 
-   c.style.left = (Math.random() * 100) + "%";  // ← случайная позиция по горизонтали
-    c.style.top = "150%";  // ← стартуют снизу экрана
+    // 🎯 ВЫСТРЕЛИВАЮТ ИЗ 4 УГЛОВ
+    const corner = Math.floor(Math.random() * 4);
+    let startX, startY, targetX, targetY;
     
-
+    const centerX = 50;
+    const centerY = 50;
+    
+    if (corner === 0) { // левый верхний
+      startX = Math.random() * 10;
+      startY = Math.random() * 10;
+    } else if (corner === 1) { // правый верхний
+      startX = 90 + Math.random() * 10;
+      startY = Math.random() * 10;
+    } else if (corner === 2) { // левый нижний
+      startX = Math.random() * 10;
+      startY = 90 + Math.random() * 10;
+    } else { // правый нижний
+      startX = 90 + Math.random() * 10;
+      startY = 90 + Math.random() * 10;
+    }
+    
+    c.style.left = startX + "%";
+    c.style.top = startY + "%";
+    
     confettiContainer.appendChild(c);
 
-    // 🎯 НОВОЕ: летят строго вверх (без разброса по сторонам)
-    const dx = (Math.random() - 0.5) * 200;  // ← уменьшил разброс (было 600, стало 200)
-    const dy = -800 - Math.random() * 400;  // ← летят выше (было -600, стало -800)
+    // 🎯 ЛЕТЯТ К ЦЕНТРУ С ХАОСОМ
+    const randomSpread = (Math.random() - 0.5) * 400; // разброс ±200px
+    const dx = (centerX - startX) * 8 + randomSpread;
+    const dy = (centerY - startY) * 8 + randomSpread;
 
-          c.animate([
+    c.animate([
       { transform: "translate(0,0) rotate(0deg)", opacity: 1, offset: 0.3},
-      { transform: `translate(${dx}px, ${dy}px) rotate(360deg)`, opacity: 0 }
+      { transform: `translate(${dx}px, ${dy}px) rotate(${Math.random() * 720 - 360}deg)`, opacity: 0 }
     ], {
-      duration: 4500 + Math.random() * 1000,
-      easing: "cubic-bezier(.2,.7,.2,1)"
+      duration: 3500 + Math.random() * 2000,
+      easing: "cubic-bezier(.25,.46,.45,.94)"
     });
 
-    setTimeout(() => c.remove(), 8000);
+    setTimeout(() => c.remove(), 6000);
   }
 }
 
@@ -2604,7 +2636,7 @@ function openOrderModal(cakeName, cakePrice) {
 
   // 👇 ДОБАВЬ ЭТИ 2 СТРОКИ СРАЗУ ПОСЛЕ const modal:
   const selectedFormat = document.querySelector('.format-tag.selected');
-  const format = selectedFormat ? selectedFormat.dataset.format : 'стандарт';
+  const format = selectedFormat ? selectedFormat.dataset.format : '#стандарт';
 
   // Генерируем рандомный 5-значный номер
   const orderNumber = Math.floor(10000 + Math.random() * 90000);
@@ -2612,7 +2644,7 @@ function openOrderModal(cakeName, cakePrice) {
   
   // Проверяем выбранную начинку
   const selectedFilling = document.querySelector('.filling-tag.selected');
-  const filling = selectedFilling ? selectedFilling.textContent : '#стандарт';
+  const filling = selectedFilling ? selectedFilling.textContent : '#базовий';
   
 // Заполняем данные в ПЕРВУЮ строку (название + начинка + формат)
 document.getElementById('orderCakeName').textContent = `${cakeName} ${filling} ${format}`;
