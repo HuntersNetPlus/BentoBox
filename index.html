@@ -338,6 +338,52 @@ html {
   border: 2px solid #6af27d;
   transform: scale(1.08);
 }
+
+
+
+/* ===== ФОРМАТЫ ТОРТОВ ===== */
+.formats-block {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.formats-container {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.format-tag {
+  display: inline-block;
+  padding: 10px 18px;
+  color: #f27db0;
+  background: #3a1d2b;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+  cursor: pointer;
+  user-select: none;
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.format-tag:hover {
+  transform: scale(1.05);
+  opacity: 0.85;
+}
+
+.format-tag.selected {
+  background: #f27db0 !important;
+  color: #3a1d2b !important;
+  border: 2px solid #f27db0;
+  transform: scale(1.08);
+}
+
+
+  
 .faq-content1 a {
   color: #6ab2f2;
   text-decoration: none;
@@ -1369,7 +1415,10 @@ html {
 <div class="fillings-block">
   <div id="cakeFillings" class="fillings-container"></div>
 </div>
-
+<!-- ФОРМАТЫ -->
+<div class="formats-block">
+  <div id="cakeFormats" class="formats-container"></div>
+</div>
   
 <!-- Ингредиенты (коллапс) -->
 <div class="faq-block">
@@ -2223,6 +2272,37 @@ if (cake.fillings && cake.fillings.length) {
       html += "</ul>";
     }
 
+
+
+if (cake.formats) {
+  let formatsHtml = '';
+  Object.keys(cake.formats).forEach(format => {
+    formatsHtml += `<span class="format-tag" data-format="${format}" data-price="${cake.formats[format]}">${format}</span>`;
+  });
+  document.getElementById('cakeFormats').innerHTML = formatsHtml;
+  document.querySelector('.formats-block').style.display = 'block';
+  
+  // Делаем форматы кликабельными
+  document.querySelectorAll('.format-tag').forEach(tag => {
+    tag.addEventListener('click', function() {
+      if (this.classList.contains('selected')) {
+        this.classList.remove('selected');
+      } else {
+        document.querySelectorAll('.format-tag').forEach(t => t.classList.remove('selected'));
+        this.classList.add('selected');
+        
+        // Обновляем цену на кнопке
+        const price = this.dataset.price;
+        orderBtn.textContent = "Замовити від " + price + " ₴";
+        orderBtn.dataset.cakePrice = price;
+      }
+    });
+  });
+} else {
+  document.querySelector('.formats-block').style.display = 'none';
+}
+    
+
         // КБЖУ таблица
     if(cake.kbju) {
       html += '<strong style="display: block; text-align: left; margin-top: 8px; margin-bottom: 8px; color: #6ab2f2;">КБЖВ на 100г:</strong>';
@@ -2243,7 +2323,10 @@ orderBtn.dataset.cakePrice = cake.price;
 orderBtn.onclick = function(e) {
   e.preventDefault();
   openOrderModal(cake.name, cake.price);
+  const selectedFormat = document.querySelector('.format-tag.selected');
+const format = selectedFormat ? selectedFormat.dataset.format : 'стандарт';
 };
+    
 orderBtn.textContent = "Замовити вiд " + cake.price + " ₴";
 
     hideLoader();
@@ -2439,7 +2522,7 @@ function openOrderModal(cakeName, cakePrice) {
   const filling = selectedFilling ? selectedFilling.textContent : '#стандарт';
   
   // Заполняем данные
-  document.getElementById('orderCakeName').textContent = cakeName;
+  document.getElementById('orderCakeName').textContent = `${cakeName} (${format})`;
   document.getElementById('orderFilling').textContent = filling;
   document.getElementById('orderPrice').textContent = cakePrice;
   document.getElementById('orderTotal').textContent = cakePrice; // 🎯 Итого = цена торта
