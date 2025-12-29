@@ -2223,15 +2223,7 @@ function openCake(index){
     // Название + описание
     cakeShortDesc.innerHTML = `<strong>${cake.name}</strong> — ${cake.shortDesc}`;
 
-    // ← ДОБАВЬ ЭТОТ БЛОК: Теги начинок
-    if (cake.fillings && cake.fillings.length) {
-      let fillingsHtml = '';
-      cake.fillings.forEach(filling => {
-        fillingsHtml += `<span class="filling-tag">${filling}</span>`;
-      });
-      cakeFillings.innerHTML = fillingsHtml;
-      document.querySelector('.fillings-block').style.display = 'block';
-
+  
 
 // Внутри функции openCake, после if (cake.fillings && cake.fillings.length) {...}
 if (cake.fillings && cake.fillings.length) {
@@ -2280,6 +2272,7 @@ if (cake.fillings && cake.fillings.length) {
 
 
 
+// 🎯 ЗАМЕНИ ВЕСЬ БЛОК "ФОРМАТЫ" НА ЭТОТ:
 if (cake.formats) {
   let formatsHtml = '';
   Object.keys(cake.formats).forEach(format => {
@@ -2293,13 +2286,16 @@ if (cake.formats) {
     tag.addEventListener('click', function() {
       if (this.classList.contains('selected')) {
         this.classList.remove('selected');
+        // Возвращаем базовую цену
+        orderBtn.textContent = "Замовити від " + cake.price + " ₴";
+        orderBtn.dataset.cakePrice = cake.price;
       } else {
         document.querySelectorAll('.format-tag').forEach(t => t.classList.remove('selected'));
         this.classList.add('selected');
         
         // Обновляем цену на кнопке
         const price = this.dataset.price;
-        orderBtn.textContent = "Замовити від " + price + " ₴";
+        orderBtn.textContent = "Замовити " + this.dataset.format + " — " + price + " ₴";
         orderBtn.dataset.cakePrice = price;
       }
     });
@@ -2518,6 +2514,10 @@ setTimeout(() => {
 // Открытие модального окна заказа
 function openOrderModal(cakeName, cakePrice) {
   const modal = document.getElementById('orderModal');
+
+  // 👇 ДОБАВЬ ЭТИ 2 СТРОКИ СРАЗУ ПОСЛЕ const modal:
+  const selectedFormat = document.querySelector('.format-tag.selected');
+  const format = selectedFormat ? selectedFormat.dataset.format : 'стандарт';
 
   // Генерируем рандомный 5-значный номер
   const orderNumber = Math.floor(10000 + Math.random() * 90000);
