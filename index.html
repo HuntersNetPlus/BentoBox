@@ -272,73 +272,57 @@ html {
 }
 
 
-/* ===== ТЕГИ НАЧИНОК ===== */
+/* ===== ГОРИЗОНТАЛЬНЫЙ СЛАЙДЕР НАЧИНОК ===== */
 .fillings-block {
   margin-bottom: 20px;
+  position: relative;
 }
 
 .fillings-container {
   display: flex;
-  flex-wrap: wrap;
   gap: 8px;
-  justify-content: flex-start;  /* 🎯 было space-evenly, стало flex-start */
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 4px 0;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  
+  /* 🎯 СКРЫВАЕМ СКРОЛЛБАР */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+.fillings-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
 }
 
 .filling-tag {
   display: inline-block;
-  padding: 8px 16px;
+  padding: 10px 18px;
   color: #6ab2f2;
-  border-radius: 4px;
-  font-size: 13px;
+  background: #1d2b3a;
+  border-radius: 20px;
+  font-size: 14px;
   font-weight: 600;
-  transition: transform 0.2s ease, opacity 0.2s ease, background 0.2s ease, color 0.2s ease;
-  cursor: pointer;  /* 🎯 ИЗМЕНИЛ с default на pointer */
+  white-space: nowrap;
+  flex-shrink: 0;
+  cursor: pointer;
   user-select: none;
-  border: 2px solid transparent;  /* 🎯 ДОБАВЬ */
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
 }
 
 .filling-tag:hover {
-  transform: translateY(-2px);
+  transform: scale(1.05);
   opacity: 0.85;
 }
 
-/* 🎯 ДОБАВЬ: стиль для выбранной начинки */
 .filling-tag.selected {
-  background: #6af27d !important;  /* зелёный фон */
-  color: #1d3a22 !important;       /* тёмно-зелёный текст */
+  background: #6af27d !important;
+  color: #1d3a22 !important;
   border: 2px solid #6af27d;
-  }
-
-/* Разные цвета для тегов (однородные, без градиента) */
-.filling-tag:nth-child(6n+1) {
-  background: #1d2b3a; /* голубой */
+  transform: scale(1.08);
 }
-
-.filling-tag:nth-child(6n+2) {
-  background: #1d2b3a; /* оранжевый */
-}
-
-.filling-tag:nth-child(6n+3) {
-  background: #1d2b3a; /* зелёный */
-}
-
-.filling-tag:nth-child(6n+4) {
-  background: #1d2b3a; /* розовый */
-}
-
-.filling-tag:nth-child(6n+5) {
-  background: #1d2b3a; /* жёлтый */
-}
-
-.filling-tag:nth-child(6n) {
-  background: #1d2b3a; /* фиолетовый */
-}
-  
-.faq-content1 a {
-  color: #6ab2f2;
-  text-decoration: none;
-}
-
 .app {
   max-width: 390px;
   min-height: 100vh;
