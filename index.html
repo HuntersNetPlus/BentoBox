@@ -288,10 +288,25 @@ html {
   -webkit-overflow-scrolling: touch;
   
   /* 🎯 СКРЫВАЕМ СКРОЛЛБАР */
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE/Edge */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  
+  /* 🎯 FADE-OUT ПО КРАЯМ */
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 5%,
+    black 95%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 5%,
+    black 95%,
+    transparent 100%
+  );
 }
-
 .fillings-container::-webkit-scrollbar {
   display: none; /* Chrome, Safari */
 }
@@ -301,7 +316,7 @@ html {
   padding: 10px 18px;
   color: #6ab2f2;
   background: #1d2b3a;
-  border-radius: 20px;
+  border-radius: 4px;
   font-size: 14px;
   font-weight: 600;
   white-space: nowrap;
@@ -323,6 +338,11 @@ html {
   border: 2px solid #6af27d;
   transform: scale(1.08);
 }
+.faq-content1 a {
+  color: #6ab2f2;
+  text-decoration: none;
+}
+  
 .app {
   max-width: 390px;
   min-height: 100vh;
