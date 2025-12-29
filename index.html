@@ -603,7 +603,7 @@ html {
   height: 100%;
   border-radius: var(--card-radius);
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.4);  /* 👈 УСИЛИЛИ ТЕНЬ */
   transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   background: transparent;
   border: none;
@@ -875,6 +875,10 @@ html {
 .description-wrapper.open .description-content {
   max-height: 1200px;
   padding: 0px 14px;
+}
+  /* 👇 ДОБАВЬ ЭТО ПРАВИЛО: */
+.description-wrapper.open .description-toggle {
+  border-radius: 4px 4px 0 0;  /* скругление только сверху */
 }
 
 .description-wrapper.open .description-toggle .arrow {
