@@ -2610,12 +2610,15 @@ function openOrderModal(cakeName, cakePrice) {
   const selectedFilling = document.querySelector('.filling-tag.selected');
   const filling = selectedFilling ? selectedFilling.textContent : '#стандарт';
   
- // Заполняем данные в ПЕРВУЮ строку (название + начинка + формат)
+// Заполняем данные в ПЕРВУЮ строку (название + начинка + формат)
 document.getElementById('orderCakeName').textContent = `${cakeName} ${filling} ${format}`;
 document.getElementById('orderPrice').textContent = cakePrice;
 
-// Скрываем ВТОРУЮ строку (начинка отдельно)
-document.querySelector('.order-line:nth-child(3)').style.display = 'none';
+// Скрываем ВТОРУЮ строку (начинка отдельно) - это второй .order-line
+const orderLines = document.querySelectorAll('.order-line');
+if (orderLines.length >= 2) {
+  orderLines[1].style.display = 'none'; // Скрываем вторую строку (индекс 1)
+}
 
 document.getElementById('orderTotal').textContent = cakePrice;
   
