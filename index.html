@@ -1644,37 +1644,6 @@ html {
 <script>
 
 
-const loader = document.getElementById("loader");
-const promoOverlay = document.getElementById("promoOverlay");
-const promoCard = document.getElementById("promoCard");
-const cakeScreen = document.getElementById("cakeScreen");
-const cakeDescription = document.getElementById("cakeDescription");
-const orderBtn = document.getElementById("orderBtn");
-
-let promoTimer = null;
-let promoDisintegrated = false;
-
-// Лоадер
-function showLoader(){ loader.classList.add("active"); }
-function hideLoader(){ loader.classList.remove("active"); }
-
-// Промокод
-// Промокод
-function showPromo(){ 
-  promoOverlay.classList.add("active"); 
-  // Таймер запускается отдельно после лоадера
-}
-function hidePromo(){ 
-  clearTimeout(promoTimer);
-  promoOverlay.classList.remove("active");
-  
-  // 🎯 ОСТАНАВЛИВАЕМ LOTTIE-ПОДЛОЖКУ
-  if (lottiePromoBase) {
-    lottiePromoBase.stop();
-  }
-}
-  
-
 // 🎯 ИНИЦИАЛИЗАЦИЯ LOTTIE ПОДЛОЖКИ
 let lottiePromoBase = null;
 
@@ -1687,7 +1656,7 @@ document.addEventListener('DOMContentLoaded', () => {
       renderer: 'svg',
       loop: true,
       autoplay: false,
-      path: 'https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/main/Rendt.json' // 👈 ЗАМЕНИ НА СВОЮ ССЫЛКУ
+      path: 'https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/main/Rendt.json'
     });
   }
   
@@ -1707,6 +1676,124 @@ function startPromoTimer() {
     }
   }, 15000);
 }
+
+🗑️ ЧТО УДАЛИТЬ:
+Найди ВСЕ эти строки в коде и УДАЛИ ИХ (они дублируются):
+javascript// 🎯 ИНИЦИАЛИЗАЦИЯ LOTTIE ПОДЛОЖКИ
+let lottiePromoBase = null;
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Инициализируем Lottie-подложку
+  const lottieContainer = document.getElementById('lottiePromoBase');
+  if (lottieContainer) {
+    lottiePromoBase = lottie.loadAnimation({
+      container: lottieContainer,
+      renderer: 'svg',
+      loop: true,
+      autoplay: false, // запустим вручную при показе промокода
+      path: 'https://твоя-ссылка-на-lottie.json' // 👈 ЗАМЕНИ НА СВОЮ ССЫЛКУ!
+    });
+  }
+  
+  // Останавливаем видео при загрузке
+  const promoVideo = document.getElementById('promoVideo');
+  if (promoVideo) {
+    promoVideo.pause();
+    promoVideo.currentTime = 0;
+  }
+});
+```
+
+Этот блок появляется **ДВА РАЗА** — удали **ВТОРОЙ** (который внизу, после блока с `disintegratePromo()`).
+
+---
+
+## 📝 ИТОГОВАЯ СТРУКТУРА СКРИПТА:
+```
+<script>
+const loader = ...
+let promoTimer = null;
+...
+
+function showPromo() { ... }
+function hidePromo() { ... }
+
+// 🎯 ОДИН РАЗ ИНИЦИАЛИЗАЦИЯ LOTTIE
+let lottiePromoBase = null;
+document.addEventListener('DOMContentLoaded', () => { ... });
+
+function startPromoTimer() { ... }
+function disintegratePromo() { ... }
+function copyPromoCode() { ... }
+
+// ВСЁ ОСТАЛЬНОЕ...
+window.addEventListener("load", () => { ... });
+</script>
+После этого страница должна загрузиться! Проверь консоль браузера (F12) — если всё правильно, ошибок не будет.Пришли мне полный script плиз31 дек.Держи полный исправленный <script>:
+javascript<script>
+
+const loader = document.getElementById("loader");
+const promoOverlay = document.getElementById("promoOverlay");
+const promoCard = document.getElementById("promoCard");
+const cakeScreen = document.getElementById("cakeScreen");
+const cakeDescription = document.getElementById("cakeDescription");
+const orderBtn = document.getElementById("orderBtn");
+
+let promoTimer = null;
+let promoDisintegrated = false;
+
+// Лоадер
+function showLoader(){ loader.classList.add("active"); }
+function hideLoader(){ loader.classList.remove("active"); }
+
+// Промокод
+function showPromo(){ 
+  promoOverlay.classList.add("active"); 
+}
+
+function hidePromo(){ 
+  clearTimeout(promoTimer);
+  promoOverlay.classList.remove("active");
+  
+  // 🎯 ОСТАНАВЛИВАЕМ LOTTIE-ПОДЛОЖКУ
+  if (lottiePromoBase) {
+    lottiePromoBase.stop();
+  }
+}
+
+// 🎯 ИНИЦИАЛИЗАЦИЯ LOTTIE ПОДЛОЖКИ
+let lottiePromoBase = null;
+
+document.addEventListener('DOMContentLoaded', () => {
+  // Инициализируем Lottie-подложку
+  const lottieContainer = document.getElementById('lottiePromoBase');
+  if (lottieContainer) {
+    lottiePromoBase = lottie.loadAnimation({
+      container: lottieContainer,
+      renderer: 'svg',
+      loop: true,
+      autoplay: false,
+      path: 'https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/main/Rendt.json'
+    });
+  }
+  
+  // Останавливаем видео при загрузке
+  const promoVideo = document.getElementById('promoVideo');
+  if (promoVideo) {
+    promoVideo.pause();
+    promoVideo.currentTime = 0;
+  }
+});
+
+// Таймер промокода (15 секунд)
+function startPromoTimer() {
+  promoTimer = setTimeout(() => {
+    if (!promoDisintegrated) {
+      disintegratePromo();
+    }
+  }, 15000);
+}
+
 // Эффект распада на частицы (как горящая бумага)
 function disintegratePromo() {
   promoDisintegrated = true;
@@ -1721,9 +1808,9 @@ function disintegratePromo() {
   // Создаём частицы
   const particles = [];
   const particleSize = 2;
-  const totalDuration = 2000; // 2 секунды на всю анимацию
-  const burnDuration = 1300; // скорость частиц
-  const eraserDuration = 2500; // 🎯 ЛАСТИК в 2 РАЗА МЕДЛЕННЕЕ
+  const totalDuration = 2000;
+  const burnDuration = 1300;
+  const eraserDuration = 2500;
   
   // Тёмно-зелёный цвет и его оттенки
   const greenShades = [
@@ -1731,45 +1818,39 @@ function disintegratePromo() {
     '#163920', '#0f2818', '#1e5a38', '#2d7a4f'
   ];
   
- // Максимальное расстояние от правого нижнего угла
-const maxDistance = Math.sqrt(rect.width * rect.width + rect.height * rect.height);
-const speedScale = rect.width / 512; // 👈 ДОБАВЬ ЭТУ СТРОКУ - масштабирование под размер экрана
+  const maxDistance = Math.sqrt(rect.width * rect.width + rect.height * rect.height);
+  const speedScale = rect.width / 512;
   
   // Генерируем частицы для всей карточки
   for (let y = 0; y < rect.height; y += particleSize) {
     for (let x = 0; x < rect.width; x += particleSize) {
       if (Math.random() > 0.5) continue;
       
-      // Расстояние от правого нижнего угла
       const distanceFromBottomRight = Math.sqrt(
         Math.pow(rect.width - x, 2) + Math.pow(rect.height - y, 2)
       );
       
-      // Нормализуем расстояние (0 до 1)
       const normalizedDistance = distanceFromBottomRight / maxDistance;
       
-  particles.push({
-  x: rect.left + x,
-  y: rect.top + y,
-  size: Math.random() < 0.5 ? 1 : 2,
-  color: greenShades[Math.floor(Math.random() * greenShades.length)],
-  speedX: -(Math.random() * 2.5 + 1.5) * speedScale,  // 👈 В 2 РАЗА МЕДЛЕННЕЕ влево (от -1.5 до -4)
-  speedY: -(Math.random() * 2.5 + 0.5) * speedScale,  // 👈 В 2 РАЗА МЕДЛЕННЕЕ вверх (от -1.5 до -4)
-  opacity: 0,
-  burnDelay: normalizedDistance * burnDuration,
-  active: false
-});
+      particles.push({
+        x: rect.left + x,
+        y: rect.top + y,
+        size: Math.random() < 0.5 ? 1 : 2,
+        color: greenShades[Math.floor(Math.random() * greenShades.length)],
+        speedX: -(Math.random() * 2.5 + 1.5) * speedScale,
+        speedY: -(Math.random() * 2.5 + 0.5) * speedScale,
+        opacity: 0,
+        burnDelay: normalizedDistance * burnDuration,
+        active: false
+      });
     }
   }
   
   let startTime = Date.now();
   
-  // Генерируем рваный край для clip-path (МЕЛКИЙ ПЕСОК)
-// 🎯 РАЗМЫТЫЙ ЛАСТИК (как в Photoshop)
   function generateSoftEraser(progress) {
     const radius = progress * maxDistance * 1.4;
     
-    // Создаём radial-gradient с мягкими краями
     return `linear-gradient(
       -45deg,
       transparent 0%,
@@ -1783,12 +1864,10 @@ const speedScale = rect.width / 512; // 👈 ДОБАВЬ ЭТУ СТРОКУ - 
   // Анимация
   function animate() {
     const elapsed = Date.now() - startTime;
-    // 🎯 ЛАСТИК использует eraserDuration (медленнее)
     const burnProgress = Math.min(elapsed / eraserDuration, 1);
     
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-      // Применяем размытую маску к карточке (как ластик в Photoshop)
     if (burnProgress < 1) {
       promoCard.style.maskImage = generateSoftEraser(burnProgress);
       promoCard.style.webkitMaskImage = generateSoftEraser(burnProgress);
@@ -1796,11 +1875,9 @@ const speedScale = rect.width / 512; // 👈 ДОБАВЬ ЭТУ СТРОКУ - 
       promoCard.style.opacity = '0';
     }
     
-    // Рисуем частицы
     let allGone = true;
     
     particles.forEach(p => {
-      // Активируем частицу когда до неё дойдёт "огонь"
       if (!p.active && elapsed >= p.burnDelay) {
         p.active = true;
         p.opacity = 1;
@@ -1812,18 +1889,15 @@ const speedScale = rect.width / 512; // 👈 ДОБАВЬ ЭТУ СТРОКУ - 
         if (particleAge < 800 && p.opacity > 0) {
           allGone = false;
           
-          // Рисуем частицу
           ctx.globalAlpha = p.opacity;
           ctx.fillStyle = p.color;
           ctx.fillRect(p.x, p.y, p.size, p.size);
           
-       // Движение вверх и влево
-p.x += p.speedX;
-p.y += p.speedY;
-p.speedX -= 0.001 * speedScale;  // 👈 ДОБАВЬ * speedScale
-p.speedY -= 0.001 * speedScale;  // 👈 ДОБАВЬ * speedScale
+          p.x += p.speedX;
+          p.y += p.speedY;
+          p.speedX -= 0.001 * speedScale;
+          p.speedY -= 0.001 * speedScale;
           
-          // Затухание
           p.opacity -= 0.015;
         }
       } else {
@@ -1831,18 +1905,13 @@ p.speedY -= 0.001 * speedScale;  // 👈 ДОБАВЬ * speedScale
       }
     });
     
-if (!allGone || elapsed < totalDuration) {
+    if (!allGone || elapsed < totalDuration) {
       requestAnimationFrame(animate);
     } else {
-      // Анимация завершена
       canvas.style.display = 'none';
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      // 🎯 НЕ ВОЗВРАЩАЕМ ВИДИМОСТЬ КАРТОЧКЕ
-      // promoCard.style.clipPath = 'none';
-      // promoCard.style.opacity = '1';
       hidePromo();
       
-     // 🎯 СБРАСЫВАЕМ СТИЛИ ПОСЛЕ ЗАКРЫТИЯ
       setTimeout(() => {
         promoCard.style.maskImage = 'none';
         promoCard.style.webkitMaskImage = 'none';
@@ -1855,16 +1924,13 @@ if (!allGone || elapsed < totalDuration) {
   animate();
 }
 
-  
 // Копирование промокода
 function copyPromoCode() {
   const promoCodeEl = document.getElementById("promoCode");
   const code = promoCodeEl.textContent;
   
-  // Останавливаем таймер
   clearTimeout(promoTimer);
   
-  // Копируем в буфер обмена
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(code).then(() => {
       showCopyFeedback();
@@ -1917,31 +1983,6 @@ promoOverlay.addEventListener('click', () => {
   hidePromo();
 });
 
-
-// 🎯 ИНИЦИАЛИЗАЦИЯ LOTTIE ПОДЛОЖКИ
-let lottiePromoBase = null;
-
-document.addEventListener('DOMContentLoaded', () => {
-  // Инициализируем Lottie-подложку
-  const lottieContainer = document.getElementById('lottiePromoBase');
-  if (lottieContainer) {
-    lottiePromoBase = lottie.loadAnimation({
-      container: lottieContainer,
-      renderer: 'svg',
-      loop: true,
-      autoplay: false, // запустим вручную при показе промокода
-      path: 'https://твоя-ссылка-на-lottie.json' // 👈 ЗАМЕНИ НА СВОЮ ССЫЛКУ!
-    });
-  }
-  
-  // Останавливаем видео при загрузке
-  const promoVideo = document.getElementById('promoVideo');
-  if (promoVideo) {
-    promoVideo.pause();
-    promoVideo.currentTime = 0;
-  }
-});
-
 // Первая загрузка
 window.addEventListener("load", () => {
   window.scrollTo(0, 0);
@@ -1950,19 +1991,18 @@ window.addEventListener("load", () => {
     showPromo();
     
     // 🎯 ЗАПУСКАЕМ LOTTIE-ПОДЛОЖКУ
-if (lottiePromoBase) {
-  lottiePromoBase.play();
-}
+    if (lottiePromoBase) {
+      lottiePromoBase.play();
+    }
 
-// 🎯 ЗАПУСКАЕМ ВИДЕО
-const promoVideo = document.getElementById('promoVideo');
-if (promoVideo) {
-  promoVideo.play().catch(err => {
-    console.log('Автозапуск видео заблокирован:', err);
-  });
-}
+    // 🎯 ЗАПУСКАЕМ ВИДЕО
+    const promoVideo = document.getElementById('promoVideo');
+    if (promoVideo) {
+      promoVideo.play().catch(err => {
+        console.log('Автозапуск видео заблокирован:', err);
+      });
+    }
     
-    // 🎯 ТАЙМЕР СТАРТУЕТ ЗДЕСЬ
     startPromoTimer();
     
     // Анимация дашборда с задержкой
@@ -1975,7 +2015,6 @@ if (promoVideo) {
     }, 300);
   }, 1000);
 });
-  
 
 // Открытие каталога
 function openCatalog(){
@@ -1983,7 +2022,7 @@ function openCatalog(){
   setTimeout(()=>{
     document.getElementById("mainScreen").classList.remove("active");
     document.getElementById("catalogScreen").classList.add("active");
-    window.scrollTo(0, 0); // 🎯 СКРОЛЛ ВВЕРХ
+    window.scrollTo(0, 0);
     hideLoader();
   },500);
 }
@@ -2404,23 +2443,18 @@ const cakes = [
 
 // Открытие торта
 function openCake(index){
-  showLoader();
-  setTimeout(()=>{
-    document.getElementById("catalogScreen").classList.remove("active");
-    cakeScreen.classList.add("active");
-    window.scrollTo(0, 0); // 🎯 СКРОЛЛ ВВЕРХ
+showLoader();
+setTimeout(()=>{
+document.getElementById("catalogScreen").classList.remove("active");
+cakeScreen.classList.add("active");
+window.scrollTo(0, 0);
+const cake = cakes[index];
+const cakeShortDesc = document.getElementById('cakeShortDesc');
+const cakeIngredients = document.getElementById('cakeIngredients');
+const cakeFillings = document.getElementById('cakeFillings');
 
-    const cake = cakes[index];
-    const cakeShortDesc = document.getElementById('cakeShortDesc');
-    const cakeIngredients = document.getElementById('cakeIngredients');
-    const cakeFillings = document.getElementById('cakeFillings'); // ← ДОБАВЬ
+cakeShortDesc.innerHTML = `<strong>${cake.name}</strong> — ${cake.shortDesc}`;
 
-    // Название + описание
-    cakeShortDesc.innerHTML = `<strong>${cake.name}</strong> — ${cake.shortDesc}`;
-
-  
-
-// Внутри функции openCake, после if (cake.fillings && cake.fillings.length) {...}
 if (cake.fillings && cake.fillings.length) {
   let fillingsHtml = '';
   cake.fillings.forEach(filling => {
@@ -2429,14 +2463,11 @@ if (cake.fillings && cake.fillings.length) {
   cakeFillings.innerHTML = fillingsHtml;
   document.querySelector('.fillings-block').style.display = 'block';
   
-  // 🎯 ДЕЛАЕМ ТЕГИ КЛИКАБЕЛЬНЫМИ С DESELECT
   document.querySelectorAll('.filling-tag').forEach(tag => {
     tag.addEventListener('click', function() {
-      // Если уже выбран — снимаем выделение
       if (this.classList.contains('selected')) {
         this.classList.remove('selected');
       } else {
-        // Иначе снимаем у всех и выделяем текущий
         document.querySelectorAll('.filling-tag').forEach(t => t.classList.remove('selected'));
         this.classList.add('selected');
       }
@@ -2446,26 +2477,19 @@ if (cake.fillings && cake.fillings.length) {
   document.querySelector('.fillings-block').style.display = 'none';
 }
 
-      
-    
+currentCakeGallery = cake.gallery || [];
+createCakeStack(cake);
 
-    currentCakeGallery = cake.gallery || [];
-    createCakeStack(cake);
+let html = '';
+if(cake.ingredients.length){
+  html += "<strong style='display: block; text-align: left; margin-top: 12px; margin-bottom: 8px; color: #6ab2f2;'>Інгредієнти:</strong>";
+  html += "<ul style='color: #6ab2f2;'>";
+  cake.ingredients.forEach(item=>{
+    html += `<li>${item}</li>`;
+  });
+  html += "</ul>";
+}
 
-   // Ингредиенты
-    let html = '';
-    if(cake.ingredients.length){
-      html += "<strong style='display: block; text-align: left; margin-top: 12px; margin-bottom: 8px; color: #6ab2f2;'>Інгредієнти:</strong>";
-      html += "<ul style='color: #6ab2f2;'>";
-      cake.ingredients.forEach(item=>{
-        html += `<li>${item}</li>`;
-      });
-      html += "</ul>";
-    }
-
-
-
-// 🎯 ЗАМЕНИ ВЕСЬ БЛОК "ФОРМАТЫ" НА ЭТОТ:
 if (cake.formats) {
   let formatsHtml = '';
   Object.keys(cake.formats).forEach(format => {
@@ -2474,371 +2498,283 @@ if (cake.formats) {
   document.getElementById('cakeFormats').innerHTML = formatsHtml;
   document.querySelector('.formats-block').style.display = 'block';
   
-  // Делаем форматы кликабельными
   document.querySelectorAll('.format-tag').forEach(tag => {
     tag.addEventListener('click', function() {
       if (this.classList.contains('selected')) {
         this.classList.remove('selected');
-        // Возвращаем базовую цену
         orderBtn.innerHTML = `
-  <img src="https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/shopping-cart.svg" style="width: 18px; height: 18px; vertical-align: middle; margin-right: 6px; filter: brightness(0) saturate(100%) invert(78%) sepia(48%) saturate(426%) hue-rotate(72deg) brightness(98%) contrast(93%);">
-  Замовити від ${cake.price} ₴
-`;
+          <img src="https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/shopping-cart.svg" style="width: 18px; height: 18px; vertical-align: middle; margin-right: 6px; filter: brightness(0) saturate(100%) invert(78%) sepia(48%) saturate(426%) hue-rotate(72deg) brightness(98%) contrast(93%);">
+          Замовити від ${cake.price} ₴
+        `;
         orderBtn.dataset.cakePrice = cake.price;
       } else {
         document.querySelectorAll('.format-tag').forEach(t => t.classList.remove('selected'));
         this.classList.add('selected');
         
-        // Обновляем цену на кнопке
         const price = this.dataset.price;
-orderBtn.innerHTML = `
-  <img src="https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/shopping-cart.svg" style="width: 18px; height: 18px; vertical-align: middle; margin-right: 6px; filter: brightness(0) saturate(100%) invert(78%) sepia(48%) saturate(426%) hue-rotate(72deg) brightness(98%) contrast(93%);">
-  Замовити від ${price} ₴
-`;
-orderBtn.dataset.cakePrice = price;
+        orderBtn.innerHTML = `
+          <img src="https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/shopping-cart.svg" style="width: 18px; height: 18px; vertical-align: middle; margin-right: 6px; filter: brightness(0) saturate(100%) invert(78%) sepia(48%) saturate(426%) hue-rotate(72deg) brightness(98%) contrast(93%);">
+          Замовити від ${price} ₴
+        `;
+        orderBtn.dataset.cakePrice = price;
       }
     });
   });
 } else {
   document.querySelector('.formats-block').style.display = 'none';
 }
-    
 
-        // КБЖУ таблица
-    if(cake.kbju) {
-      html += '<strong style="display: block; text-align: left; margin-top: 8px; margin-bottom: 8px; color: #6ab2f2;">КБЖВ на 100г:</strong>';
-      html += '<table style="width:100%; border-collapse: collapse; margin-top: 8px; color: #6ab2f2;">';
-      html += '<tr style="background: #24364a;"><td style="padding: 6px; border: 1px solid #6ab2f2;">Калорії</td><td style="padding: 6px; border: 1px solid #6ab2f2;">' + cake.kbju.calories + ' ккал</td></tr>';
-      html += '<tr><td style="padding: 6px; border: 1px solid #6ab2f2;">Білки</td><td style="padding: 6px; border: 1px solid #6ab2f2;">' + cake.kbju.protein + ' г</td></tr>';
-      html += '<tr style="background: #24364a;"><td style="padding: 6px; border: 1px solid #6ab2f2;">Жири</td><td style="padding: 6px; border: 1px solid #6ab2f2;">' + cake.kbju.fat + ' г</td></tr>';
-      html += '<tr><td style="padding: 6px; border: 1px solid #6ab2f2;">Вуглеводи</td><td style="padding: 6px; border: 1px solid #6ab2f2;">' + cake.kbju.carbs + ' г</td></tr>';
-      html += '</table>';
-      html += '<br>';
-    }
+if(cake.kbju) {
+  html += '<strong style="display: block; text-align: left; margin-top: 8px; margin-bottom: 8px; color: #6ab2f2;">КБЖВ на 100г:</strong>';
+  html += '<table style="width:100%; border-collapse: collapse; margin-top: 8px; color: #6ab2f2;">';
+  html += '<tr style="background: #24364a;"><td style="padding: 6px; border: 1px solid #6ab2f2;">Калорії</td><td style="padding: 6px; border: 1px solid #6ab2f2;">' + cake.kbju.calories + ' ккал</td></tr>';
+  html += '<tr><td style="padding: 6px; border: 1px solid #6ab2f2;">Білки</td><td style="padding: 6px; border: 1px solid #6ab2f2;">' + cake.kbju.protein + ' г</td></tr>';
+  html += '<tr style="background: #24364a;"><td style="padding: 6px; border: 1px solid #6ab2f2;">Жири</td><td style="padding: 6px; border: 1px solid #6ab2f2;">' + cake.kbju.fat + ' г</td></tr>';
+  html += '<tr><td style="padding: 6px; border: 1px solid #6ab2f2;">Вуглеводи</td><td style="padding: 6px; border: 1px solid #6ab2f2;">' + cake.kbju.carbs + ' г</td></tr>';
+  html += '</table>';
+  html += '<br>';
+}
 
-    cakeIngredients.innerHTML = html;
+cakeIngredients.innerHTML = html;
 
-// Сохраняем данные торта для модального окна
 orderBtn.dataset.cakeName = cake.name;
 orderBtn.dataset.cakePrice = cake.price;
 orderBtn.onclick = function(e) {
   e.preventDefault();
   openOrderModal(cake.name, cake.price);
-  const selectedFormat = document.querySelector('.format-tag.selected');
-const format = selectedFormat ? selectedFormat.dataset.format : '#стандарт';
 };
-    
+
 orderBtn.innerHTML = `
   <img src="https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/shopping-cart.svg" style="width: 18px; height: 18px; vertical-align: middle; margin-right: 6px; filter: brightness(0) saturate(100%) invert(78%) sepia(48%) saturate(426%) hue-rotate(72deg) brightness(98%) contrast(93%);">
   Замовити вiд ${cake.price} ₴
 `;
 
-    hideLoader();
-  },500);
+hideLoader();
+},500);
 }
-
-
 // Назад в каталог
 function backToCatalog(){
-  showLoader();
-  setTimeout(()=>{
-    cakeScreen.classList.remove("active");
-    document.getElementById("catalogScreen").classList.add("active");
-    window.scrollTo(0, 0); // 🎯 СКРОЛЛ ВВЕРХ
-    hideLoader();
-  },500);
+showLoader();
+setTimeout(()=>{
+cakeScreen.classList.remove("active");
+document.getElementById("catalogScreen").classList.add("active");
+window.scrollTo(0, 0);
+hideLoader();
+},500);
 }
-
 // Назначаем клик на карточки
 document.querySelectorAll(".catalog-card").forEach((card,i)=>{
-  card.addEventListener("click",()=>openCake(i));
+card.addEventListener("click",()=>openCake(i));
 });
-
-
 // ===== ГАЛЕРЕЯ ТОРТОВ =====
 var currentCakeGallery = [];
 var currentCakeIndex = 0;
-
 function createCakeStack(cake) {
-  var stack = document.getElementById('cakePhotoStack');
-  stack.innerHTML = '';
-  
-  if (!cake.gallery || cake.gallery.length === 0) {
-    stack.style.display = 'none';
-    return;
-  }
-  
-  stack.style.display = 'block';
-  
-  var stackImages = [
-    cake.gallery[2] || cake.gallery[0],
-    cake.preview2 || cake.gallery[1] || cake.gallery[0],
-    cake.preview || cake.gallery[0]
-  ];
-  
-  for (var i = stackImages.length - 1; i >= 0; i--) {
-    var item = document.createElement('div');
-    item.className = 'photo-stack-item';
-    
-    var img = document.createElement('img');
-    img.src = stackImages[i];
-    img.alt = '';
-    
-    item.appendChild(img);
-    stack.appendChild(item);
-  }
-  
-  stack.onclick = function() { openCakeLightbox(0); };
+var stack = document.getElementById('cakePhotoStack');
+stack.innerHTML = '';
+if (!cake.gallery || cake.gallery.length === 0) {
+stack.style.display = 'none';
+return;
 }
+stack.style.display = 'block';
+var stackImages = [
+cake.gallery[2] || cake.gallery[0],
+cake.preview2 || cake.gallery[1] || cake.gallery[0],
+cake.preview || cake.gallery[0]
+];
+for (var i = stackImages.length - 1; i >= 0; i--) {
+var item = document.createElement('div');
+item.className = 'photo-stack-item';
+var img = document.createElement('img');
+img.src = stackImages[i];
+img.alt = '';
 
+item.appendChild(img);
+stack.appendChild(item);
+}
+stack.onclick = function() { openCakeLightbox(0); };
+}
 function openCakeLightbox(index) {
-  currentCakeIndex = index;
-  var stack = document.getElementById('cakePhotoStack');
-  var lightbox = document.getElementById('cakeLightbox');
-  
-  stack.classList.add('opening');
-  
-  setTimeout(function() {
-    lightbox.classList.add('active');
-    updateCakeLightbox();
-  }, 250);
+currentCakeIndex = index;
+var stack = document.getElementById('cakePhotoStack');
+var lightbox = document.getElementById('cakeLightbox');
+stack.classList.add('opening');
+setTimeout(function() {
+lightbox.classList.add('active');
+updateCakeLightbox();
+}, 250);
 }
-
 function closeCakeLightbox() {
-  var stack = document.getElementById('cakePhotoStack');
-  var lightbox = document.getElementById('cakeLightbox');
-  
-  lightbox.classList.remove('active');
-  stack.classList.remove('opening');
-  stack.classList.add('closing');
-  
-  setTimeout(function() {
-    stack.classList.remove('closing');
-  }, 10);
+var stack = document.getElementById('cakePhotoStack');
+var lightbox = document.getElementById('cakeLightbox');
+lightbox.classList.remove('active');
+stack.classList.remove('opening');
+stack.classList.add('closing');
+setTimeout(function() {
+stack.classList.remove('closing');
+}, 10);
 }
-
 function changeCakeImage(direction) {
-  currentCakeIndex += direction;
-  if (currentCakeIndex < 0) currentCakeIndex = currentCakeGallery.length - 1;
-  if (currentCakeIndex >= currentCakeGallery.length) currentCakeIndex = 0;
-  updateCakeLightbox();
+currentCakeIndex += direction;
+if (currentCakeIndex < 0) currentCakeIndex = currentCakeGallery.length - 1;
+if (currentCakeIndex >= currentCakeGallery.length) currentCakeIndex = 0;
+updateCakeLightbox();
 }
-
 function updateCakeLightbox() {
-  document.getElementById('cakeLightboxImage').src = currentCakeGallery[currentCakeIndex];
+document.getElementById('cakeLightboxImage').src = currentCakeGallery[currentCakeIndex];
 }
-
 document.getElementById('cakeLightbox').addEventListener('click', function(e) {
-  if (e.target === this) {
-    closeCakeLightbox();
-  }
-});
-
-document.getElementById('cakeLightboxImage').addEventListener('click', function(e) {
-  e.stopPropagation();
-});
-
-document.addEventListener('keydown', function(e) {
-  if (!document.getElementById('cakeLightbox').classList.contains('active')) return;
-  
-  if (e.key === 'Escape') closeCakeLightbox();
-  if (e.key === 'ArrowLeft') changeCakeImage(-1);
-  if (e.key === 'ArrowRight') changeCakeImage(1);
-});
-
-  
- 
-function toggleDescription() {
-  const wrapper = document.querySelector('.description-wrapper');
-  const text = document.getElementById('descToggleText');
-
-  const isOpen = wrapper.classList.contains('open');
-
-  if (isOpen) {
-    /* СВОРАЧИВАНИЕ — сначала анимация */
-    wrapper.classList.remove('open');
-
-    setTimeout(() => {
-      text.innerHTML = `
-        <img src="https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/file-text.svg" style="width: 16px; height: 16px; vertical-align: middle; margin-right: 6px; filter: brightness(0) saturate(100%) invert(18%) sepia(11%) saturate(1661%) hue-rotate(162deg) brightness(93%) contrast(92%);">
-        Відкрити повний опис
-      `;
-    }, 350);
-  } else {
-    /* РАЗВОРАЧИВАНИЕ — сразу меняем текст */
-    wrapper.classList.add('open');
-    text.innerHTML = `
-      <img src="https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/file-text.svg" style="width: 16px; height: 16px; vertical-align: middle; margin-right: 6px; filter: brightness(0) saturate(100%) invert(18%) sepia(11%) saturate(1661%) hue-rotate(162deg) brightness(93%) contrast(92%);">
-      Закрити повний опис
-    `;
-  }
+if (e.target === this) {
+closeCakeLightbox();
 }
-
- 
-
-
-
+});
+document.getElementById('cakeLightboxImage').addEventListener('click', function(e) {
+e.stopPropagation();
+});
+document.addEventListener('keydown', function(e) {
+if (!document.getElementById('cakeLightbox').classList.contains('active')) return;
+if (e.key === 'Escape') closeCakeLightbox();
+if (e.key === 'ArrowLeft') changeCakeImage(-1);
+if (e.key === 'ArrowRight') changeCakeImage(1);
+});
+function toggleDescription() {
+const wrapper = document.querySelector('.description-wrapper');
+const text = document.getElementById('descToggleText');
+const isOpen = wrapper.classList.contains('open');
+if (isOpen) {
+wrapper.classList.remove('open');
+setTimeout(() => {
+  text.innerHTML = `
+    <img src="https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/file-text.svg" style="width: 16px; height: 16px; vertical-align: middle; margin-right: 6px; filter: brightness(0) saturate(100%) invert(18%) sepia(11%) saturate(1661%) hue-rotate(162deg) brightness(93%) contrast(92%);">
+    Відкрити повний опис
+  `;
+}, 350);
+} else {
+wrapper.classList.add('open');
+text.innerHTML =       <img src="https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/file-text.svg" style="width: 16px; height: 16px; vertical-align: middle; margin-right: 6px; filter: brightness(0) saturate(100%) invert(18%) sepia(11%) saturate(1661%) hue-rotate(162deg) brightness(93%) contrast(92%);">       Закрити повний опис    ;
+}
+}
 // ===== КОНФЕТТІ ПРИ ЗАГРУЗКЕ =====
 function launchWelcomeConfetti() {
-  const confettiContainer = document.getElementById("confetti-container");
-  if (!confettiContainer) return;
+const confettiContainer = document.getElementById("confetti-container");
+if (!confettiContainer) return;
+confettiContainer.innerHTML = "";
+for (let i = 0; i < 390; i++) {
+const c = document.createElement("div");
+c.className = "confetti-piece";
+const colors = ["#ff4757", "#ffa502", "#2ed573", "#1e90ff", "#ff6b81"];
+c.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+const corner = Math.random() < 0.5 ? 0 : 1;
+let startX, startY;
+
+if (corner === 0) {
+  startX = -5 + Math.random() * -5;
+  startY = 100 + Math.random() * 10;
   
-  confettiContainer.innerHTML = "";
+  const randomSpread = (Math.random() - 0.5) * 400;
+  const dx = (Math.random() * 800 + 600) + randomSpread;
+  const dy = -(Math.random() * 800 + 600) + randomSpread;
+  
+  c.style.left = startX + "%";
+  c.style.top = startY + "%";
+  confettiContainer.appendChild(c);
 
-  for (let i = 0; i < 390; i++) {
-    const c = document.createElement("div");
-    c.className = "confetti-piece";
+  const duration = 3500 + Math.random() * 2000;
 
-    const colors = ["#ff4757", "#ffa502", "#2ed573", "#1e90ff", "#ff6b81"];
-    c.style.background = colors[Math.floor(Math.random() * colors.length)];
+  c.animate([
+    { transform: "translate(0,0) rotate(0deg)", opacity: 0, offset: 0 },
+    { transform: "translate(0,0) rotate(0deg)", opacity: 1, offset: 0.1 },
+    { transform: `translate(${dx}px, ${dy}px) rotate(${Math.random() * 720 - 360}deg)`, opacity: 1, offset: 0.85 },
+    { transform: `translate(${dx}px, ${dy}px) rotate(${Math.random() * 720 - 360}deg)`, opacity: 0 }
+  ], {
+    duration: duration,
+    easing: "cubic-bezier(.25,.46,.45,.94)"
+  });
+  
+  setTimeout(() => c.remove(), duration + 100);
+  
+} else {
+  startX = 105 + Math.random() * 5;
+  startY = 100 + Math.random() * 10;
+  
+  const randomSpread = (Math.random() - 0.5) * 400;
+  const dx = -(Math.random() * 800 + 600) + randomSpread;
+  const dy = -(Math.random() * 800 + 600) + randomSpread;
+  
+  c.style.left = startX + "%";
+  c.style.top = startY + "%";
+  confettiContainer.appendChild(c);
 
-    // 🎯 ВЫСТРЕЛИВАЮТ ЗА ПРЕДЕЛАМИ ЭКРАНА
-    const corner = Math.random() < 0.5 ? 0 : 1;
-    let startX, startY;
-    
-    if (corner === 0) { // левый нижний ЗА ЭКРАНОМ
-      startX = -5 + Math.random() * -5;
-      startY = 100 + Math.random() * 10;
-      
-      const randomSpread = (Math.random() - 0.5) * 400;
-      const dx = (Math.random() * 800 + 600) + randomSpread;
-      const dy = -(Math.random() * 800 + 600) + randomSpread;
-      
-      c.style.left = startX + "%";
-      c.style.top = startY + "%";
-      confettiContainer.appendChild(c);
+  const duration = 3500 + Math.random() * 2000;
 
-      const duration = 3500 + Math.random() * 2000; // 👈 СОХРАНЯЕМ ДЛИТЕЛЬНОСТЬ
-
-      c.animate([
-        { transform: "translate(0,0) rotate(0deg)", opacity: 0, offset: 0 },
-        { transform: "translate(0,0) rotate(0deg)", opacity: 1, offset: 0.1 },
-        { transform: `translate(${dx}px, ${dy}px) rotate(${Math.random() * 720 - 360}deg)`, opacity: 1, offset: 0.85 },
-        { transform: `translate(${dx}px, ${dy}px) rotate(${Math.random() * 720 - 360}deg)`, opacity: 0 }
-      ], {
-        duration: duration,
-        easing: "cubic-bezier(.25,.46,.45,.94)"
-      });
-      
-      // 🎯 УДАЛЯЕМ ТОЛЬКО ПОСЛЕ ОКОНЧАНИЯ АНИМАЦИИ
-      setTimeout(() => c.remove(), duration + 100);
-      
-    } else { // правый нижний ЗА ЭКРАНОМ
-      startX = 105 + Math.random() * 5;
-      startY = 100 + Math.random() * 10;
-      
-      const randomSpread = (Math.random() - 0.5) * 400;
-      const dx = -(Math.random() * 800 + 600) + randomSpread;
-      const dy = -(Math.random() * 800 + 600) + randomSpread;
-      
-      c.style.left = startX + "%";
-      c.style.top = startY + "%";
-      confettiContainer.appendChild(c);
-
-      const duration = 3500 + Math.random() * 2000; // 👈 СОХРАНЯЕМ ДЛИТЕЛЬНОСТЬ
-
-      c.animate([
-        { transform: "translate(0,0) rotate(0deg)", opacity: 0, offset: 0 },
-        { transform: "translate(0,0) rotate(0deg)", opacity: 1, offset: 0.1 },
-        { transform: `translate(${dx}px, ${dy}px) rotate(${Math.random() * 720 - 360}deg)`, opacity: 1, offset: 0.85 },
-        { transform: `translate(${dx}px, ${dy}px) rotate(${Math.random() * 720 - 360}deg)`, opacity: 0 }
-      ], {
-        duration: duration,
-        easing: "cubic-bezier(.25,.46,.45,.94)"
-      });
-      
-      // 🎯 УДАЛЯЕМ ТОЛЬКО ПОСЛЕ ОКОНЧАНИЯ АНИМАЦИИ
-      setTimeout(() => c.remove(), duration + 100);
-    }
-  }
+  c.animate([
+    { transform: "translate(0,0) rotate(0deg)", opacity: 0, offset: 0 },
+    { transform: "translate(0,0) rotate(0deg)", opacity: 1, offset: 0.1 },
+    { transform: `translate(${dx}px, ${dy}px) rotate(${Math.random() * 720 - 360}deg)`, opacity: 1, offset: 0.85 },
+    { transform: `translate(${dx}px, ${dy}px) rotate(${Math.random() * 720 - 360}deg)`, opacity: 0 }
+  ], {
+    duration: duration,
+    easing: "cubic-bezier(.25,.46,.45,.94)"
+  });
+  
+  setTimeout(() => c.remove(), duration + 100);
 }
-
-// Запуск конфетти после лоадера
+}
+}
 setTimeout(() => {
-  launchWelcomeConfetti();
+launchWelcomeConfetti();
 }, 1100);
- 
- 
 // Открытие модального окна заказа
 function openOrderModal(cakeName, cakePrice) {
-  const modal = document.getElementById('orderModal');
-
-  const selectedFormat = document.querySelector('.format-tag.selected');
-  const format = selectedFormat ? selectedFormat.dataset.format : '#стандарт';
-
-  // Генерируем рандомный 5-значный номер
-  const orderNumber = Math.floor(10000 + Math.random() * 90000);
-  document.getElementById('orderNumber').textContent = `Замовлення #${orderNumber} успішно сформовано!`;
-  
-  // Проверяем выбранную начинку
-  const selectedFilling = document.querySelector('.filling-tag.selected');
-  const filling = selectedFilling ? selectedFilling.textContent : '#базовий';
-  
-  // Заполняем данные в ПЕРВУЮ строку (название + начинка + формат)
-  document.getElementById('orderCakeName').textContent = `${cakeName} ${filling} ${format}`;
-  document.getElementById('orderPrice').textContent = cakePrice;
-
-  // Скрываем ВТОРУЮ строку (начинка отдельно)
-  const orderLines = document.querySelectorAll('.order-line');
-  if (orderLines.length >= 2) {
-    orderLines[1].style.display = 'none';
-  }
-
-  document.getElementById('orderTotal').textContent = cakePrice;
-  
-  // Массив предсказаний для чека
-  const fortunes = [
-    "Мед ніколи не псується. Як і добрі спогади.",
-    "У восьминога три серця - але жодне з них не любить понеділки.",
-    "Посмішка напружує менше м'язів, ніж похмурий погляд. Заощаджуй енергію.",
-    "Сьогодні можна трохи більше, ніж зазвичай. Особливо солодкого.",
-    "У полуниці насіння зовні. Світ взагалі любить сюрпризи.",
-    "Іноді майбутнє пророкується дуже просто: буде смачно.",
-    "Солодке не вирішує всі питання, але з ним вони не такі серйозні.",
-    "У всесвіті завжди ніч.",
-    "Бджоли ніколи не сплять.",
-    "У світі більше смаків, аніж проблем. Почни з цього."
-  ];
-  
-  // Выбираем случайное предсказание
-  const randomFortune = fortunes[Math.floor(Math.random() * fortunes.length)];
-  document.getElementById('orderFortune').textContent = randomFortune;
-  
-  // Ссылки на контакты
-  const telegramLink = document.getElementById('orderTelegramLink');
-  telegramLink.href = `https://t.me/your_username?start=${encodeURIComponent(cakeName)}_${encodeURIComponent(filling)}`;
-  
-  // Показываем модальное окно
-  modal.classList.add('active');
-  
-  // 🎯 ЗАПУСКАЕМ КОНФЕТТИ С НЕБОЛЬШОЙ ЗАДЕРЖКОЙ
-  setTimeout(() => {
-    launchWelcomeConfetti();
-  }, 300); // 👈 задержка 300ms, чтобы модальное окно успело появиться
-} // 🎯 ЗАКРЫЛИ ФУНКЦИЮ openOrderModal
-
-// Закрытие модального окна
-function closeOrderModal() {
-  const modal = document.getElementById('orderModal');
-  modal.classList.remove('active');
+const modal = document.getElementById('orderModal');
+const selectedFormat = document.querySelector('.format-tag.selected');
+const format = selectedFormat ? selectedFormat.dataset.format : '#стандарт';
+const orderNumber = Math.floor(10000 + Math.random() * 90000);
+document.getElementById('orderNumber').textContent = Замовлення #${orderNumber} успішно сформовано!;
+const selectedFilling = document.querySelector('.filling-tag.selected');
+const filling = selectedFilling ? selectedFilling.textContent : '#базовий';
+document.getElementById('orderCakeName').textContent = ${cakeName} ${filling} ${format};
+document.getElementById('orderPrice').textContent = cakePrice;
+const orderLines = document.querySelectorAll('.order-line');
+if (orderLines.length >= 2) {
+orderLines[1].style.display = 'none';
 }
-
-// 🎯 УПРОЩЁННОЕ ЗАКРЫТИЕ: клик в любом месте вне SVG-картинки закрывает чек
+document.getElementById('orderTotal').textContent = cakePrice;
+const fortunes = [
+"Мед ніколи не псується. Як і добрі спогади.",
+"У восьминога три серця - але жодне з них не любить понеділки.",
+"Посмішка напружує менше м'язів, ніж похмурий погляд. Заощаджуй енергію.",
+"Сьогодні можна трохи більше, ніж зазвичай. Особливо солодкого.",
+"У полуниці насіння зовні. Світ взагалі любить сюрпризи.",
+"Іноді майбутнє пророкується дуже просто: буде смачно.",
+"Солодке не вирішує всі питання, але з ним вони не такі серйозні.",
+"У всесвіті завжди ніч.",
+"Бджоли ніколи не сплять.",
+"У світі більше смаків, аніж проблем. Почни з цього."
+];
+const randomFortune = fortunes[Math.floor(Math.random() * fortunes.length)];
+document.getElementById('orderFortune').textContent = randomFortune;
+const telegramLink = document.getElementById('orderTelegramLink');
+telegramLink.href = https://t.me/your_username?start=${encodeURIComponent(cakeName)}_${encodeURIComponent(filling)};
+modal.classList.add('active');
+setTimeout(() => {
+launchWelcomeConfetti();
+}, 300);
+}
+function closeOrderModal() {
+const modal = document.getElementById('orderModal');
+modal.classList.remove('active');
+}
 document.getElementById('orderModal').addEventListener('click', function(e) {
-  // Проверяем, что клик НЕ по SVG-картинке и НЕ по контенту чека
-  const receiptBg = document.querySelector('.order-receipt-bg');
-  const receiptContent = document.querySelector('.order-receipt-content');
-  
-  if (!receiptBg.contains(e.target) && !receiptContent.contains(e.target)) {
-    closeOrderModal();
-  }
+const receiptBg = document.querySelector('.order-receipt-bg');
+const receiptContent = document.querySelector('.order-receipt-content');
+if (!receiptBg.contains(e.target) && !receiptContent.contains(e.target)) {
+closeOrderModal();
+}
 });
-
-
-  
-
-
 </script>
+
 
  
 
