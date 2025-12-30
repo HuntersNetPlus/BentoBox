@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>Кремуа | Солодощi на замовлення</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
 
 <style>
 body { 
@@ -1674,22 +1675,27 @@ function hidePromo(){
 }
   
 
-  // 🎯 ОПРЕДЕЛЕНИЕ iOS И ЗАМЕНА SVG
+ // 🎯 ИНИЦИАЛИЗАЦИЯ LOTTIE ПОДЛОЖКИ
+let lottiePromoBase = null;
+
 document.addEventListener('DOMContentLoaded', () => {
-  const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
+  // Инициализируем Lottie-подложку
+  const lottieContainer = document.getElementById('lottiePromoBase');
+  if (lottieContainer) {
+    lottiePromoBase = lottie.loadAnimation({
+      container: lottieContainer,
+      renderer: 'svg',
+      loop: true,
+      autoplay: false,
+      path: 'https://github.com/HuntersNetPlus/BentoBox/blob/da66ff18186fa183e15ce0fe170a1d9007cd2156/Rendt.json' // 👈 ВОТ ЗДЕСЬ МЕНЯЙ ССЫЛКУ!
+    });
+  }
   
-  if (isIOS) {
-    // Скрываем WebM видео
-    const promoVideo = document.getElementById('promoVideo');
-    if (promoVideo) {
-      promoVideo.style.display = 'none';
-    }
-    
-    // Меняем SVG на альтернативный (без анимации)
-    const promoBaseSvg = document.querySelector('.promo-base-svg');
-    if (promoBaseSvg) {
-      promoBaseSvg.src = 'https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/70fc7ec6d0701c793b8179c7cba6e859634b6a2b/CPNSVG15StaticCurves.svg';
-    }
+  // Останавливаем видео при загрузке
+  const promoVideo = document.getElementById('promoVideo');
+  if (promoVideo) {
+    promoVideo.pause();
+    promoVideo.currentTime = 0;
   }
 });
 
