@@ -2565,7 +2565,7 @@ function toggleDescription() {
 
 
 
- // ===== КОНФЕТТІ ПРИ ЗАГРУЗКЕ =====
+// ===== КОНФЕТТІ ПРИ ЗАГРУЗКЕ =====
 function launchWelcomeConfetti() {
   const confettiContainer = document.getElementById("confetti-container");
   if (!confettiContainer) return;
@@ -2581,16 +2581,16 @@ function launchWelcomeConfetti() {
 
     // 🎯 ВЫСТРЕЛИВАЮТ ЗА ПРЕДЕЛАМИ ЭКРАНА
     const corner = Math.random() < 0.5 ? 0 : 1; // 0 = левый нижний, 1 = правый нижний
-    let startX, startY;
+    let startX, startY, endX, endY;
     
     if (corner === 0) { // левый нижний ЗА ЭКРАНОМ
       startX = -5 + Math.random() * -5; // 👈 от -5% до -10% (слева за экраном)
       startY = 100 + Math.random() * 10; // 👈 от 100% до 110% (снизу за экраном)
       
-      // Летит вправо-вверх с разбросом
+      // 🎯 КОНЕЧНАЯ ТОЧКА ЗА ЭКРАНОМ (справа вверху)
       const randomSpread = (Math.random() - 0.5) * 400;
-      const dx = (Math.random() * 300 + 200) + randomSpread; // вправо
-      const dy = -(Math.random() * 600 + 400) + randomSpread; // вверх
+      const dx = (Math.random() * 800 + 600) + randomSpread; // 👈 УВЕЛИЧИЛИ дистанцию (600-1400px вправо)
+      const dy = -(Math.random() * 800 + 600) + randomSpread; // 👈 УВЕЛИЧИЛИ дистанцию (600-1400px вверх)
       
       c.style.left = startX + "%";
       c.style.top = startY + "%";
@@ -2599,7 +2599,7 @@ function launchWelcomeConfetti() {
       c.animate([
         { transform: "translate(0,0) rotate(0deg)", opacity: 0, offset: 0 },
         { transform: "translate(0,0) rotate(0deg)", opacity: 1, offset: 0.1 },
-        { transform: `translate(${dx}px, ${dy}px) rotate(${Math.random() * 720 - 360}deg)`, opacity: 1, offset: 0.7 },
+        { transform: `translate(${dx}px, ${dy}px) rotate(${Math.random() * 720 - 360}deg)`, opacity: 1, offset: 0.85 }, // 👈 держим непрозрачность до 85%
         { transform: `translate(${dx}px, ${dy}px) rotate(${Math.random() * 720 - 360}deg)`, opacity: 0 }
       ], {
         duration: 3500 + Math.random() * 2000,
@@ -2610,10 +2610,10 @@ function launchWelcomeConfetti() {
       startX = 105 + Math.random() * 5; // 👈 от 105% до 110% (справа за экраном)
       startY = 100 + Math.random() * 10; // 👈 от 100% до 110% (снизу за экраном)
       
-      // Летит влево-вверх с разбросом (зеркально)
+      // 🎯 КОНЕЧНАЯ ТОЧКА ЗА ЭКРАНОМ (слева вверху)
       const randomSpread = (Math.random() - 0.5) * 400;
-      const dx = -(Math.random() * 300 + 200) + randomSpread; // влево
-      const dy = -(Math.random() * 600 + 400) + randomSpread; // вверх
+      const dx = -(Math.random() * 800 + 600) + randomSpread; // 👈 УВЕЛИЧИЛИ дистанцию (600-1400px влево)
+      const dy = -(Math.random() * 800 + 600) + randomSpread; // 👈 УВЕЛИЧИЛИ дистанцию (600-1400px вверх)
       
       c.style.left = startX + "%";
       c.style.top = startY + "%";
@@ -2622,13 +2622,22 @@ function launchWelcomeConfetti() {
       c.animate([
         { transform: "translate(0,0) rotate(0deg)", opacity: 0, offset: 0 },
         { transform: "translate(0,0) rotate(0deg)", opacity: 1, offset: 0.1 },
-        { transform: `translate(${dx}px, ${dy}px) rotate(${Math.random() * 720 - 360}deg)`, opacity: 1, offset: 0.7 },
+        { transform: `translate(${dx}px, ${dy}px) rotate(${Math.random() * 720 - 360}deg)`, opacity: 1, offset: 0.85 }, // 👈 держим непрозрачность до 85%
         { transform: `translate(${dx}px, ${dy}px) rotate(${Math.random() * 720 - 360}deg)`, opacity: 0 }
       ], {
         duration: 3500 + Math.random() * 2000,
         easing: "cubic-bezier(.25,.46,.45,.94)"
       });
     }
+
+    setTimeout(() => c.remove(), 6000);
+  }
+}
+
+// Запуск конфетти после лоадера
+setTimeout(() => {
+  launchWelcomeConfetti();
+}, 1100);
 
     setTimeout(() => c.remove(), 6000);
   }
@@ -2691,6 +2700,11 @@ function openOrderModal(cakeName, cakePrice) {
   
   // Показываем модальное окно
   modal.classList.add('active');
+  
+  // 🎯 ЗАПУСКАЕМ КОНФЕТТИ С НЕБОЛЬШОЙ ЗАДЕРЖКОЙ
+  setTimeout(() => {
+    launchWelcomeConfetti();
+  }, 300); // 👈 задержка 300ms, чтобы модальное окно успело появиться
 } // 🎯 ЗАКРЫЛИ ФУНКЦИЮ openOrderModal
 
 // Закрытие модального окна
