@@ -127,6 +127,17 @@ html {
   z-index: 1;  /* нижний слой */
 }
 
+
+  /* 🎯 LOTTIE БАЗОВЫЙ СЛОЙ */
+.promo-base-lottie {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;  /* нижний слой */
+}
+
 /* 🎯 WEBM АНИМАЦИЯ ПОВЕРХ */
 /* 🎯 WEBM АНИМАЦИЯ ПОВЕРХ */
 .promo-animation-webm {
@@ -1246,15 +1257,12 @@ html {
 <div class="promo-card" id="promoCard" onclick="event.stopPropagation()">
     <div class="promo-title">Привіт! Лови бонус на перше замовлення!</div>
     <div class="promo-hint">нумо, швидше тисни на промокод, щоб скопіювати його</div>
-   <div class="promo-image-wrapper">
-  <!-- 🎯 SVG СЛОЙ (нижний, статичный) -->
-  <img 
-    src="https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/78ef867be64454e2ba264502e940f68f684cc588/CPNSVG15StaticCurvesClean.svg" 
-    class="promo-base-svg"
-    alt="Base"
-  >
   
-  <!-- 🎯 WEBM СЛОЙ (верхний, анимация) -->
+ <div class="promo-image-wrapper">
+  <!-- 🎯 LOTTIE ПОДЛОЖКА (нижний слой) -->
+  <div id="lottiePromoBase" class="promo-base-lottie"></div>
+  
+  <!-- 🎯 WEBM СЛОЙ (верхний, анимация) - ОСТАЁТСЯ! -->
   <video 
     src="https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/main/Overlay.webm" 
     class="promo-animation-webm"
@@ -1268,9 +1276,8 @@ html {
     H5Y2-WB7T-OP4N-G1R5N
   </div>
      
-     <div class="promo-shimmer"></div>
-     
-</div>
+  <div class="promo-shimmer"></div>
+</div>  
   </div>
 </div>
 
@@ -1658,7 +1665,12 @@ function showPromo(){
 }
 function hidePromo(){ 
   clearTimeout(promoTimer);
-  promoOverlay.classList.remove("active"); 
+  promoOverlay.classList.remove("active");
+  
+  // 🎯 ОСТАНАВЛИВАЕМ LOTTIE-ПОДЛОЖКУ
+  if (lottiePromoBase) {
+    lottiePromoBase.stop();
+  }
 }
   
 
@@ -1901,8 +1913,23 @@ promoOverlay.addEventListener('click', () => {
 });
 
 
-// 🎯 ОСТАНАВЛИВАЕМ ВИДЕО ПРИ ЗАГРУЗКЕ СТРАНИЦЫ
+// 🎯 ИНИЦИАЛИЗАЦИЯ LOTTIE ПОДЛОЖКИ
+let lottiePromoBase = null;
+
 document.addEventListener('DOMContentLoaded', () => {
+  // Инициализируем Lottie-подложку
+  const lottieContainer = document.getElementById('lottiePromoBase');
+  if (lottieContainer) {
+    lottiePromoBase = lottie.loadAnimation({
+      container: lottieContainer,
+      renderer: 'svg',
+      loop: true,
+      autoplay: false, // запустим вручную при показе промокода
+      path: 'https://твоя-ссылка-на-lottie.json' // 👈 ЗАМЕНИ НА СВОЮ ССЫЛКУ!
+    });
+  }
+  
+  // Останавливаем видео при загрузке
   const promoVideo = document.getElementById('promoVideo');
   if (promoVideo) {
     promoVideo.pause();
@@ -1917,13 +1944,18 @@ window.addEventListener("load", () => {
     hideLoader();
     showPromo();
     
-    // 🎯 ЗАПУСКАЕМ ВИДЕО
-    const promoVideo = document.getElementById('promoVideo');
-    if (promoVideo) {
-      promoVideo.play().catch(err => {
-        console.log('Автозапуск видео заблокирован:', err);
-      });
-    }
+    // 🎯 ЗАПУСКАЕМ LOTTIE-ПОДЛОЖКУ
+if (lottiePromoBase) {
+  lottiePromoBase.play();
+}
+
+// 🎯 ЗАПУСКАЕМ ВИДЕО
+const promoVideo = document.getElementById('promoVideo');
+if (promoVideo) {
+  promoVideo.play().catch(err => {
+    console.log('Автозапуск видео заблокирован:', err);
+  });
+}
     
     // 🎯 ТАЙМЕР СТАРТУЕТ ЗДЕСЬ
     startPromoTimer();
