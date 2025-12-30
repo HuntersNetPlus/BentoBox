@@ -1298,10 +1298,28 @@ html {
       </div>
     </div>
 
-    <button class="catalog-btn" onclick="openCatalog()">Каталог</button>
+    <button class="catalog-btn" onclick="openCatalog()">
+  <img src="https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/grid-2x2.svg" style="width: 18px; height: 18px; vertical-align: middle; margin-right: 6px; filter: brightness(0) saturate(100%) invert(78%) sepia(48%) saturate(426%) hue-rotate(72deg) brightness(98%) contrast(93%);">
+  Каталог
+</button>
+
+    
     <div class="bottom-actions">
-      <a href="https://t.me/your_username" class="action-btn telegram-btn">Telegram</a>
-      <a href="https://instagram.com/your_username" class="action-btn instagram-btn">Instagram</a>
+      
+
+<a href="https://t.me/your_username" class="action-btn telegram-btn">
+  <img src="https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/send.svg" style="width: 18px; height: 18px; vertical-align: middle; margin-right: 6px; filter: invert(1);">
+  Telegram
+</a>
+
+      
+    
+<a href="https://instagram.com/your_username" class="action-btn instagram-btn">
+  <img src="https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/instagram.svg" style="width: 18px; height: 18px; vertical-align: middle; margin-right: 6px; filter: invert(1);">
+  Instagram
+</a>
+
+      
     </div>
   </div>
 
@@ -1405,8 +1423,17 @@ html {
 
     <br>
      <div class="bottom-actions">
-  <a href="https://t.me/your_username" class="action-btn telegram-btn">Telegram</a>
-  <a href="https://instagram.com/your_username" class="action-btn instagram-btn">Instagram</a>
+ <a href="https://t.me/your_username" class="action-btn telegram-btn">
+  <img src="https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/send.svg" style="width: 18px; height: 18px; vertical-align: middle; margin-right: 6px; filter: invert(1);">
+  Telegram
+</a>
+
+      
+    
+<a href="https://instagram.com/your_username" class="action-btn instagram-btn">
+  <img src="https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/instagram.svg" style="width: 18px; height: 18px; vertical-align: middle; margin-right: 6px; filter: invert(1);">
+  Instagram
+</a>
 </div>
   </div>
 
@@ -1414,7 +1441,10 @@ html {
 <!-- Третий экран -->
 <div class="screen" id="cakeScreen">
  <!-- Кнопка назад на всю ширину -->
-<button class="back-btn-full faq-content1" onclick="backToCatalog()">назад до каталогу</button>
+<button class="back-btn-full faq-content1" onclick="backToCatalog()">
+  <img src="https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/arrow-left.svg" style="width: 18px; height: 18px; vertical-align: middle; margin-right: 6px; filter: brightness(0) saturate(100%) invert(64%) sepia(66%) saturate(1044%) hue-rotate(178deg) brightness(101%) contrast(93%);">
+  назад до каталогу
+</button>
 <br>
 
 <!-- ГАЛЕРЕЯ -->
@@ -1433,7 +1463,10 @@ html {
 <div class="faq-block">
   <div class="faq-content1 description-wrapper">
     <div class="description-toggle" onclick="toggleDescription()">
-      <span id="descToggleText">Відкрити повний опис</span>
+      <span id="descToggleText">
+  <img src="https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/file-text.svg" style="width: 16px; height: 16px; vertical-align: middle; margin-right: 6px; filter: brightness(0) saturate(100%) invert(18%) sepia(11%) saturate(1661%) hue-rotate(162deg) brightness(93%) contrast(92%);">
+  Відкрити повний опис
+</span>
       <span class="arrow" id="descArrow">▾</span>
     </div>
     <div class="description-content" id="cakeIngredients">
@@ -1573,9 +1606,10 @@ html {
     </a>
   </div>
   
-  <a href="tel:+380123456789" class="order-action-btn order-phone-btn">
-    Зателефонувати
-  </a>
+<a href="tel:+380123456789" class="order-action-btn order-phone-btn">
+  <img src="https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/phone.svg" style="width: 16px; height: 16px; vertical-align: middle; margin-right: 6px;">
+  Зателефонувати
+</a>
   
   <!-- Предсказание на чеке -->
   <div class="order-fortune">
@@ -2398,7 +2432,10 @@ if (cake.formats) {
       if (this.classList.contains('selected')) {
         this.classList.remove('selected');
         // Возвращаем базовую цену
-        orderBtn.textContent = "Замовити від " + cake.price + " ₴";
+        orderBtn.innerHTML = `
+  <img src="https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/shopping-cart.svg" style="width: 18px; height: 18px; vertical-align: middle; margin-right: 6px; filter: brightness(0) saturate(100%) invert(78%) sepia(48%) saturate(426%) hue-rotate(72deg) brightness(98%) contrast(93%);">
+  Замовити від ${cake.price} ₴
+`;
         orderBtn.dataset.cakePrice = cake.price;
       } else {
         document.querySelectorAll('.format-tag').forEach(t => t.classList.remove('selected'));
@@ -2406,7 +2443,10 @@ if (cake.formats) {
         
         // Обновляем цену на кнопке
         const price = this.dataset.price;
-orderBtn.textContent = "Замовити від " + price + " ₴";
+orderBtn.innerHTML = `
+  <img src="https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/shopping-cart.svg" style="width: 18px; height: 18px; vertical-align: middle; margin-right: 6px; filter: brightness(0) saturate(100%) invert(78%) sepia(48%) saturate(426%) hue-rotate(72deg) brightness(98%) contrast(93%);">
+  Замовити від ${price} ₴
+`;
 orderBtn.dataset.cakePrice = price;
       }
     });
@@ -2440,7 +2480,10 @@ orderBtn.onclick = function(e) {
 const format = selectedFormat ? selectedFormat.dataset.format : '#стандарт';
 };
     
-orderBtn.textContent = "Замовити вiд " + cake.price + " ₴";
+orderBtn.innerHTML = `
+  <img src="https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/shopping-cart.svg" style="width: 18px; height: 18px; vertical-align: middle; margin-right: 6px; filter: brightness(0) saturate(100%) invert(78%) sepia(48%) saturate(426%) hue-rotate(72deg) brightness(98%) contrast(93%);">
+  Замовити вiд ${cake.price} ₴
+`;
 
     hideLoader();
   },500);
