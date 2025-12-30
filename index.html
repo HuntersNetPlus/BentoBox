@@ -141,6 +141,16 @@ html {
 
  
   transform:   scale(1.47);
+    /* 🎯 МАСКА ДЛЯ ВСЕГО КОНТЕЙНЕРА (все слои обрежутся автоматически) */
+  mask-image: url('https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/cdeff11b12262111a4d7120ff5a3aefde4ab8479/CouponMask.svg');
+  -webkit-mask-image: url('https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/cdeff11b12262111a4d7120ff5a3aefde4ab8479/CouponMask.svg');
+  mask-size: contain;
+  -webkit-mask-size: contain;
+  mask-position: center;
+  -webkit-mask-position: center;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+}
   
 
 }
@@ -1256,7 +1266,7 @@ html {
   
   <!-- 🎯 WEBM СЛОЙ (верхний, анимация) -->
   <video 
-    src="https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/main/Overlay.webm" 
+    src="https://github.com/HuntersNetPlus/BentoBox/blob/main/CouponNoAlpha.webm" 
     class="promo-animation-webm"
     id="promoVideo"
     loop
