@@ -2563,7 +2563,7 @@ function toggleDescription() {
 
  
 
-// ===== КОНФЕТТИ ПРИ ЗАГРУЗКЕ =====
+// ===== КОНФЕТТІ ПРИ ЗАГРУЗКЕ =====
 function launchWelcomeConfetti() {
   const confettiContainer = document.getElementById("confetti-container");
   if (!confettiContainer) return;
@@ -2577,44 +2577,52 @@ function launchWelcomeConfetti() {
     const colors = ["#ff4757", "#ffa502", "#2ed573", "#1e90ff", "#ff6b81"];
     c.style.background = colors[Math.floor(Math.random() * colors.length)];
 
-    // 🎯 ВЫСТРЕЛИВАЮТ ИЗ 4 УГЛОВ
-    const corner = Math.floor(Math.random() * 4);
-    let startX, startY, targetX, targetY;
+    // 🎯 ВЫСТРЕЛИВАЮТ ТОЛЬКО ИЗ НИЖНИХ УГЛОВ
+    const corner = Math.random() < 0.5 ? 0 : 1; // 0 = левый нижний, 1 = правый нижний
+    let startX, startY;
     
-    const centerX = 50;
-    const centerY = 50;
-    
-    if (corner === 0) { // левый верхний
-      startX = Math.random() * 10;
-      startY = Math.random() * 10;
-    } else if (corner === 1) { // правый верхний
-      startX = 90 + Math.random() * 10;
-      startY = Math.random() * 10;
-    } else if (corner === 2) { // левый нижний
+    if (corner === 0) { // левый нижний
       startX = Math.random() * 10;
       startY = 90 + Math.random() * 10;
+      
+      // Летит вправо-вверх с разбросом
+      const randomSpread = (Math.random() - 0.5) * 400;
+      const dx = (Math.random() * 300 + 200) + randomSpread; // вправо
+      const dy = -(Math.random() * 600 + 400) + randomSpread; // вверх
+      
+      c.style.left = startX + "%";
+      c.style.top = startY + "%";
+      confettiContainer.appendChild(c);
+
+      c.animate([
+        { transform: "translate(0,0) rotate(0deg)", opacity: 1, offset: 0.3},
+        { transform: `translate(${dx}px, ${dy}px) rotate(${Math.random() * 720 - 360}deg)`, opacity: 0 }
+      ], {
+        duration: 3500 + Math.random() * 2000,
+        easing: "cubic-bezier(.25,.46,.45,.94)"
+      });
+      
     } else { // правый нижний
       startX = 90 + Math.random() * 10;
       startY = 90 + Math.random() * 10;
+      
+      // Летит влево-вверх с разбросом (зеркально)
+      const randomSpread = (Math.random() - 0.5) * 400;
+      const dx = -(Math.random() * 300 + 200) + randomSpread; // влево
+      const dy = -(Math.random() * 600 + 400) + randomSpread; // вверх
+      
+      c.style.left = startX + "%";
+      c.style.top = startY + "%";
+      confettiContainer.appendChild(c);
+
+      c.animate([
+        { transform: "translate(0,0) rotate(0deg)", opacity: 1, offset: 0.3},
+        { transform: `translate(${dx}px, ${dy}px) rotate(${Math.random() * 720 - 360}deg)`, opacity: 0 }
+      ], {
+        duration: 3500 + Math.random() * 2000,
+        easing: "cubic-bezier(.25,.46,.45,.94)"
+      });
     }
-    
-    c.style.left = startX + "%";
-    c.style.top = startY + "%";
-    
-    confettiContainer.appendChild(c);
-
-    // 🎯 ЛЕТЯТ К ЦЕНТРУ С ХАОСОМ
-    const randomSpread = (Math.random() - 0.5) * 400; // разброс ±200px
-    const dx = (centerX - startX) * 8 + randomSpread;
-    const dy = (centerY - startY) * 8 + randomSpread;
-
-    c.animate([
-      { transform: "translate(0,0) rotate(0deg)", opacity: 1, offset: 0.3},
-      { transform: `translate(${dx}px, ${dy}px) rotate(${Math.random() * 720 - 360}deg)`, opacity: 0 }
-    ], {
-      duration: 3500 + Math.random() * 2000,
-      easing: "cubic-bezier(.25,.46,.45,.94)"
-    });
 
     setTimeout(() => c.remove(), 6000);
   }
