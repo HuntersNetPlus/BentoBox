@@ -2563,19 +2563,7 @@ function toggleDescription() {
 
  
 
-// ===== КОНФЕТТІ ПРИ ЗАГРУЗКЕ =====
-function launchWelcomeConfetti() {
-  const confettiContainer = document.getElementById("confetti-container");
-  if (!confettiContainer) return;
-  
-  confettiContainer.innerHTML = "";
 
-  for (let i = 0; i < 390; i++) {
-    const c = document.createElement("div");
-    c.className = "confetti-piece";
-
-    const colors = ["#ff4757", "#ffa502", "#2ed573", "#1e90ff", "#ff6b81"];
-    c.style.background = colors[Math.floor(Math.random() * colors.length)];
 
  // ===== КОНФЕТТІ ПРИ ЗАГРУЗКЕ =====
 function launchWelcomeConfetti() {
