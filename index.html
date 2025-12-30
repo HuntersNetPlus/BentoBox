@@ -512,16 +512,19 @@ html {
 .telegram-btn {
   background: #1d2b3a;
   border: 1px solid #6ab2f2;
+  align-items: center; 
   color: #6ab2f2;
 }
 .telegram-btn:hover {
   background: #22364a;
 }
+  
 
 /* Instagram — розовый как "Заказать" */
 .instagram-btn {
   background: #3a1d2b;
   border: 1px solid #f27db0;
+  align-items: center; 
   color: #f27db0;
 }
 .instagram-btn:hover {
@@ -1308,14 +1311,14 @@ html {
       
 
 <a href="https://t.me/your_username" class="action-btn telegram-btn">
-  <img src="https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/send.svg" style="width: 18px; height: 18px; vertical-align: middle; margin-right: 6px; filter: invert(1);">
+  <img src="https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/send.svg" style="stroke: #6ab2f2; width: 18px; height: 18px; vertical-align: middle; margin-right: 6px; filter: invert(1);">
   Telegram
 </a>
 
       
     
 <a href="https://instagram.com/your_username" class="action-btn instagram-btn">
-  <img src="https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/instagram.svg" style="width: 18px; height: 18px; vertical-align: middle; margin-right: 6px; filter: invert(1);">
+  <img src="https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/instagram.svg" style="stroke: #f27db0; width: 18px; height: 18px; vertical-align: middle; margin-right: 6px; filter: invert(1);">
   Instagram
 </a>
 
@@ -1423,15 +1426,15 @@ html {
 
     <br>
      <div class="bottom-actions">
- <a href="https://t.me/your_username" class="action-btn telegram-btn">
-  <img src="https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/send.svg" style="width: 18px; height: 18px; vertical-align: middle; margin-right: 6px; filter: invert(1);">
+<a href="https://t.me/your_username" class="action-btn telegram-btn">
+  <img src="https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/send.svg" style="stroke: #6ab2f2; width: 18px; height: 18px; vertical-align: middle; margin-right: 6px; filter: invert(1);">
   Telegram
 </a>
 
       
     
 <a href="https://instagram.com/your_username" class="action-btn instagram-btn">
-  <img src="https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/instagram.svg" style="width: 18px; height: 18px; vertical-align: middle; margin-right: 6px; filter: invert(1);">
+  <img src="https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/instagram.svg" style="stroke: #f27db0; width: 18px; height: 18px; vertical-align: middle; margin-right: 6px; filter: invert(1);">
   Instagram
 </a>
 </div>
@@ -2611,12 +2614,24 @@ function toggleDescription() {
     wrapper.classList.remove('open');
 
     setTimeout(() => {
-      text.textContent = 'Відкрити повний опис';
-    }, 350); // ← 50–100 мс, можно менять
+      text.innerHTML = `
+        <svg class="book-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+        </svg>
+        Відкрити повний опис
+      `;
+    }, 350);
   } else {
     /* РАЗВОРАЧИВАНИЕ — сразу меняем текст */
     wrapper.classList.add('open');
-    text.textContent = 'Закрити повний опис';
+    text.innerHTML = `
+      <svg class="book-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+      </svg>
+      Закрити повний опис
+    `;
   }
 }
 
