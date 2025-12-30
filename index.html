@@ -2580,61 +2580,65 @@ function launchWelcomeConfetti() {
     c.style.background = colors[Math.floor(Math.random() * colors.length)];
 
     // 🎯 ВЫСТРЕЛИВАЮТ ЗА ПРЕДЕЛАМИ ЭКРАНА
-    const corner = Math.random() < 0.5 ? 0 : 1; // 0 = левый нижний, 1 = правый нижний
-    let startX, startY, endX, endY;
+    const corner = Math.random() < 0.5 ? 0 : 1;
+    let startX, startY;
     
     if (corner === 0) { // левый нижний ЗА ЭКРАНОМ
-      startX = -5 + Math.random() * -5; // 👈 от -5% до -10% (слева за экраном)
-      startY = 100 + Math.random() * 10; // 👈 от 100% до 110% (снизу за экраном)
+      startX = -5 + Math.random() * -5;
+      startY = 100 + Math.random() * 10;
       
-      // 🎯 КОНЕЧНАЯ ТОЧКА ЗА ЭКРАНОМ (справа вверху)
       const randomSpread = (Math.random() - 0.5) * 400;
-      const dx = (Math.random() * 800 + 600) + randomSpread; // 👈 УВЕЛИЧИЛИ дистанцию (600-1400px вправо)
-      const dy = -(Math.random() * 800 + 600) + randomSpread; // 👈 УВЕЛИЧИЛИ дистанцию (600-1400px вверх)
+      const dx = (Math.random() * 800 + 600) + randomSpread;
+      const dy = -(Math.random() * 800 + 600) + randomSpread;
       
       c.style.left = startX + "%";
       c.style.top = startY + "%";
       confettiContainer.appendChild(c);
 
+      const duration = 3500 + Math.random() * 2000; // 👈 СОХРАНЯЕМ ДЛИТЕЛЬНОСТЬ
+
       c.animate([
         { transform: "translate(0,0) rotate(0deg)", opacity: 0, offset: 0 },
         { transform: "translate(0,0) rotate(0deg)", opacity: 1, offset: 0.1 },
-        { transform: `translate(${dx}px, ${dy}px) rotate(${Math.random() * 720 - 360}deg)`, opacity: 1, offset: 0.85 }, // 👈 держим непрозрачность до 85%
+        { transform: `translate(${dx}px, ${dy}px) rotate(${Math.random() * 720 - 360}deg)`, opacity: 1, offset: 0.85 },
         { transform: `translate(${dx}px, ${dy}px) rotate(${Math.random() * 720 - 360}deg)`, opacity: 0 }
       ], {
-        duration: 3500 + Math.random() * 2000,
+        duration: duration,
         easing: "cubic-bezier(.25,.46,.45,.94)"
       });
+      
+      // 🎯 УДАЛЯЕМ ТОЛЬКО ПОСЛЕ ОКОНЧАНИЯ АНИМАЦИИ
+      setTimeout(() => c.remove(), duration + 100);
       
     } else { // правый нижний ЗА ЭКРАНОМ
-      startX = 105 + Math.random() * 5; // 👈 от 105% до 110% (справа за экраном)
-      startY = 100 + Math.random() * 10; // 👈 от 100% до 110% (снизу за экраном)
+      startX = 105 + Math.random() * 5;
+      startY = 100 + Math.random() * 10;
       
-      // 🎯 КОНЕЧНАЯ ТОЧКА ЗА ЭКРАНОМ (слева вверху)
       const randomSpread = (Math.random() - 0.5) * 400;
-      const dx = -(Math.random() * 800 + 600) + randomSpread; // 👈 УВЕЛИЧИЛИ дистанцию (600-1400px влево)
-      const dy = -(Math.random() * 800 + 600) + randomSpread; // 👈 УВЕЛИЧИЛИ дистанцию (600-1400px вверх)
+      const dx = -(Math.random() * 800 + 600) + randomSpread;
+      const dy = -(Math.random() * 800 + 600) + randomSpread;
       
       c.style.left = startX + "%";
       c.style.top = startY + "%";
       confettiContainer.appendChild(c);
 
+      const duration = 3500 + Math.random() * 2000; // 👈 СОХРАНЯЕМ ДЛИТЕЛЬНОСТЬ
+
       c.animate([
         { transform: "translate(0,0) rotate(0deg)", opacity: 0, offset: 0 },
         { transform: "translate(0,0) rotate(0deg)", opacity: 1, offset: 0.1 },
-        { transform: `translate(${dx}px, ${dy}px) rotate(${Math.random() * 720 - 360}deg)`, opacity: 1, offset: 0.85 }, // 👈 держим непрозрачность до 85%
+        { transform: `translate(${dx}px, ${dy}px) rotate(${Math.random() * 720 - 360}deg)`, opacity: 1, offset: 0.85 },
         { transform: `translate(${dx}px, ${dy}px) rotate(${Math.random() * 720 - 360}deg)`, opacity: 0 }
       ], {
-        duration: 3500 + Math.random() * 2000,
+        duration: duration,
         easing: "cubic-bezier(.25,.46,.45,.94)"
       });
+      
+      // 🎯 УДАЛЯЕМ ТОЛЬКО ПОСЛЕ ОКОНЧАНИЯ АНИМАЦИИ
+      setTimeout(() => c.remove(), duration + 100);
     }
-
-    setTimeout(() => c.remove(), 6000);
   }
 }
-
- 
 
 // Запуск конфетти после лоадера
 setTimeout(() => {
