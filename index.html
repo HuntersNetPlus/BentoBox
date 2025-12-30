@@ -2577,13 +2577,27 @@ function launchWelcomeConfetti() {
     const colors = ["#ff4757", "#ffa502", "#2ed573", "#1e90ff", "#ff6b81"];
     c.style.background = colors[Math.floor(Math.random() * colors.length)];
 
-    // 🎯 ВЫСТРЕЛИВАЮТ ТОЛЬКО ИЗ НИЖНИХ УГЛОВ
+ // ===== КОНФЕТТІ ПРИ ЗАГРУЗКЕ =====
+function launchWelcomeConfetti() {
+  const confettiContainer = document.getElementById("confetti-container");
+  if (!confettiContainer) return;
+  
+  confettiContainer.innerHTML = "";
+
+  for (let i = 0; i < 390; i++) {
+    const c = document.createElement("div");
+    c.className = "confetti-piece";
+
+    const colors = ["#ff4757", "#ffa502", "#2ed573", "#1e90ff", "#ff6b81"];
+    c.style.background = colors[Math.floor(Math.random() * colors.length)];
+
+    // 🎯 ВЫСТРЕЛИВАЮТ ЗА ПРЕДЕЛАМИ ЭКРАНА
     const corner = Math.random() < 0.5 ? 0 : 1; // 0 = левый нижний, 1 = правый нижний
     let startX, startY;
     
-    if (corner === 0) { // левый нижний
-      startX = Math.random() * 10;
-      startY = 90 + Math.random() * 10;
+    if (corner === 0) { // левый нижний ЗА ЭКРАНОМ
+      startX = -5 + Math.random() * -5; // 👈 от -5% до -10% (слева за экраном)
+      startY = 100 + Math.random() * 10; // 👈 от 100% до 110% (снизу за экраном)
       
       // Летит вправо-вверх с разбросом
       const randomSpread = (Math.random() - 0.5) * 400;
@@ -2595,16 +2609,18 @@ function launchWelcomeConfetti() {
       confettiContainer.appendChild(c);
 
       c.animate([
-        { transform: "translate(0,0) rotate(0deg)", opacity: 1, offset: 0.3},
+        { transform: "translate(0,0) rotate(0deg)", opacity: 0, offset: 0 },
+        { transform: "translate(0,0) rotate(0deg)", opacity: 1, offset: 0.1 },
+        { transform: `translate(${dx}px, ${dy}px) rotate(${Math.random() * 720 - 360}deg)`, opacity: 1, offset: 0.7 },
         { transform: `translate(${dx}px, ${dy}px) rotate(${Math.random() * 720 - 360}deg)`, opacity: 0 }
       ], {
         duration: 3500 + Math.random() * 2000,
         easing: "cubic-bezier(.25,.46,.45,.94)"
       });
       
-    } else { // правый нижний
-      startX = 90 + Math.random() * 10;
-      startY = 90 + Math.random() * 10;
+    } else { // правый нижний ЗА ЭКРАНОМ
+      startX = 105 + Math.random() * 5; // 👈 от 105% до 110% (справа за экраном)
+      startY = 100 + Math.random() * 10; // 👈 от 100% до 110% (снизу за экраном)
       
       // Летит влево-вверх с разбросом (зеркально)
       const randomSpread = (Math.random() - 0.5) * 400;
@@ -2616,7 +2632,9 @@ function launchWelcomeConfetti() {
       confettiContainer.appendChild(c);
 
       c.animate([
-        { transform: "translate(0,0) rotate(0deg)", opacity: 1, offset: 0.3},
+        { transform: "translate(0,0) rotate(0deg)", opacity: 0, offset: 0 },
+        { transform: "translate(0,0) rotate(0deg)", opacity: 1, offset: 0.1 },
+        { transform: `translate(${dx}px, ${dy}px) rotate(${Math.random() * 720 - 360}deg)`, opacity: 1, offset: 0.7 },
         { transform: `translate(${dx}px, ${dy}px) rotate(${Math.random() * 720 - 360}deg)`, opacity: 0 }
       ], {
         duration: 3500 + Math.random() * 2000,
