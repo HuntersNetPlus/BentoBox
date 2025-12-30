@@ -1844,14 +1844,14 @@ promoOverlay.addEventListener('click', () => {
 document.addEventListener('DOMContentLoaded', () => {
   const promoVideo = document.getElementById('promoVideo');
   if (promoVideo) {
-    promoVideo.pause();  // 👈 СТАВИМ НА ПАУЗУ
-    promoVideo.currentTime = 0;  // 👈 СБРАСЫВАЕМ НА НАЧАЛО
+    promoVideo.pause();
+    promoVideo.currentTime = 0;
   }
 });
 
 // Первая загрузка
 window.addEventListener("load", () => {
-  window.scrollTo(0, 0); // 🎯 СКРОЛЛ ВВЕРХ ПРИ ЗАГРУЗКЕ
+  window.scrollTo(0, 0);
   setTimeout(() => {
     hideLoader();
     showPromo();
@@ -1864,22 +1864,19 @@ window.addEventListener("load", () => {
       });
     }
     
-    // 🎯 ТАЙМЕР СТАРТУЕТ ЗДЕСЬ (после закрытия лоадера)
+    // 🎯 ТАЙМЕР СТАРТУЕТ ЗДЕСЬ
     startPromoTimer();
-  }, 1000);
-});
-  // 👇 ДОБАВЬ ЭТО: Анимация дашборда с задержкой
+    
+    // Анимация дашборда с задержкой
     setTimeout(() => {
       document.querySelectorAll('.stat-card').forEach((card, index) => {
         setTimeout(() => {
           card.classList.add('visible');
-        }, index * 150); // каждая карточка с задержкой 150мс
+        }, index * 150);
       });
-    }, 300); // начинается через 300мс после закрытия лоадера
-    
+    }, 300);
   }, 1000);
 });
-
   
 
 // Открытие каталога
@@ -2634,7 +2631,6 @@ setTimeout(() => {
 function openOrderModal(cakeName, cakePrice) {
   const modal = document.getElementById('orderModal');
 
-  // 👇 ДОБАВЬ ЭТИ 2 СТРОКИ СРАЗУ ПОСЛЕ const modal:
   const selectedFormat = document.querySelector('.format-tag.selected');
   const format = selectedFormat ? selectedFormat.dataset.format : '#стандарт';
 
@@ -2646,17 +2642,17 @@ function openOrderModal(cakeName, cakePrice) {
   const selectedFilling = document.querySelector('.filling-tag.selected');
   const filling = selectedFilling ? selectedFilling.textContent : '#базовий';
   
-// Заполняем данные в ПЕРВУЮ строку (название + начинка + формат)
-document.getElementById('orderCakeName').textContent = `${cakeName} ${filling} ${format}`;
-document.getElementById('orderPrice').textContent = cakePrice;
+  // Заполняем данные в ПЕРВУЮ строку (название + начинка + формат)
+  document.getElementById('orderCakeName').textContent = `${cakeName} ${filling} ${format}`;
+  document.getElementById('orderPrice').textContent = cakePrice;
 
-// Скрываем ВТОРУЮ строку (начинка отдельно) - это второй .order-line
-const orderLines = document.querySelectorAll('.order-line');
-if (orderLines.length >= 2) {
-  orderLines[1].style.display = 'none'; // Скрываем вторую строку (индекс 1)
-}
+  // Скрываем ВТОРУЮ строку (начинка отдельно)
+  const orderLines = document.querySelectorAll('.order-line');
+  if (orderLines.length >= 2) {
+    orderLines[1].style.display = 'none';
+  }
 
-document.getElementById('orderTotal').textContent = cakePrice;
+  document.getElementById('orderTotal').textContent = cakePrice;
   
   // Массив предсказаний для чека
   const fortunes = [
