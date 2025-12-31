@@ -1291,7 +1291,8 @@ textarea {
 </div>
 
 <div class="app">
-  <div id="confetti-container" style="position:fixed; top:0; left:0; width:100vw; height:100vh; pointer-events:none; overflow:hidden; z-index:8999;"></div>
+<!-- ЗАМІСТЬ СТАРОГО div -->
+<canvas id="confetti-container" style="position:fixed; top:0; left:0; width:100vw; height:100vh; pointer-events:none; overflow:hidden; z-index:8999;"></canvas>
 
   <!-- ПЕРВЫЙ ЭКРАН -->
   <div class="screen active" id="mainScreen">
@@ -2690,79 +2691,122 @@ function toggleDescription() {
 
 
 
-// ===== КОНФЕТТІ ПРИ ЗАГРУЗКЕ =====
-function launchWelcomeConfetti() {
-  const confettiContainer = document.getElementById("confetti-container");
-  if (!confettiContainer) return;
+// ===== CANVAS КОНФЕТТІ (РЕАЛІСТИЧНА ФІЗИКА) =====
+function launchCanvasConfetti() {
+  const canvas = document.getElementById('confetti-container');
+  if (!canvas) return;
   
-  confettiContainer.innerHTML = "";
-
-  for (let i = 0; i < 390; i++) {
-    const c = document.createElement("div");
-    c.className = "confetti-piece";
-
-    const colors = ["#ff4757", "#ffa502", "#2ed573", "#1e90ff", "#ff6b81"];
-    c.style.background = colors[Math.floor(Math.random() * colors.length)];
-
-    // 🎯 ВЫСТРЕЛИВАЮТ ЗА ПРЕДЕЛАМИ ЭКРАНА
-    const corner = Math.random() < 0.5 ? 0 : 1;
-    let startX, startY;
+  // Перетворюємо div на canvas
+  if (canvas.tagName !== 'CANVAS') {
+    const newCanvas = document.createElement('canvas');
+    newCanvas.id = 'confetti-container';
+    newCanvas.style.cssText = canvas.style.cssText;
+    canvas.parentNode.replaceChild(newCanvas, canvas);
+    return launchCanvasConfetti(); // рекурсивно викликаємо з новим canvas
+  }
+  
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  
+  const confettiColors = ['#ff4757', '#ffa502', '#2ed573', '#1e90ff', '#ff6b81'];
+  const confettiPieces = [];
+  const confettiCount = 150;
+  const gravity = 0.5;
+  const terminalVelocity = 5;
+  const drag = 0.075;
+  
+  class ConfettiPiece {
+    constructor() {
+      this.randomModifier = Math.random() * 10;
+      this.color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+      this.dimensions = {
+        x: Math.random() * 10 + 5,
+        y: Math.random() * 15 + 10
+      };
+      
+      // Стартують з низу екрану
+      this.position = {
+        x: Math.random() * canvas.width,
+        y: canvas.height + 20
+      };
+      
+      this.rotation = Math.random() * 360;
+      this.scale = {
+        x: 1,
+        y: 1
+      };
+      
+      // Швидкість вгору з розкидом по X
+      this.velocity = {
+        x: (Math.random() - 0.5) * 25,
+        y: -(Math.random() * 15 + 15) // вгору
+      };
+    }
     
-    if (corner === 0) { // левый нижний ЗА ЭКРАНОМ
-      startX = -5 + Math.random() * -5;
-      startY = 100 + Math.random() * 10;
+    update() {
+      // Гравітація тягне вниз
+      this.velocity.y += gravity;
+      this.velocity.x -= this.velocity.x * drag;
+      this.velocity.y = Math.min(this.velocity.y, terminalVelocity);
       
-      const randomSpread = (Math.random() - 0.5) * 400;
-      const dx = (Math.random() * 800 + 600) + randomSpread;
-      const dy = -(Math.random() * 800 + 600) + randomSpread;
+      this.position.x += this.velocity.x;
+      this.position.y += this.velocity.y;
       
-      c.style.left = startX + "%";
-      c.style.top = startY + "%";
-      confettiContainer.appendChild(c);
-
-      const duration = 3500 + Math.random() * 2000; // 👈 СОХРАНЯЕМ ДЛИТЕЛЬНОСТЬ
-
-      c.animate([
-        { transform: "translate(0,0) rotate(0deg)", opacity: 0, offset: 0 },
-        { transform: "translate(0,0) rotate(0deg)", opacity: 1, offset: 0.1 },
-        { transform: `translate(${dx}px, ${dy}px) rotate(${Math.random() * 720 - 360}deg)`, opacity: 1, offset: 0.85 },
-        { transform: `translate(${dx}px, ${dy}px) rotate(${Math.random() * 720 - 360}deg)`, opacity: 0 }
-      ], {
-        duration: duration,
-        easing: "cubic-bezier(.25,.46,.45,.94)"
-      });
+      // Обертання
+      this.rotation += (this.velocity.y / 10) * this.randomModifier;
       
-      // 🎯 УДАЛЯЕМ ТОЛЬКО ПОСЛЕ ОКОНЧАНИЯ АНИМАЦИИ
-      setTimeout(() => c.remove(), duration + 100);
+      // Масштабування (ефект перевертання)
+      this.scale.y = Math.cos((this.position.y + this.randomModifier) * 0.09);
+    }
+    
+    draw() {
+      ctx.save();
+      ctx.translate(this.position.x, this.position.y);
+      ctx.rotate(this.rotation * Math.PI / 180);
+      ctx.scale(this.scale.x, this.scale.y);
       
-    } else { // правый нижний ЗА ЭКРАНОМ
-      startX = 105 + Math.random() * 5;
-      startY = 100 + Math.random() * 10;
+      ctx.fillStyle = this.color;
+      ctx.fillRect(-this.dimensions.x / 2, -this.dimensions.y / 2, this.dimensions.x, this.dimensions.y);
       
-      const randomSpread = (Math.random() - 0.5) * 400;
-      const dx = -(Math.random() * 800 + 600) + randomSpread;
-      const dy = -(Math.random() * 800 + 600) + randomSpread;
-      
-      c.style.left = startX + "%";
-      c.style.top = startY + "%";
-      confettiContainer.appendChild(c);
-
-      const duration = 3500 + Math.random() * 2000; // 👈 СОХРАНЯЕМ ДЛИТЕЛЬНОСТЬ
-
-      c.animate([
-        { transform: "translate(0,0) rotate(0deg)", opacity: 0, offset: 0 },
-        { transform: "translate(0,0) rotate(0deg)", opacity: 1, offset: 0.1 },
-        { transform: `translate(${dx}px, ${dy}px) rotate(${Math.random() * 720 - 360}deg)`, opacity: 1, offset: 0.85 },
-        { transform: `translate(${dx}px, ${dy}px) rotate(${Math.random() * 720 - 360}deg)`, opacity: 0 }
-      ], {
-        duration: duration,
-        easing: "cubic-bezier(.25,.46,.45,.94)"
-      });
-      
-      // 🎯 УДАЛЯЕМ ТОЛЬКО ПОСЛЕ ОКОНЧАНИЯ АНИМАЦИИ
-      setTimeout(() => c.remove(), duration + 100);
+      ctx.restore();
     }
   }
+  
+  // Створюємо конфетті
+  for (let i = 0; i < confettiCount; i++) {
+    confettiPieces.push(new ConfettiPiece());
+  }
+  
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    let activeCount = 0;
+    confettiPieces.forEach(piece => {
+      piece.update();
+      piece.draw();
+      
+      // Рахуємо тільки ті, що ще на екрані або летять вгору
+      if (piece.position.y < canvas.height + 50) {
+        activeCount++;
+      }
+    });
+    
+    // Продовжуємо анімацію поки є активні конфетті
+    if (activeCount > 0) {
+      requestAnimationFrame(animate);
+    } else {
+      // Очищаємо canvas після завершення
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  }
+  
+  animate();
+}
+
+// ОНОВЛЕНА launchWelcomeConfetti — просто викликає canvas версію
+function launchWelcomeConfetti() {
+  launchCanvasConfetti();
 }
 
 // Запуск конфетти после лоадера
