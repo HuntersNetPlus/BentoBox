@@ -2471,7 +2471,7 @@ if (cake.formats) {
   document.getElementById('cakeFormats').innerHTML = formatsHtml;
   document.querySelector('.formats-block').style.display = 'block';
   
-  // Делаем форматы кликабельными
+ // Делаем форматы кликабельными
   document.querySelectorAll('.format-tag').forEach(tag => {
     tag.addEventListener('click', function() {
       if (this.classList.contains('selected')) {
@@ -2482,17 +2482,20 @@ if (cake.formats) {
   Замовити від ${cake.price} ₴
 `;
         orderBtn.dataset.cakePrice = cake.price;
+        orderBtn.dataset.cakeFormat = '#стандарт'; // 🎯 сохраняем формат
       } else {
         document.querySelectorAll('.format-tag').forEach(t => t.classList.remove('selected'));
         this.classList.add('selected');
         
         // Обновляем цену на кнопке
         const price = this.dataset.price;
+        const format = this.dataset.format;
 orderBtn.innerHTML = `
   <img src="https://raw.githubusercontent.com/lucide-icons/lucide/main/icons/shopping-cart.svg" style="width: 18px; height: 18px; vertical-align: middle; margin-right: 6px; filter: brightness(0) saturate(100%) invert(78%) sepia(48%) saturate(426%) hue-rotate(72deg) brightness(98%) contrast(93%);">
   Замовити від ${price} ₴
 `;
 orderBtn.dataset.cakePrice = price;
+orderBtn.dataset.cakeFormat = format; // 🎯 сохраняем формат
       }
     });
   });
@@ -2518,11 +2521,13 @@ orderBtn.dataset.cakePrice = price;
 // Сохраняем данные торта для модального окна
 orderBtn.dataset.cakeName = cake.name;
 orderBtn.dataset.cakePrice = cake.price;
+orderBtn.dataset.cakeFormat = '#стандарт'; // 🎯 начальный формат
 orderBtn.onclick = function(e) {
   e.preventDefault();
-  openOrderModal(cake.name, cake.price);
   const selectedFormat = document.querySelector('.format-tag.selected');
-const format = selectedFormat ? selectedFormat.dataset.format : '#стандарт';
+  const format = selectedFormat ? selectedFormat.dataset.format : '#стандарт';
+  const price = selectedFormat ? selectedFormat.dataset.price : cake.price;
+  openOrderModal(cake.name, price, format);
 };
     
 orderBtn.innerHTML = `
@@ -2757,11 +2762,11 @@ setTimeout(() => {
  
  
 // Открытие модального окна заказа
-function openOrderModal(cakeName, cakePrice) {
+function openOrderModal(cakeName, cakePrice, cakeFormat) {
   const modal = document.getElementById('orderModal');
 
-  const selectedFormat = document.querySelector('.format-tag.selected');
-  const format = selectedFormat ? selectedFormat.dataset.format : '#стандарт';
+  // Формат уже передан как параметр
+  const format = cakeFormat || '#стандарт';
 
   // Генерируем рандомный 5-значный номер
   const orderNumber = Math.floor(10000 + Math.random() * 90000);
