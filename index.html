@@ -1019,7 +1019,45 @@ textarea {
   border-radius: 2px;
 }
 
+/* ===== БЛОК С ИНФОРМАЦИЕЙ О СЕРВИСЕ ===== */
+.service-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  margin-top: 12px;
+  padding: 0 16px;
+}
 
+.service-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #6ab2f2;
+}
+
+.service-icon {
+  width: 20px;
+  height: 20px;
+  filter: brightness(0) saturate(100%) invert(64%) sepia(66%) saturate(1044%) hue-rotate(178deg) brightness(101%) contrast(93%);
+}
+
+.service-users {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #ffffff;
+  opacity: 0.85;
+}
+
+.users-count {
+  font-weight: 700;
+  color: #6ab2f2;
+  font-size: 16px;
+}
 
 
 
@@ -1302,6 +1340,20 @@ textarea {
       </video>
     </div>
 
+    
+<!-- 🎯 НОВЫЙ БЛОК ПОД АВАТАРКОЙ -->
+    <div class="service-info">
+      <div class="service-name">
+        <img src="https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/refs/heads/main/5258506.svg" alt="" class="service-icon">
+        <span>Назва Сервісу</span>
+      </div>
+      <div class="service-users">
+        <span class="users-count" data-target="1247">0</span>
+        <span>користувачів</span>
+      </div>
+    </div>
+ 
+  
     <div class="faq-block">
       <div class="faq-content1">
         Торти на замовлення з індивідуальним дизайном із натуральних інгредієнтів.
@@ -1358,6 +1410,21 @@ textarea {
         <source src="https://cdn.jsdelivr.net/gh/HuntersNetPlus/BentoBox@main/AlphaAvatarRender.webm" type="video/webm">
       </video>
     </div>
+
+
+<!-- 🎯 НОВЫЙ БЛОК ПОД АВАТАРКОЙ -->
+    <div class="service-info">
+      <div class="service-name">
+        <img src="https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/refs/heads/main/5258506.svg" alt="" class="service-icon">
+        <span>Назва Сервісу</span>
+      </div>
+      <div class="service-users">
+        <span class="users-count" data-target="1247">0</span>
+        <span>користувачів</span>
+      </div>
+    </div>
+
+    
 
     <div class="faq-block">
       <div class="faq-content1">
@@ -2987,7 +3054,36 @@ function copyPromoCode() {
   }
 }
   
+// ===== АНИМАЦИЯ СЧЁТЧИКА ПОЛЬЗОВАТЕЛЕЙ =====
+function animateCounter(element) {
+  const target = parseInt(element.getAttribute('data-target'));
+  const duration = 2000; // 2 секунды
+  const frameDuration = 1000 / 60; // 60 FPS
+  const totalFrames = Math.round(duration / frameDuration);
+  let frame = 0;
+  
+  const counter = setInterval(() => {
+    frame++;
+    const progress = frame / totalFrames;
+    const currentCount = Math.round(target * progress);
+    
+    element.textContent = currentCount.toLocaleString('uk-UA'); // форматирование с пробелами
+    
+    if (frame === totalFrames) {
+      clearInterval(counter);
+      element.textContent = target.toLocaleString('uk-UA');
+    }
+  }, frameDuration);
+}
 
+// Запускаем анимацию счётчика при загрузке
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.querySelectorAll('.users-count').forEach(counter => {
+      animateCounter(counter);
+    });
+  }, 1500); // задержка перед запуском анимации
+});
 
 </script>
 
