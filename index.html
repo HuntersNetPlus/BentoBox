@@ -2866,42 +2866,67 @@ function animatePromoCode() {
   const finalCode = generatePromoCode();
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   
-  let iteration = 0;
-  const maxIterations = 25; // кількість кадрів анімації
+  let revealedIndex = 0; // який символ зараз декодується
+  const codeArray = finalCode.split('');
+  
+  // Початковий стан — всі X (крім тире)
+  promoCodeEl.textContent = finalCode
+    .split('')
+    .map(char => char === '-' ? '-' : 'X')
+    .join('');
   
   const interval = setInterval(() => {
-    promoCodeEl.textContent = finalCode
-      .split('')
-      .map((char, index) => {
-        // Пропускаємо тире
+    // Знаходимо наступний символ (пропускаємо тире)
+    while (revealedIndex < codeArray.length && codeArray[revealedIndex] === '-') {
+      revealedIndex++;
+    }
+    
+    if (revealedIndex >= codeArray.length) {
+      clearInterval(interval);
+      return;
+    }
+    
+    // Показуємо 3-5 випадкових символів перед фінальним
+    let flickerCount = 0;
+    const maxFlicker = Math.floor(Math.random() * 3) + 3; // 3-5 разів
+    
+    const flickerInterval = setInterval(() => {
+      const displayCode = codeArray.map((char, index) => {
         if (char === '-') return '-';
-        
-        // Якщо ще не дійшли до цієї букви — показуємо рандомну
-        if (index > iteration) {
+        if (index < revealedIndex) return char; // вже розкриті
+        if (index === revealedIndex) {
+          // поточний символ — показуємо рандомний
           return chars[Math.floor(Math.random() * chars.length)];
         }
-        
-        // Інакше показуємо фінальну букву
-        return char;
-      })
-      .join('');
+        return 'X'; // ще не розкриті
+      }).join('');
+      
+      promoCodeEl.textContent = displayCode;
+      flickerCount++;
+      
+      if (flickerCount >= maxFlicker) {
+        clearInterval(flickerInterval);
+        // Показуємо фінальний символ
+        const finalDisplay = codeArray.map((char, index) => {
+          if (char === '-') return '-';
+          if (index <= revealedIndex) return char;
+          return 'X';
+        }).join('');
+        promoCodeEl.textContent = finalDisplay;
+        revealedIndex++;
+      }
+    }, 40); // швидкість мерехтіння
     
-    iteration += 1/3; // швидкість декодування (чим менше — тим повільніше)
-    
-    if (iteration >= finalCode.length) {
-      clearInterval(interval);
-      promoCodeEl.textContent = finalCode; // фінальний код
-    }
-  }, 50); // 50ms між кадрами (можна змінити для швидкості)
+  }, 150); // затримка між символами (чим більше — тим повільніше)
 }
 
-// Копирование промокода (ОБНОВЛЕННАЯ ВЕРСИЯ)
+// Копирование промокода (БЕЗ ЗМІН)
 function copyPromoCode() {
   const promoCodeEl = document.getElementById("promoCode");
   const code = promoCodeEl.textContent;
   
-  // Якщо код ще анімується — не копіюємо
-  if (code.includes('?') || !code.includes('-')) return;
+  // Якщо код ще анімується (є X) — не копіюємо
+  if (code.includes('X')) return;
   
   // Останавливаем таймер
   clearTimeout(promoTimer);
