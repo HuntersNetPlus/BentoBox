@@ -291,22 +291,30 @@ html {
   scrollbar-width: none;
   -ms-overflow-style: none;
   
-  /* 🎯 FADE-OUT ПО КРАЯМ */
-  mask-image: linear-gradient(
-    to right,
-    transparent 0%,
-    black 10%,
-    black 90%,
-    transparent 100%
-  );
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent 0%,
-    black 10%,
-    black 90%,
-    transparent 100%
-  );
+  /* 🎯 ИЗНАЧАЛЬНО БЕЗ РАЗМЫТИЯ */
+  mask-image: none;
+  -webkit-mask-image: none;
+  transition: mask-image 0.3s ease, -webkit-mask-image 0.3s ease;
 }
+
+/* 🎯 РАЗМЫТИЕ СЛЕВА */
+.fillings-container.blur-left {
+  mask-image: linear-gradient(to right, transparent 0%, black 10%, black 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 100%);
+}
+
+/* 🎯 РАЗМЫТИЕ СПРАВА */
+.fillings-container.blur-right {
+  mask-image: linear-gradient(to right, black 0%, black 90%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, black 0%, black 90%, transparent 100%);
+}
+
+/* 🎯 РАЗМЫТИЕ С ОБЕИХ СТОРОН */
+.fillings-container.blur-both {
+  mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 10%, black 90%, transparent 100%);
+}
+
 .fillings-container::-webkit-scrollbar {
   display: none; /* Chrome, Safari */
 }
@@ -2351,6 +2359,33 @@ const cakes = [
 },
 ];
 
+// 🎯 ФУНКЦИЯ ОБНОВЛЕНИЯ РАЗМЫТИЯ СЛАЙДЕРА
+function updateFillingsBlur() {
+  const container = document.querySelector('.fillings-container');
+  if (!container) return;
+  
+  const scrollLeft = container.scrollLeft;
+  const maxScroll = container.scrollWidth - container.clientWidth;
+  const threshold = 5; // пороговое значение в пикселях
+  
+  const atStart = scrollLeft <= threshold;
+  const atEnd = scrollLeft >= maxScroll - threshold;
+  
+  // Убираем все классы размытия
+  container.classList.remove('blur-left', 'blur-right', 'blur-both');
+  
+  // Добавляем нужные классы в зависимости от позиции
+  if (atStart && !atEnd) {
+    container.classList.add('blur-right'); // только справа
+  } else if (atEnd && !atStart) {
+    container.classList.add('blur-left'); // только слева
+  } else if (!atStart && !atEnd) {
+    container.classList.add('blur-both'); // с обеих сторон
+  }
+  // если atStart && atEnd (контент влезает целиком) — не добавляем ничего
+}
+
+  
 // Открытие торта
 function openCake(index){
   showLoader();
@@ -2391,6 +2426,19 @@ if (cake.fillings && cake.fillings.length) {
       }
     });
   });
+
+  // 🎯 ДОБАВЛЯЕМ ОТСЛЕЖИВАНИЕ СКРОЛЛА
+  const fillingsContainer = document.querySelector('.fillings-container');
+  if (fillingsContainer) {
+    // Проверяем сразу после отрисовки
+    setTimeout(() => updateFillingsBlur(), 100);
+    
+    // Отслеживаем скролл
+    fillingsContainer.addEventListener('scroll', updateFillingsBlur);
+    
+    // Отслеживаем изменение размера окна
+    window.addEventListener('resize', updateFillingsBlur);
+  }
 } else {
   document.querySelector('.fillings-block').style.display = 'none';
 }
