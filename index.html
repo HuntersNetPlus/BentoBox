@@ -1656,24 +1656,7 @@ function hidePromo(){
 }
   
 
-  // 🎯 ОПРЕДЕЛЕНИЕ iOS И ЗАМЕНА SVG
-document.addEventListener('DOMContentLoaded', () => {
-  const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
-  
-  if (isIOS) {
-    // Скрываем WebM видео
-    const promoVideo = document.getElementById('promoVideo');
-    if (promoVideo) {
-      promoVideo.style.display = 'none';
-    }
-    
-    // Меняем SVG на альтернативный (без анимации)
-    const promoBaseSvg = document.querySelector('.promo-base-svg');
-    if (promoBaseSvg) {
-      promoBaseSvg.src = 'https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/70fc7ec6d0701c793b8179c7cba6e859634b6a2b/CPNSVG15StaticCurves.svg';
-    }
-  }
-});
+ 
 
 // Таймер промокода (15 секунд)
 function startPromoTimer() {
