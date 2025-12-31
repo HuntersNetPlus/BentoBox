@@ -2711,7 +2711,7 @@ function launchCanvasConfetti() {
   
   const confettiColors = ['#ff4757', '#ffa502', '#2ed573', '#1e90ff', '#ff6b81'];
   const confettiPieces = [];
-  const confettiCount = 150;
+  const confettiCount = 300;
   const gravity = 0.5;
   const terminalVelocity = 5;
   const drag = 0.075;
@@ -2720,10 +2720,10 @@ function launchCanvasConfetti() {
     constructor() {
       this.randomModifier = Math.random() * 10;
       this.color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
-      this.dimensions = {
-        x: Math.random() * 10 + 5,
-        y: Math.random() * 15 + 10
-      };
+     this.dimensions = {
+  x: (Math.random() * 10 + 5) / 2,  // 👈 размер вдвое меньше
+  y: (Math.random() * 15 + 10) / 2  // 👈 размер вдвое меньше
+};
       
       // Стартують з низу екрану
       this.position = {
@@ -2809,10 +2809,10 @@ function launchWelcomeConfetti() {
   launchCanvasConfetti();
 }
 
-// Запуск конфетти после лоадера
+// Запуск конфетти после лоадера с задержкой
 setTimeout(() => {
   launchWelcomeConfetti();
-}, 1100);
+}, 1800); // 👈 задержка 1.8 секунды (было 1.1)
  
  
 // Открытие модального окна заказа
@@ -2870,7 +2870,7 @@ function openOrderModal(cakeName, cakePrice, cakeFormat) {
   // 🎯 ЗАПУСКАЕМ КОНФЕТТИ С НЕБОЛЬШОЙ ЗАДЕРЖКОЙ
   setTimeout(() => {
     launchWelcomeConfetti();
-  }, 300); // 👈 задержка 300ms, чтобы модальное окно успело появиться
+  }, 600); // 👈 задержка 300ms, чтобы модальное окно успело появиться
 } // 🎯 ЗАКРЫЛИ ФУНКЦИЮ openOrderModal
 
 // Закрытие модального окна
