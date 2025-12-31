@@ -2725,11 +2725,11 @@ function launchCanvasConfetti() {
   y: (Math.random() * 15 + 10) / 2  // 👈 размер вдвое меньше
 };
       
-      // Стартують з низу екрану
-      this.position = {
-        x: Math.random() * canvas.width,
-        y: canvas.height + 20
-      };
+     // Стартують ЗА ПРЕДЕЛАМИ экрана (снизу)
+this.position = {
+  x: Math.random() * canvas.width,
+  y: canvas.height + 100 // 👈 было +20, теперь +100 (дальше за экраном)
+};
       
       this.rotation = Math.random() * 360;
       this.scale = {
