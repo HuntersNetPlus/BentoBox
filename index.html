@@ -22,6 +22,28 @@ html {
   width: 100%;
   position: relative;
 }
+
+  /* ===== УБИРАЕМ ГОЛУБОЕ ВЫДЕЛЕНИЕ ПРИ КЛИКЕ НА МОБИЛЬНЫХ ===== */
+* {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Возвращаем выделение текста там, где нужно */
+.faq-content1,
+.description-content,
+input,
+textarea {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
 /* ===== ПРОМОКОД ОВЕРЛЕЙ ===== */
 /* ===== ПРОМОКОД ОВЕРЛЕЙ ===== */
 .promo-overlay {
