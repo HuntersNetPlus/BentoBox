@@ -1280,9 +1280,9 @@ textarea {
     playsinline
   ></video>
   
-  <div class="promo-code-box" id="promoCode" onclick="copyPromoCode()">
-    H5Y2-WB7T-OP4N-G1R5N
-  </div>
+ <div class="promo-code-box" id="promoCode" onclick="copyPromoCode()">
+  XXXX-XXXX-XXXX-XXXX
+</div>
      
      <div class="promo-shimmer"></div>
      
@@ -1909,12 +1909,17 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// Первая загрузка
+// Первая загрузка (ЗНАЙДИ ЦЕЙ БЛОК І ОНОВИТИ)
 window.addEventListener("load", () => {
   window.scrollTo(0, 0);
   setTimeout(() => {
     hideLoader();
     showPromo();
+    
+    // 🎯 ЗАПУСКАЕМ АНИМАЦИЮ ПРОМОКОДА
+    setTimeout(() => {
+      animatePromoCode();
+    }, 600); // затримка перед початком декодування
     
     // 🎯 ЗАПУСКАЕМ ВИДЕО
     const promoVideo = document.getElementById('promoVideo');
@@ -2841,7 +2846,77 @@ document.getElementById('orderModal').addEventListener('click', function(e) {
   }
 });
 
+// ===== ГЕНЕРАЦИЯ И АНИМАЦИЯ ПРОМОКОДА =====
+function generatePromoCode() {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // без O, I, 0, 1 (щоб не плутати)
+  let code = '';
+  
+  for (let i = 0; i < 16; i++) {
+    if (i > 0 && i % 4 === 0) {
+      code += '-';
+    }
+    code += chars[Math.floor(Math.random() * chars.length)];
+  }
+  
+  return code;
+}
 
+function animatePromoCode() {
+  const promoCodeEl = document.getElementById("promoCode");
+  const finalCode = generatePromoCode();
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  
+  let iteration = 0;
+  const maxIterations = 25; // кількість кадрів анімації
+  
+  const interval = setInterval(() => {
+    promoCodeEl.textContent = finalCode
+      .split('')
+      .map((char, index) => {
+        // Пропускаємо тире
+        if (char === '-') return '-';
+        
+        // Якщо ще не дійшли до цієї букви — показуємо рандомну
+        if (index > iteration) {
+          return chars[Math.floor(Math.random() * chars.length)];
+        }
+        
+        // Інакше показуємо фінальну букву
+        return char;
+      })
+      .join('');
+    
+    iteration += 1/3; // швидкість декодування (чим менше — тим повільніше)
+    
+    if (iteration >= finalCode.length) {
+      clearInterval(interval);
+      promoCodeEl.textContent = finalCode; // фінальний код
+    }
+  }, 50); // 50ms між кадрами (можна змінити для швидкості)
+}
+
+// Копирование промокода (ОБНОВЛЕННАЯ ВЕРСИЯ)
+function copyPromoCode() {
+  const promoCodeEl = document.getElementById("promoCode");
+  const code = promoCodeEl.textContent;
+  
+  // Якщо код ще анімується — не копіюємо
+  if (code.includes('?') || !code.includes('-')) return;
+  
+  // Останавливаем таймер
+  clearTimeout(promoTimer);
+  
+  // Копируем в буфер обмена
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(code).then(() => {
+      showCopyFeedback();
+    }).catch(() => {
+      fallbackCopyTextToClipboard(code);
+    });
+  } else {
+    fallbackCopyTextToClipboard(code);
+  }
+}
   
 
 
