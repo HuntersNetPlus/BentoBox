@@ -1969,20 +1969,14 @@ function fallbackCopyTextToClipboard(text) {
 // Визуальная обратная связь при копировании
 function showCopyFeedback() {
   const promoCodeEl = document.getElementById("promoCode");
-  const originalText = promoCodeEl.textContent;
   
   promoCodeEl.classList.add("copied");
   promoCodeEl.textContent = "промокод скопійовано ✓";
   
+  // 🎯 СРАЗУ ЗАПУСКАЕМ РАСПАД БЕЗ ВОЗВРАТА ПРОМОКОДА
   setTimeout(() => {
-    promoCodeEl.textContent = originalText;
-    promoCodeEl.classList.remove("copied");
-    
-    // 🎯 ЗАПУСКАЕМ АНИМАЦИЮ РАСПАДА ЧЕРЕЗ 500ms
-    setTimeout(() => {
-      disintegratePromo();
-    }, 500);
-  }, 1500); // показываем сообщение 1.5 секунды
+    disintegratePromo();
+  }, 1200); // через 1.2 секунды после показа сообщения начинается распад
 }
 
 // Клик за пределами промокода закрывает оверлей
