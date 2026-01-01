@@ -2083,22 +2083,28 @@ window.addEventListener("load", async () => {
     // 🎯 ПРОВЕРЯЕМ, НУЖНО ЛИ ПОКАЗЫВАТЬ ПРОМОКОД
     const shouldShowPromo = await checkPromoStatus();
     
-    if (shouldShowPromo) {
-      showPromo();
-      
-      // 🎯 ЗАПУСКАЕМ АНИМАЦИЮ ПРОМОКОДА
-      setTimeout(() => {
-        animatePromoCode();
-      }, 600);
-      
-      // 🎯 ЗАПУСКАЕМ ВИДЕО
-      const promoVideo = document.getElementById('promoVideo');
-      if (promoVideo) {
-        promoVideo.play().catch(err => {
-          console.log('Автозапуск видео заблокирован:', err);
-        });
-      }
-      
+if (shouldShowPromo) {
+  showPromo();
+  
+  // 🎯 ЗАПУСКАЕМ АНИМАЦИЮ ПРОМОКОДА
+  setTimeout(() => {
+    animatePromoCode();
+  }, 600);
+  
+  // 🎯 ЗАПУСКАЕМ ВИДЕО
+  const promoVideo = document.getElementById('promoVideo');
+  if (promoVideo) {
+    promoVideo.play().catch(err => {
+      console.log('Автозапуск видео заблокирован:', err);
+    });
+  }
+  
+  // 🎯 ЗАПУСКАЕМ КОНФЕТТИ
+  setTimeout(() => {
+    launchWelcomeConfetti();
+  }, 1200);
+  
+    
       // 🎯 ТАЙМЕР СТАРТУЕТ ЗДЕСЬ
       startPromoTimer();
     } else {
