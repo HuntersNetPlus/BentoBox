@@ -791,6 +791,15 @@ textarea {
 .cake-lightbox-arrow.prev { left: 20px; }
 .cake-lightbox-arrow.next { right: 20px; }
 
+/* 🎯 БОЛЬШИЕ ЭКРАНЫ (компьютеры) - картинка больше на 20% */
+@media (min-width: 769px) {
+  .cake-lightbox-image-container {
+    width: 60%;        /* было 50%, теперь 60% (на 20% больше) */
+    max-width: 336px;  /* было 280px, теперь 336px (280 * 1.2) */
+  }
+}
+
+/* 🎯 МОБИЛЬНЫЕ И ПЛАНШЕТЫ - оставляем как есть */
 @media (max-width: 768px) {
   .cake-lightbox-image-container {
     width: 85%;
