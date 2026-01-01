@@ -1725,7 +1725,29 @@ textarea {
 const loader = document.getElementById("loader");
 
 // 🎯 ПРОВЕРКА ПРОМОКОДА В STORAGE
+// 🎯 ПРОВЕРКА ПРОМОКОДА В STORAGE
 async function checkPromoStatus() {
+  // 🎯 ПРОВЕРЯЕМ, ДОСТУПЕН ЛИ window.storage
+  if (!window.storage || typeof window.storage.get !== 'function') {
+    console.error('❌ window.storage НЕ ДОСТУПЕН! Этот код работает только в Claude.ai артефактах.');
+    console.log('📌 Используем fallback: localStorage');
+    
+    // FALLBACK: используем localStorage
+    const hiddenUntil = localStorage.getItem('promo_hidden_until');
+    if (hiddenUntil) {
+      const now = Date.now();
+      if (now < parseInt(hiddenUntil)) {
+        console.log('✅ Промокод скрыт до:', new Date(parseInt(hiddenUntil)).toLocaleString());
+        return false; // НЕ показывать
+      } else {
+        // Время истекло — удаляем
+        localStorage.removeItem('promo_hidden_until');
+      }
+    }
+    return true; // показать промокод
+  }
+  
+  // Основной код для Claude.ai
   try {
     const result = await window.storage.get('promo_hidden_until');
     if (result && result.value) {
@@ -1734,7 +1756,7 @@ async function checkPromoStatus() {
       
       // Если время ещё не истекло — не показываем промокод
       if (now < hiddenUntil) {
-        console.log('Промокод скрыт до:', new Date(hiddenUntil).toLocaleString());
+        console.log('✅ Промокод скрыт до:', new Date(hiddenUntil).toLocaleString());
         return false; // НЕ показывать
       }
     }
@@ -1746,13 +1768,27 @@ async function checkPromoStatus() {
 }
 
 // 🎯 СОХРАНЕНИЕ В STORAGE (на месяц)
+// 🎯 СОХРАНЕНИЕ В STORAGE (на месяц)
 async function hidePromoForMonth() {
+  const oneMonthLater = Date.now() + (30 * 24 * 60 * 60 * 1000); // +30 дней
+  
+  // 🎯 ПРОВЕРЯЕМ, ДОСТУПЕН ЛИ window.storage
+  if (!window.storage || typeof window.storage.set !== 'function') {
+    console.log('📌 Используем fallback: localStorage');
+    localStorage.setItem('promo_hidden_until', oneMonthLater.toString());
+    console.log('✅ Промокод скрыт до:', new Date(oneMonthLater).toLocaleString());
+    return;
+  }
+  
+  // Основной код для Claude.ai
   try {
-    const oneMonthLater = Date.now() + (30 * 24 * 60 * 60 * 1000); // +30 дней
     await window.storage.set('promo_hidden_until', oneMonthLater.toString());
-    console.log('Промокод скрыт до:', new Date(oneMonthLater).toLocaleString());
+    console.log('✅ Промокод скрыт до:', new Date(oneMonthLater).toLocaleString());
   } catch (error) {
-    console.error('Ошибка сохранения в storage:', error);
+    console.error('❌ Ошибка сохранения в storage:', error);
+    // Fallback на localStorage
+    localStorage.setItem('promo_hidden_until', oneMonthLater.toString());
+    console.log('📌 Сохранено через localStorage');
   }
 }
   
