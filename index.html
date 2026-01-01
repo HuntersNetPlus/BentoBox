@@ -1319,7 +1319,7 @@ textarea {
     playsinline
   ></video>
   
- <div class="promo-code-box" id="promoCode" onclick="copyPromoCode()">
+ <div class="promo-code-box" id="promoCode" onclick="copyPromoCode(event)">
   XXXX-XXXX-XXXX-XXXX
 </div>
      
@@ -1908,18 +1908,31 @@ if (!allGone || elapsed < totalDuration) {
 
   
 // Копирование промокода
-function copyPromoCode() {
-  const promoCodeEl = document.getElementById("promoCode");
-  const code = promoCodeEl.textContent;
+function copyPromoCode(event) {
+  // Останавливаем всплытие события, чтобы не закрыть оверлей
+  if (event) {
+    event.stopPropagation();
+  }
   
-  // Останавливаем таймер
+  const promoCodeEl = document.getElementById("promoCode");
+  const code = promoCodeEl.textContent.trim();
+  
+  // Якщо код ще анімується (є X) — не копіюємо
+  if (code.includes('X')) {
+    console.log('Промокод ще декодується...');
+    return;
+  }
+  
+  // Останавливаем таймер распада
   clearTimeout(promoTimer);
   
   // Копируем в буфер обмена
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(code).then(() => {
+      console.log('Промокод скопійовано:', code);
       showCopyFeedback();
-    }).catch(() => {
+    }).catch((err) => {
+      console.error('Помилка копіювання через Clipboard API:', err);
       fallbackCopyTextToClipboard(code);
     });
   } else {
@@ -1933,15 +1946,21 @@ function fallbackCopyTextToClipboard(text) {
   textArea.value = text;
   textArea.style.position = "fixed";
   textArea.style.left = "-999999px";
+  textArea.style.top = "0";
   document.body.appendChild(textArea);
   textArea.focus();
   textArea.select();
   
   try {
-    document.execCommand('copy');
-    showCopyFeedback();
+    const successful = document.execCommand('copy');
+    if (successful) {
+      console.log('Промокод скопійовано (fallback):', text);
+      showCopyFeedback();
+    } else {
+      console.error('Не вдалося скопіювати промокод');
+    }
   } catch (err) {
-    console.error('Ошибка копирования:', err);
+    console.error('Помилка копіювання:', err);
   }
   
   document.body.removeChild(textArea);
@@ -1958,8 +1977,12 @@ function showCopyFeedback() {
   setTimeout(() => {
     promoCodeEl.textContent = originalText;
     promoCodeEl.classList.remove("copied");
-    hidePromo();
-  }, 2000);
+    
+    // 🎯 ЗАПУСКАЕМ АНИМАЦИЮ РАСПАДА ЧЕРЕЗ 500ms
+    setTimeout(() => {
+      disintegratePromo();
+    }, 500);
+  }, 1500); // показываем сообщение 1.5 секунды
 }
 
 // Клик за пределами промокода закрывает оверлей
