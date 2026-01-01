@@ -3049,28 +3049,7 @@ function animatePromoCode() {
   }, 100); // затримка між символами (чим більше — тим повільніше)
 }
 
-// Копирование промокода (БЕЗ ЗМІН)
-function copyPromoCode() {
-  const promoCodeEl = document.getElementById("promoCode");
-  const code = promoCodeEl.textContent;
-  
-  // Якщо код ще анімується (є X) — не копіюємо
-  if (code.includes('X')) return;
-  
-  // Останавливаем таймер
-  clearTimeout(promoTimer);
-  
-  // Копируем в буфер обмена
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(code).then(() => {
-      showCopyFeedback();
-    }).catch(() => {
-      fallbackCopyTextToClipboard(code);
-    });
-  } else {
-    fallbackCopyTextToClipboard(code);
-  }
-}
+
   
 // ===== АНИМАЦИЯ СЧЁТЧИКА ПОЛЬЗОВАТЕЛЕЙ =====
 function animateCounter(element) {
