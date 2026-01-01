@@ -1723,6 +1723,39 @@ textarea {
 
 
 const loader = document.getElementById("loader");
+
+// 🎯 ПРОВЕРКА ПРОМОКОДА В STORAGE
+async function checkPromoStatus() {
+  try {
+    const result = await window.storage.get('promo_hidden_until');
+    if (result && result.value) {
+      const hiddenUntil = parseInt(result.value);
+      const now = Date.now();
+      
+      // Если время ещё не истекло — не показываем промокод
+      if (now < hiddenUntil) {
+        console.log('Промокод скрыт до:', new Date(hiddenUntil).toLocaleString());
+        return false; // НЕ показывать
+      }
+    }
+  } catch (error) {
+    console.log('Промокод ещё не был сохранён или истёк:', error);
+  }
+  
+  return true; // показать промокод
+}
+
+// 🎯 СОХРАНЕНИЕ В STORAGE (на месяц)
+async function hidePromoForMonth() {
+  try {
+    const oneMonthLater = Date.now() + (30 * 24 * 60 * 60 * 1000); // +30 дней
+    await window.storage.set('promo_hidden_until', oneMonthLater.toString());
+    console.log('Промокод скрыт до:', new Date(oneMonthLater).toLocaleString());
+  } catch (error) {
+    console.error('Ошибка сохранения в storage:', error);
+  }
+}
+  
 const promoOverlay = document.getElementById("promoOverlay");
 const promoCard = document.getElementById("promoCard");
 const cakeScreen = document.getElementById("cakeScreen");
@@ -1751,9 +1784,12 @@ function hidePromo(){
  
 
 // Таймер промокода (15 секунд)
+// Таймер промокода (15 секунд)
 function startPromoTimer() {
   promoTimer = setTimeout(() => {
     if (!promoDisintegrated) {
+      // 🎯 СОХРАНЯЕМ В STORAGE (промокод закрылся по таймеру)
+      hidePromoForMonth();
       disintegratePromo();
     }
   }, 15000);
@@ -1968,21 +2004,27 @@ function fallbackCopyTextToClipboard(text) {
 }
 
 // Визуальная обратная связь при копировании
+// Визуальная обратная связь при копировании
 function showCopyFeedback() {
   const promoCodeEl = document.getElementById("promoCode");
   
   promoCodeEl.classList.add("copied");
   promoCodeEl.textContent = "промокод скопійовано ✓";
   
+  // 🎯 СОХРАНЯЕМ В STORAGE (промокод скопирован)
+  hidePromoForMonth();
+  
   // 🎯 СРАЗУ ЗАПУСКАЕМ РАСПАД БЕЗ ВОЗВРАТА ПРОМОКОДА
   setTimeout(() => {
     disintegratePromo();
-  }, 1200); // через 1.2 секунды после показа сообщения начинается распад
+  }, 1200);
 }
 
 // Клик за пределами промокода закрывает оверлей
 promoOverlay.addEventListener('click', () => {
   clearTimeout(promoTimer);
+  // 🎯 СОХРАНЯЕМ В STORAGE (пользователь закрыл вручную)
+  hidePromoForMonth();
   hidePromo();
 });
 
@@ -1997,27 +2039,35 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Первая загрузка (ЗНАЙДИ ЦЕЙ БЛОК І ОНОВИТИ)
-window.addEventListener("load", () => {
+window.addEventListener("load", async () => {
   window.scrollTo(0, 0);
-  setTimeout(() => {
+  setTimeout(async () => {
     hideLoader();
-    showPromo();
     
-    // 🎯 ЗАПУСКАЕМ АНИМАЦИЮ ПРОМОКОДА
-    setTimeout(() => {
-      animatePromoCode();
-    }, 600); // затримка перед початком декодування
+    // 🎯 ПРОВЕРЯЕМ, НУЖНО ЛИ ПОКАЗЫВАТЬ ПРОМОКОД
+    const shouldShowPromo = await checkPromoStatus();
     
-    // 🎯 ЗАПУСКАЕМ ВИДЕО
-    const promoVideo = document.getElementById('promoVideo');
-    if (promoVideo) {
-      promoVideo.play().catch(err => {
-        console.log('Автозапуск видео заблокирован:', err);
-      });
+    if (shouldShowPromo) {
+      showPromo();
+      
+      // 🎯 ЗАПУСКАЕМ АНИМАЦИЮ ПРОМОКОДА
+      setTimeout(() => {
+        animatePromoCode();
+      }, 600);
+      
+      // 🎯 ЗАПУСКАЕМ ВИДЕО
+      const promoVideo = document.getElementById('promoVideo');
+      if (promoVideo) {
+        promoVideo.play().catch(err => {
+          console.log('Автозапуск видео заблокирован:', err);
+        });
+      }
+      
+      // 🎯 ТАЙМЕР СТАРТУЕТ ЗДЕСЬ
+      startPromoTimer();
+    } else {
+      console.log('Промокод пропущен — уже был показан в этом месяце');
     }
-    
-    // 🎯 ТАЙМЕР СТАРТУЕТ ЗДЕСЬ
-    startPromoTimer();
     
     // Анимация дашборда с задержкой
     setTimeout(() => {
