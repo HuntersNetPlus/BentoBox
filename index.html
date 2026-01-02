@@ -3003,61 +3003,70 @@ function launchWelcomeConfetti() {
  
 // Открытие модального окна заказа
 function openOrderModal(cakeName, cakePrice, cakeFormat) {
-  const modal = document.getElementById('orderModal');
-
-  // Формат уже передан как параметр
-  const format = cakeFormat || '#стандарт';
-
-  // Генерируем рандомный 5-значный номер
-  const orderNumber = Math.floor(10000 + Math.random() * 90000);
-  document.getElementById('orderNumber').textContent = `Замовлення #${orderNumber} успішно сформовано!`;
+  // 🎯 ШАГ 1: ПОКАЗЫВАЕМ ЛОАДЕР
+  showLoader();
   
-  // Проверяем выбранную начинку
-  const selectedFilling = document.querySelector('.filling-tag.selected');
-  const filling = selectedFilling ? selectedFilling.textContent : '#базовий';
-  
-  // Заполняем данные в ПЕРВУЮ строку (название + начинка + формат)
-  document.getElementById('orderCakeName').textContent = `${cakeName} ${filling} ${format}`;
-  document.getElementById('orderPrice').textContent = cakePrice;
-
-  // Скрываем ВТОРУЮ строку (начинка отдельно)
-  const orderLines = document.querySelectorAll('.order-line');
-  if (orderLines.length >= 2) {
-    orderLines[1].style.display = 'none';
-  }
-
-  document.getElementById('orderTotal').textContent = cakePrice;
-  
-  // Массив предсказаний для чека
-  const fortunes = [
-    "Мед ніколи не псується. Як і добрі спогади.",
-    "У восьминога три серця - але жодне з них не любить понеділки.",
-    "Посмішка напружує менше м'язів, ніж похмурий погляд. Заощаджуй енергію.",
-    "Сьогодні можна трохи більше, ніж зазвичай. Особливо солодкого.",
-    "У полуниці насіння зовні. Світ взагалі любить сюрпризи.",
-    "Іноді майбутнє пророкується дуже просто: буде смачно.",
-    "Солодке не вирішує всі питання, але з ним вони не такі серйозні.",
-    "У всесвіті завжди ніч.",
-    "Бджоли ніколи не сплять.",
-    "У світі більше смаків, аніж проблем. Почни з цього."
-  ];
-  
-  // Выбираем случайное предсказание
-  const randomFortune = fortunes[Math.floor(Math.random() * fortunes.length)];
-  document.getElementById('orderFortune').textContent = randomFortune;
-  
-  // Ссылки на контакты
-  const telegramLink = document.getElementById('orderTelegramLink');
-  telegramLink.href = `https://t.me/your_username?start=${encodeURIComponent(cakeName)}_${encodeURIComponent(filling)}`;
-  
-  // Показываем модальное окно
-  modal.classList.add('active');
-  
-  // 🎯 ЗАПУСКАЕМ КОНФЕТТИ С НЕБОЛЬШОЙ ЗАДЕРЖКОЙ
+  // 🎯 ШАГ 2: ЧЕРЕЗ 500ms ПОКАЗЫВАЕМ ЧЕК
   setTimeout(() => {
-    launchWelcomeConfetti();
-  }, 100); // 👈 задержка 300ms, чтобы модальное окно успело появиться
-} // 🎯 ЗАКРЫЛИ ФУНКЦИЮ openOrderModal
+    const modal = document.getElementById('orderModal');
+
+    // Формат уже передан как параметр
+    const format = cakeFormat || '#стандарт';
+
+    // Генерируем рандомный 5-значный номер
+    const orderNumber = Math.floor(10000 + Math.random() * 90000);
+    document.getElementById('orderNumber').textContent = `Замовлення #${orderNumber} успішно сформовано!`;
+    
+    // Проверяем выбранную начинку
+    const selectedFilling = document.querySelector('.filling-tag.selected');
+    const filling = selectedFilling ? selectedFilling.textContent : '#базовий';
+    
+    // Заполняем данные в ПЕРВУЮ строку (название + начинка + формат)
+    document.getElementById('orderCakeName').textContent = `${cakeName} ${filling} ${format}`;
+    document.getElementById('orderPrice').textContent = cakePrice;
+
+    // Скрываем ВТОРУЮ строку (начинка отдельно)
+    const orderLines = document.querySelectorAll('.order-line');
+    if (orderLines.length >= 2) {
+      orderLines[1].style.display = 'none';
+    }
+
+    document.getElementById('orderTotal').textContent = cakePrice;
+    
+    // Массив предсказаний для чека
+    const fortunes = [
+      "Мед ніколи не псується. Як і добрі спогади.",
+      "У восьминога три серця - але жодне з них не любить понеділки.",
+      "Посмішка напружує менше м'язів, ніж похмурий погляд. Заощаджуй енергію.",
+      "Сьогодні можна трохи більше, ніж зазвичай. Особливо солодкого.",
+      "У полуниці насіння зовні. Світ взагалі любить сюрпризи.",
+      "Іноді майбутнє пророкується дуже просто: буде смачно.",
+      "Солодке не вирішує всі питання, але з ним вони не такі серйозні.",
+      "У всесвіті завжди ніч.",
+      "Бджоли ніколи не сплять.",
+      "У світі більше смаків, аніж проблем. Почни з цього."
+    ];
+    
+    // Выбираем случайное предсказание
+    const randomFortune = fortunes[Math.floor(Math.random() * fortunes.length)];
+    document.getElementById('orderFortune').textContent = randomFortune;
+    
+    // Ссылки на контакты
+    const telegramLink = document.getElementById('orderTelegramLink');
+    telegramLink.href = `https://t.me/your_username?start=${encodeURIComponent(cakeName)}_${encodeURIComponent(filling)}`;
+    
+    // 🎯 СКРЫВАЕМ ЛОАДЕР
+    hideLoader();
+    
+    // 🎯 ПОКАЗЫВАЕМ МОДАЛЬНОЕ ОКНО
+    modal.classList.add('active');
+    
+    // 🎯 ЗАПУСКАЕМ КОНФЕТТИ С НЕБОЛЬШОЙ ЗАДЕРЖКОЙ
+    setTimeout(() => {
+      launchWelcomeConfetti();
+    }, 100);
+  }, 500); // 👈 500ms задержка лоадера
+}
 
 // Закрытие модального окна
 function closeOrderModal() {
