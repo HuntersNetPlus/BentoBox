@@ -3155,15 +3155,19 @@ function animatePromoCode() {
 // ===== АНИМАЦИЯ СЧЁТЧИКА ПОЛЬЗОВАТЕЛЕЙ =====
 function animateCounter(element) {
   const target = parseInt(element.getAttribute('data-target'));
+  const startValue = 812; // 🎯 НАЧАЛЬНОЕ ЗНАЧЕНИЕ
   const duration = 2000; // 2 секунды
   const frameDuration = 1000 / 60; // 60 FPS
   const totalFrames = Math.round(duration / frameDuration);
   let frame = 0;
   
+  // Устанавливаем начальное значение
+  element.textContent = startValue.toLocaleString('uk-UA');
+  
   const counter = setInterval(() => {
     frame++;
     const progress = frame / totalFrames;
-    const currentCount = Math.round(target * progress);
+    const currentCount = Math.round(startValue + (target - startValue) * progress);
     
     element.textContent = currentCount.toLocaleString('uk-UA'); // форматирование с пробелами
     
