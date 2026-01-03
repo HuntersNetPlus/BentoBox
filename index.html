@@ -3060,12 +3060,16 @@ function openOrderModal(cakeName, cakePrice, cakeFormat) {
     const telegramLink = document.getElementById('orderTelegramLink');
     telegramLink.href = `https://t.me/your_username?start=${encodeURIComponent(cakeName)}_${encodeURIComponent(filling)}`;
     
-   // 🎯 СКРЫВАЕМ ЛОАДЕР И УБИРАЕМ КЛАСС РАЗМЫТИЯ
+  // 🎯 СКРЫВАЕМ ЛОАДЕР (НО БЛЮР ОСТАЁТСЯ)
     hideLoader();
-    loader.classList.remove('blur-mode'); // 👈 УБИРАЕМ КЛАСС
     
-    // 🎯 ПОКАЗЫВАЕМ МОДАЛЬНОЕ ОКНО
+    // 🎯 ПОКАЗЫВАЕМ МОДАЛЬНОЕ ОКНО (ЧЕК ПОЯВЛЯЕТСЯ НА БЛЮРЕ)
     modal.classList.add('active');
+    
+    // 🎯 УБИРАЕМ КЛАСС РАЗМЫТИЯ ТОЛЬКО ПОСЛЕ ПОЯВЛЕНИЯ ЧЕКА
+    setTimeout(() => {
+      loader.classList.remove('blur-mode');
+    }, 100); // 👈 убираем блюр после того, как чек уже показался
     
     // 🎯 ЗАПУСКАЕМ КОНФЕТТИ С НЕБОЛЬШОЙ ЗАДЕРЖКОЙ
     setTimeout(() => {
