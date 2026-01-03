@@ -1019,7 +1019,11 @@ textarea {
 .loader.active { opacity: 1; pointer-events: all; }
 .loader img { width: 150px; height: 150px; }
 
-
+.loader.blur-mode {
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
 
 
 /* ===== КОНФЕТТИ ===== */
@@ -3003,7 +3007,8 @@ function launchWelcomeConfetti() {
  
 // Открытие модального окна заказа
 function openOrderModal(cakeName, cakePrice, cakeFormat) {
-  // 🎯 ШАГ 1: ПОКАЗЫВАЕМ ЛОАДЕР
+  // 🎯 ШАГ 1: ПОКАЗЫВАЕМ ЛОАДЕР С РАЗМЫТИЕМ
+  loader.classList.add('blur-mode'); // 👈 ДОБАВЛЯЕМ КЛАСС РАЗМЫТИЯ
   showLoader();
   
   // 🎯 ШАГ 2: ЧЕРЕЗ 500ms ПОКАЗЫВАЕМ ЧЕК
@@ -3055,8 +3060,9 @@ function openOrderModal(cakeName, cakePrice, cakeFormat) {
     const telegramLink = document.getElementById('orderTelegramLink');
     telegramLink.href = `https://t.me/your_username?start=${encodeURIComponent(cakeName)}_${encodeURIComponent(filling)}`;
     
-    // 🎯 СКРЫВАЕМ ЛОАДЕР
+   // 🎯 СКРЫВАЕМ ЛОАДЕР И УБИРАЕМ КЛАСС РАЗМЫТИЯ
     hideLoader();
+    loader.classList.remove('blur-mode'); // 👈 УБИРАЕМ КЛАСС
     
     // 🎯 ПОКАЗЫВАЕМ МОДАЛЬНОЕ ОКНО
     modal.classList.add('active');
