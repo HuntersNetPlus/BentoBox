@@ -1080,12 +1080,13 @@ textarea {
 
 
 /* ===== МОДАЛЬНОЕ ОКНО ЗАКАЗА ===== */
+/* ===== МОДАЛЬНОЕ ОКНО ЗАКАЗА ===== */
 .order-modal {
   position: fixed;
   inset: 0;
-  background: transparent;
-  backdrop-filter: blur(0);
-  -webkit-backdrop-filter: blur(0);
+  background: rgba(0, 0, 0, 0.3);  /* 🎯 БЛЮР ВСЕГДА ЗДЕСЬ */
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   z-index: 8998;
   display: flex;
   align-items: flex-end;
@@ -1098,9 +1099,6 @@ textarea {
 .order-modal.active {
   opacity: 1;
   pointer-events: all;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  background: rgba(0, 0, 0, 0.3);
 }
 
 .order-modal-content {
