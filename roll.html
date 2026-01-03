@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="ru"> 
+<head>
+<meta charset="UTF-8">
+<title>Кремуа | Лотерея</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link rel="icon" href="https://github.com/HuntersNetPlus/BentoBox/raw/refs/heads/main/LogoFav.ico" type="image/x-icon">
+
+<style>
+body { 
+  margin: 0;
+  font-family: Arial, sans-serif; 
+  background: #17212b;
+  color: white;
+  overflow-x: hidden;
+  touch-action: pan-y pinch-zoom;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* ===== ЛОАДЕР ===== */
+.loader {
+  position: fixed;
+  inset: 0;
+  background: #17212b;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  opacity: 1;
+  pointer-events: all;
+  transition: opacity 0.5s ease;
+}
+
+.loader.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.loader img { 
+  width: 150px; 
+  height: 150px;
+  margin-bottom: 20px;
+}
+
+.loader-text {
+  font-size: 18px;
+  color: #6ab2f2;
+  margin-top: 10px;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* ===== ПРОМОКОД ОВЕРЛЕЙ ===== */
+.promo-overlay {
+  position: fixed;
+  inset: 0;
+  background: transparent;
+  backdrop-filter: blur(50px);
+  -webkit-backdrop-filter: blur(50px);
+  z-index: 8888;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+.promo-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+#particleCanvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 8889;
+}
+
+.promo-card {
+  background: transparent;
+  border: none;
+  max-width: 512px;
+  width: 90%;
+  text-align: center;
+  position: relative;
+  transform: scale(0.9);
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  padding: 0 16px;
+}
+
+@keyframes gentle-sway {
+  0%, 100% {
+    transform: scale(1) rotate(-1deg);
+  }
+  50% {
+    transform: scale(1) rotate(1deg);
+  }
+}
+
+.promo-overlay.active .promo-card {
+  transform: scale(1);
+}
+
+.promo-title {
+  font-size: clamp(16px, 5vw, 22px);
+  font-weight: 700;
+  color: #17212b;
+  margin-bottom: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.promo-hint {
+  font-size: 18px;
+  color: #17212b;
+  margin-bottom: 10px;
+  opacity: 0.9;
+}
+
+.promo-image-wrapper {
+  position: relative;
+  width: 100%;
+  background: transparent;
+  aspect-ratio: 2 / 1;
+  max-width: 600px;
+  margin: 0 auto;
+  animation: gentle-sway 4s ease-in-out infinite;
+  mask-image: url('https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/e5a6d4d055bc14e2da10d324d12c566a2f1247f5/CPNSVG11.svg');
+  -webkit-mask-image: url('https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/e5a6d4d055bc14e2da10d324d12c566a2f1247f5/CPNSVG1.svg');
+  mask-size: contain;
+  -webkit-mask-size: contain;
+  mask-position: center;
+  -webkit-mask-position: center;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+}
+
+.promo-base-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  z-index: 1;
+}
+
+.promo-animation-webm {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  z-index: 2;
+  mix-blend-mode: normal;
+  transform: scale(1.08);
+}
+
+.promo-code-box {
+  position: absolute;
+  top: 85%;
+  left: 15%;
+  width: 100%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  padding: 0;
+  z-index: 3;
+  font-size: clamp(14px, 3.5vw, 20px);
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s ease;
+}
+
+.promo-code-box:hover {
+  transform: translateY(-50%) scale(1.05);
+}
+
+.promo-code-box:active {
+  transform: translateY(-50%) scale(0.98);
+}
+
+.promo-shimmer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 4;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.promo-shimmer::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.03) 45%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0.03) 55%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: shimmer-sweep 3s ease-in-out infinite;
+  transform: skewX(-20deg);
+}
+
+@keyframes shimmer-sweep {
+  0% {
+    transform: translateX(-100%) skewX(-20deg);
+  }
+  100% {
+    transform: translateX(100%) skewX(-20deg);
+  }
+}
+
+.back-to-main {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 24px;
+  background: #1d2b3a;
+  border: 1px solid #6ab2f2;
+  color: #6ab2f2;
+  border-radius: 6px;
+  font-weight: 600;
+  text-decoration: none;
+  z-index: 9000;
+  transition: transform 0.15s ease;
+  display: none;
+}
+
+.back-to-main.visible {
+  display: inline-block;
+}
+
+.back-to-main:active {
+  transform: translateX(-50%) scale(0.96);
+}
+
+@media (max-width: 480px) {
+  .promo-title {
+    font-size: 16px;
+  }
+  
+  .promo-hint {
+    font-size: 12px;
+  }
+  
+  .promo-code-box {
+    font-size: clamp(14px, 2.8vw, 20px);
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ЛОАДЕР -->
+<div id="loader" class="loader">
+  <img src="https://github.com/Tarikul-Islam-Anik/Telegram-Animated-Emojis/blob/main/Objects/Hourglass%20Done.webp?raw=true" alt="Загрузка">
+  <div class="loader-text">Генеруємо ваш промокод...</div>
+</div>
+
+<!-- ПРОМОКОД ОВЕРЛЕЙ -->
+<canvas id="particleCanvas"></canvas>
+<div id="promoOverlay" class="promo-overlay">
+  <div class="promo-card" id="promoCard" onclick="event.stopPropagation()">
+    <div class="promo-title" id="promoTitle">Вітаємо! Ось ваш промокод!</div>
+    <div class="promo-hint">натисни на промокод, щоб скопіювати його</div>
+    <div class="promo-image-wrapper">
+      <img 
+        src="https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/78ef867be64454e2ba264502e940f68f684cc588/CPNSVG15StaticCurvesClean.svg" 
+        class="promo-base-svg"
+        alt="Base"
+      >
+      
+      <video 
+        src="https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/main/CouponYellowGlowFlare.webm" 
+        class="promo-animation-webm"
+        id="promoVideo"
+        loop
+        muted
+        playsinline
+      ></video>
+      
+      <div class="promo-code-box" id="promoCode" onclick="copyPromoCode(event)">
+        XXXX-XXXX-XXXX-XXXX
+      </div>
+      
+      <div class="promo-shimmer"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Кнопка возврата на главную -->
+<a href="index.html" class="back-to-main" id="backBtn">Повернутися на головну</a>
+
+<script>
+// ===== КУПОНЫ С РАЗНЫМИ ЦВЕТАМИ =====
+const coupons = [
+  {
+    title: "Бронзовий купон на 5%",
+    codeColor: "#CD7F32",
+    particleColor: "#CD7F32",
+    discount: "5%"
+  },
+  {
+    title: "Срібний купон на 10%",
+    codeColor: "#C0C0C0",
+    particleColor: "#C0C0C0",
+    discount: "10%"
+  },
+  {
+    title: "Золотий купон на 15%",
+    codeColor: "#FFD700",
+    particleColor: "#FFD700",
+    discount: "15%"
+  },
+  {
+    title: "Смарагдовий купон на 20%",
+    codeColor: "#50C878",
+    particleColor: "#50C878",
+    discount: "20%"
+  },
+  {
+    title: "Сапфіровий купон на 25%",
+    codeColor: "#0F52BA",
+    particleColor: "#0F52BA",
+    discount: "25%"
+  },
+  {
+    title: "Рубіновий купон на 30%",
+    codeColor: "#E0115F",
+    particleColor: "#E0115F",
+    discount: "30%"
+  },
+  {
+    title: "Діамантовий купон на 50%",
+    codeColor: "#B9F2FF",
+    particleColor: "#B9F2FF",
+    discount: "50%"
+  }
+];
+
+let selectedCoupon = null;
+let promoDisintegrated = false;
+
+// ===== ГЕНЕРАЦИЯ ПРОМОКОДА =====
+function generatePromoCode() {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let code = '';
+  
+  for (let i = 0; i < 16; i++) {
+    if (i > 0 && i % 4 === 0) {
+      code += '-';
+    }
+    code += chars[Math.floor(Math.random() * chars.length)];
+  }
+  
+  return code;
+}
+
+// ===== АНИМАЦИЯ ДЕКОДИРОВАНИЯ ПРОМОКОДА =====
+function animatePromoCode() {
+  const promoCodeEl = document.getElementById("promoCode");
+  const finalCode = generatePromoCode();
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  
+  let revealedIndex = 0;
+  const codeArray = finalCode.split('');
+  
+  promoCodeEl.textContent = finalCode
+    .split('')
+    .map(char => char === '-' ? '-' : 'X')
+    .join('');
+  
+  const interval = setInterval(() => {
+    while (revealedIndex < codeArray.length && codeArray[revealedIndex] === '-') {
+      revealedIndex++;
+    }
+    
+    if (revealedIndex >= codeArray.length) {
+      clearInterval(interval);
+      return;
+    }
+    
+    let flickerCount = 0;
+    const maxFlicker = Math.floor(Math.random() * 3) + 3;
+    
+    const flickerInterval = setInterval(() => {
+      const displayCode = codeArray.map((char, index) => {
+        if (char === '-') return '-';
+        if (index < revealedIndex) return char;
+        if (index === revealedIndex) {
+          return chars[Math.floor(Math.random() * chars.length)];
+        }
+        return 'X';
+      }).join('');
+      
+      promoCodeEl.textContent = displayCode;
+      flickerCount++;
+      
+      if (flickerCount >= maxFlicker) {
+        clearInterval(flickerInterval);
+        const finalDisplay = codeArray.map((char, index) => {
+          if (char === '-') return '-';
+          if (index <= revealedIndex) return char;
+          return 'X';
+        }).join('');
+        promoCodeEl.textContent = finalDisplay;
+        revealedIndex++;
+      }
+    }, 40);
+    
+  }, 100);
+}
+
+// ===== КОПИРОВАНИЕ ПРОМОКОДА =====
+function copyPromoCode(event) {
+  if (event) {
+    event.stopPropagation();
+  }
+  
+  const promoCodeEl = document.getElementById("promoCode");
+  const code = promoCodeEl.textContent.trim();
+  
+  if (code.includes('X')) {
+    return;
+  }
+  
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(code).then(() => {
+      showCopyFeedback();
+    }).catch(() => {
+      fallbackCopyTextToClipboard(code);
+    });
+  } else {
+    fallbackCopyTextToClipboard(code);
+  }
+}
+
+function fallbackCopyTextToClipboard(text) {
+  const textArea = document.createElement("textarea");
+  textArea.value = text;
+  textArea.style.position = "fixed";
+  textArea.style.left = "-999999px";
+  document.body.appendChild(textArea);
+  textArea.select();
+  
+  try {
+    document.execCommand('copy');
+    showCopyFeedback();
+  } catch (err) {
+    console.error('Помилка копіювання:', err);
+  }
+  
+  document.body.removeChild(textArea);
+}
+
+function showCopyFeedback() {
+  const promoCodeEl = document.getElementById("promoCode");
+  
+  promoCodeEl.classList.add("copied");
+  promoCodeEl.textContent = "промокод скопійовано ✓";
+  
+  setTimeout(() => {
+    disintegratePromo();
+  }, 1200);
+}
+
+// ===== ЭФФЕКТ РАСПАДА НА ЧАСТИЦЫ =====
+function disintegratePromo() {
+  promoDisintegrated = true;
+  
+  const canvas = document.getElementById('particleCanvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  
+  const rect = document.getElementById('promoCard').getBoundingClientRect();
+  
+  const particles = [];
+  const particleSize = 2;
+  const totalDuration = 2000;
+  const burnDuration = 1300;
+  const eraserDuration = 2500;
+  
+  // Используем цвет выбранного купона
+  const particleColor = selectedCoupon.particleColor;
+  
+  const maxDistance = Math.sqrt(rect.width * rect.width + rect.height * rect.height);
+  const speedScale = rect.width / 512;
+  
+  for (let y = 0; y < rect.height; y += particleSize) {
+    for (let x = 0; x < rect.width; x += particleSize) {
+      if (Math.random() > 0.5) continue;
+      
+      const distanceFromBottomRight = Math.sqrt(
+        Math.pow(rect.width - x, 2) + Math.pow(rect.height - y, 2)
+      );
+      
+      const normalizedDistance = distanceFromBottomRight / maxDistance;
+      
+      particles.push({
+        x: rect.left + x,
+        y: rect.top + y,
+        size: Math.random() < 0.5 ? 1 : 2,
+        color: particleColor,
+        speedX: -(Math.random() * 2.5 + 1.5) * speedScale,
+        speedY: -(Math.random() * 2.5 + 0.5) * speedScale,
+        opacity: 0,
+        burnDelay: normalizedDistance * burnDuration,
+        active: false
+      });
+    }
+  }
+  
+  let startTime = Date.now();
+  
+  function generateSoftEraser(progress) {
+    const radius = progress * maxDistance * 1.4;
+    return `linear-gradient(
+      -45deg,
+      transparent 0%,
+      transparent ${radius}px,
+      rgba(0,0,0,0.3) ${radius + 10}px,
+      rgba(0,0,0,0.7) ${radius + 20}px,
+      black ${radius + 30}px
+    )`;
+  }
+  
+  function animate() {
+    const elapsed = Date.now() - startTime;
+    const burnProgress = Math.min(elapsed / eraserDuration, 1);
+    
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    const promoCard = document.getElementById('promoCard');
+    if (burnProgress < 1) {
+      promoCard.style.maskImage = generateSoftEraser(burnProgress);
+      promoCard.style.webkitMaskImage = generateSoftEraser(burnProgress);
+    } else {
+      promoCard.style.opacity = '0';
+    }
+    
+    let allGone = true;
+    
+    particles.forEach(p => {
+      if (!p.active && elapsed >= p.burnDelay) {
+        p.active = true;
+        p.opacity = 1;
+      }
+      
+      if (p.active) {
+        const particleAge = elapsed - p.burnDelay;
+        
+        if (particleAge < 800 && p.opacity > 0) {
+          allGone = false;
+          
+          ctx.globalAlpha = p.opacity;
+          ctx.fillStyle = p.color;
+          ctx.fillRect(p.x, p.y, p.size, p.size);
+          
+          p.x += p.speedX;
+          p.y += p.speedY;
+          p.speedX -= 0.001 * speedScale;
+          p.speedY -= 0.001 * speedScale;
+          
+          p.opacity -= 0.015;
+        }
+      } else {
+        allGone = false;
+      }
+    });
+    
+    if (!allGone || elapsed < totalDuration) {
+      requestAnimationFrame(animate);
+    } else {
+      canvas.style.display = 'none';
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      document.getElementById('promoOverlay').classList.remove('active');
+      
+      // Показываем кнопку возврата
+      document.getElementById('backBtn').classList.add('visible');
+      
+      setTimeout(() => {
+        promoCard.style.maskImage = 'none';
+        promoCard.style.webkitMaskImage = 'none';
+        promoCard.style.opacity = '1';
+      }, 500);
+    }
+  }
+  
+  canvas.style.display = 'block';
+  animate();
+}
+
+// ===== ВЫБОР СЛУЧАЙНОГО КУПОНА =====
+function selectRandomCoupon() {
+  // Вероятности выпадения (сумма = 100)
+  const probabilities = [
+    { coupon: coupons[0], weight: 35 },  // 35% бронзовый
+    { coupon: coupons[1], weight: 25 },  // 25% серебряный
+    { coupon: coupons[2], weight: 20 },  // 20% золотой
+    { coupon: coupons[3], weight: 10 },  // 10% изумрудный
+    { coupon: coupons[4], weight: 5 },   // 5% сапфировый
+    { coupon: coupons[5], weight: 4 },   // 4% рубиновый
+    { coupon: coupons[6], weight: 1 }    // 1% бриллиантовый
+  ];
+  
+  const random = Math.random() * 100;
+  let cumulative = 0;
+  
+  for (let i = 0; i < probabilities.length; i++) {
+    cumulative += probabilities[i].weight;
+    if (random <= cumulative) {
+      return probabilities[i].coupon;
+    }
+  }
+  
+  return coupons[0]; // fallback
+}
+
+// ===== ПРИМЕНЕНИЕ КУПОНА =====
+function applyCoupon(coupon) {
+  selectedCoupon = coupon;
+  
+  // Устанавливаем заголовок
+  document.getElementById('promoTitle').textContent = coupon.title;
+  
+  // Устанавливаем цвет промокода
+  const promoCodeBox = document.getElementById('promoCode');
+  promoCodeBox.style.color = coupon.codeColor;
+  
+  // Применяем цвет для hover и copied состояний
+  const style = document.createElement('style');
+  style.textContent = `
+    .promo-code-box:hover {
+      color: ${coupon.codeColor} !important;
+    }
+    .promo-code-box.copied {
+      color: ${coupon.codeColor} !important;
+    }
+  `;
+  document.head.appendChild(style);
+}
+
+// ===== ЗАПУСК ЛОТЕРЕИ =====
+window.addEventListener('load', () => {
+  const loader = document.getElementById('loader');
+  const promoOverlay = document.getElementById('promoOverlay');
+  
+  // Через 5 секунд скрываем лоадер и показываем купон
+  setTimeout(() => {
+    loader.classList.add('hidden');
+    
+    // Выбираем случайный купон
+    const randomCoupon = selectRandomCoupon();
+    applyCoupon(randomCoupon);
+    
+    // Показываем промокод
+    setTimeout(() => {
+      promoOverlay.classList.add('active');
+      
+      // Запускаем анимацию декодирования
+      setTimeout(() => {
+        animatePromoCode();
+      }, 600);
+      
+      // Запускаем видео
+      const promoVideo = document.getElementById('promoVideo');
+      if (promoVideo) {
+        promoVideo.play().catch(err => {
+          console.log('Автозапуск видео заблокирован:', err);
+        });
+      }
+    }, 300);
+  }, 5000);
+});
+
+// Закрытие по клику вне карточки
+document.getElementById('promoOverlay').addEventListener('click', () => {
+  if (!promoDisintegrated) {
+    disintegratePromo();
+  }
+});
+</script>
+
+</body>
+</html>
