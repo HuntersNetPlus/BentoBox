@@ -3007,14 +3007,17 @@ function launchWelcomeConfetti() {
  
 // Открытие модального окна заказа
 function openOrderModal(cakeName, cakePrice, cakeFormat) {
-  // 🎯 ШАГ 1: ПОКАЗЫВАЕМ ЛОАДЕР С РАЗМЫТИЕМ
-  loader.classList.add('blur-mode'); // 👈 ДОБАВЛЯЕМ КЛАСС РАЗМЫТИЯ
+  const modal = document.getElementById('orderModal');
+  
+  // 🎯 ШАГ 1: ПОКАЗЫВАЕМ МОДАЛЬНОЕ ОКНО С БЛЮРОМ (без чека)
+  modal.classList.add('active');
+  
+  // 🎯 ШАГ 2: ПОКАЗЫВАЕМ ЛОАДЕР ПОВЕРХ БЛЮРА
+  loader.classList.add('blur-mode');
   showLoader();
   
-  // 🎯 ШАГ 2: ЧЕРЕЗ 500ms ПОКАЗЫВАЕМ ЧЕК
+  // 🎯 ШАГ 3: ЧЕРЕЗ 500ms СКРЫВАЕМ ЛОАДЕР И ПОКАЗЫВАЕМ ЧЕК
   setTimeout(() => {
-    const modal = document.getElementById('orderModal');
-
     // Формат уже передан как параметр
     const format = cakeFormat || '#стандарт';
 
@@ -3060,22 +3063,15 @@ function openOrderModal(cakeName, cakePrice, cakeFormat) {
     const telegramLink = document.getElementById('orderTelegramLink');
     telegramLink.href = `https://t.me/your_username?start=${encodeURIComponent(cakeName)}_${encodeURIComponent(filling)}`;
     
-  // 🎯 СКРЫВАЕМ ЛОАДЕР (НО БЛЮР ОСТАЁТСЯ)
+    // 🎯 СКРЫВАЕМ ЛОАДЕР (ЧЕК УЖЕ ВИДЕН, БЛЮР ОСТАЁТСЯ)
     hideLoader();
+    loader.classList.remove('blur-mode');
     
-    // 🎯 ПОКАЗЫВАЕМ МОДАЛЬНОЕ ОКНО (ЧЕК ПОЯВЛЯЕТСЯ НА БЛЮРЕ)
-    modal.classList.add('active');
-    
-    // 🎯 УБИРАЕМ КЛАСС РАЗМЫТИЯ ТОЛЬКО ПОСЛЕ ПОЯВЛЕНИЯ ЧЕКА
-    setTimeout(() => {
-      loader.classList.remove('blur-mode');
-    }, 100); // 👈 убираем блюр после того, как чек уже показался
-    
-    // 🎯 ЗАПУСКАЕМ КОНФЕТТИ С НЕБОЛЬШОЙ ЗАДЕРЖКОЙ
+    // 🎯 ЗАПУСКАЕМ КОНФЕТТИ
     setTimeout(() => {
       launchWelcomeConfetti();
     }, 100);
-  }, 1500); // 👈 500ms задержка лоадера
+  }, 500); // 👈 500ms показываем часы
 }
 
 // Закрытие модального окна
