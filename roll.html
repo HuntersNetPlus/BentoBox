@@ -94,6 +94,14 @@ body {
   z-index: 8889;
 }
 
+#confetti-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 8890;
+}
+
 .promo-card {
   background: transparent;
   border: none;
@@ -292,6 +300,7 @@ body {
 
 <!-- ПРОМОКОД ОВЕРЛЕЙ -->
 <canvas id="particleCanvas"></canvas>
+<canvas id="confetti-container"></canvas>
 <div id="promoOverlay" class="promo-overlay">
   <div class="promo-card" id="promoCard" onclick="event.stopPropagation()">
     <div class="promo-title" id="promoTitle">Вітаємо! Ось ваш промокод!</div>
@@ -304,7 +313,7 @@ body {
       >
       
       <video 
-        src="https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/main/CouponYellowGlowFlare.webm" 
+        src="" 
         class="promo-animation-webm"
         id="promoVideo"
         loop
@@ -325,54 +334,45 @@ body {
 <a href="index.html" class="back-to-main" id="backBtn">Повернутися на головну</a>
 
 <script>
-// ===== КУПОНЫ С РАЗНЫМИ ЦВЕТАМИ =====
+// ===== КУПОНЫ С РАЗНЫМИ ЦВЕТАМИ И ВИДЕО =====
 const coupons = [
   {
-    title: "Бронзовий купон на 5%",
-    codeColor: "#CD7F32",
-    particleColor: "#CD7F32",
-    discount: "5%"
-  },
-  {
-    title: "Срібний купон на 10%",
-    codeColor: "#C0C0C0",
-    particleColor: "#C0C0C0",
-    discount: "10%"
-  },
-  {
     title: "Золотий купон на 15%",
+    videoUrl: "https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/main/CouponYellowGlowFlare.webm",
     codeColor: "#FFD700",
     particleColor: "#FFD700",
+    confettiColors: ['#FFD700', '#FFA500', '#FFEA00', '#FFB300', '#FFC107'],
     discount: "15%"
   },
   {
+    title: "Срібний купон на 10%",
+    videoUrl: "https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/main/CouponSilverGlowFlare.webm",
+    codeColor: "#C0C0C0",
+    particleColor: "#C0C0C0",
+    confettiColors: ['#C0C0C0', '#B8B8B8', '#D3D3D3', '#A9A9A9', '#DCDCDC'],
+    discount: "10%"
+  },
+  {
     title: "Смарагдовий купон на 20%",
+    videoUrl: "https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/main/CouponEmeraldGlowFlare.webm",
     codeColor: "#50C878",
     particleColor: "#50C878",
+    confettiColors: ['#50C878', '#3CB371', '#2E8B57', '#00FA9A', '#66CDAA'],
     discount: "20%"
   },
   {
-    title: "Сапфіровий купон на 25%",
-    codeColor: "#0F52BA",
-    particleColor: "#0F52BA",
-    discount: "25%"
-  },
-  {
-    title: "Рубіновий купон на 30%",
-    codeColor: "#E0115F",
-    particleColor: "#E0115F",
-    discount: "30%"
-  },
-  {
     title: "Діамантовий купон на 50%",
+    videoUrl: "https://raw.githubusercontent.com/HuntersNetPlus/BentoBox/main/CouponDiamondGlowFlare.webm",
     codeColor: "#B9F2FF",
     particleColor: "#B9F2FF",
+    confettiColors: ['#B9F2FF', '#87CEEB', '#00BFFF', '#1E90FF', '#ADD8E6'],
     discount: "50%"
   }
 ];
 
 let selectedCoupon = null;
 let promoDisintegrated = false;
+let promoTimer = null;
 
 // ===== ГЕНЕРАЦИЯ ПРОМОКОДА =====
 function generatePromoCode() {
@@ -457,6 +457,8 @@ function copyPromoCode(event) {
     return;
   }
   
+  clearTimeout(promoTimer);
+  
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(code).then(() => {
       showCopyFeedback();
@@ -514,7 +516,6 @@ function disintegratePromo() {
   const burnDuration = 1300;
   const eraserDuration = 2500;
   
-  // Используем цвет выбранного купона
   const particleColor = selectedCoupon.particleColor;
   
   const maxDistance = Math.sqrt(rect.width * rect.width + rect.height * rect.height);
@@ -609,7 +610,6 @@ function disintegratePromo() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       document.getElementById('promoOverlay').classList.remove('active');
       
-      // Показываем кнопку возврата
       document.getElementById('backBtn').classList.add('visible');
       
       setTimeout(() => {
@@ -626,15 +626,11 @@ function disintegratePromo() {
 
 // ===== ВЫБОР СЛУЧАЙНОГО КУПОНА =====
 function selectRandomCoupon() {
-  // Вероятности выпадения (сумма = 100)
   const probabilities = [
-    { coupon: coupons[0], weight: 35 },  // 35% бронзовый
-    { coupon: coupons[1], weight: 25 },  // 25% серебряный
-    { coupon: coupons[2], weight: 20 },  // 20% золотой
-    { coupon: coupons[3], weight: 10 },  // 10% изумрудный
-    { coupon: coupons[4], weight: 5 },   // 5% сапфировый
-    { coupon: coupons[5], weight: 4 },   // 4% рубиновый
-    { coupon: coupons[6], weight: 1 }    // 1% бриллиантовый
+    { coupon: coupons[0], weight: 40 },  // 40% золотой
+    { coupon: coupons[1], weight: 30 },  // 30% серебряный
+    { coupon: coupons[2], weight: 25 },  // 25% изумрудный
+    { coupon: coupons[3], weight: 5 }    // 5% бриллиантовый
   ];
   
   const random = Math.random() * 100;
@@ -647,21 +643,21 @@ function selectRandomCoupon() {
     }
   }
   
-  return coupons[0]; // fallback
+  return coupons[0];
 }
 
 // ===== ПРИМЕНЕНИЕ КУПОНА =====
 function applyCoupon(coupon) {
   selectedCoupon = coupon;
   
-  // Устанавливаем заголовок
   document.getElementById('promoTitle').textContent = coupon.title;
   
-  // Устанавливаем цвет промокода
   const promoCodeBox = document.getElementById('promoCode');
   promoCodeBox.style.color = coupon.codeColor;
   
-  // Применяем цвет для hover и copied состояний
+  const promoVideo = document.getElementById('promoVideo');
+  promoVideo.src = coupon.videoUrl;
+  
   const style = document.createElement('style');
   style.textContent = `
     .promo-code-box:hover {
@@ -674,35 +670,140 @@ function applyCoupon(coupon) {
   document.head.appendChild(style);
 }
 
+// ===== КОНФЕТТИ =====
+function launchCanvasConfetti(colors) {
+  const canvas = document.getElementById('confetti-container');
+  if (!canvas) return;
+  
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  
+  const confettiColors = colors || ['#ff4757', '#ffa502', '#2ed573', '#1e90ff', '#ff6b81'];
+  const confettiPieces = [];
+  const confettiCount = 300;
+  const gravity = 0.5;
+  const terminalVelocity = 5;
+  const drag = 0.075;
+  
+  class ConfettiPiece {
+    constructor() {
+      this.randomModifier = Math.random() * 10;
+      this.color = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+      this.dimensions = {
+        x: (Math.random() * 10 + 5) / 2,
+        y: (Math.random() * 15 + 10) / 2
+      };
+      
+      this.position = {
+        x: Math.random() * canvas.width,
+        y: canvas.height + 75
+      };
+      
+      this.rotation = Math.random() * 360;
+      this.scale = {
+        x: 1,
+        y: 1
+      };
+      
+      this.velocity = {
+        x: (Math.random() - 0.5) * 25,
+        y: -(Math.random() * 15 + 15)
+      };
+    }
+    
+    update() {
+      this.velocity.y += gravity;
+      this.velocity.x -= this.velocity.x * drag;
+      this.velocity.y = Math.min(this.velocity.y, terminalVelocity);
+      
+      this.position.x += this.velocity.x;
+      this.position.y += this.velocity.y;
+      
+      this.rotation += (this.velocity.y / 10) * this.randomModifier;
+      
+      this.scale.y = Math.cos((this.position.y + this.randomModifier) * 0.09);
+    }
+    
+    draw() {
+      ctx.save();
+      ctx.translate(this.position.x, this.position.y);
+      ctx.rotate(this.rotation * Math.PI / 180);
+      ctx.scale(this.scale.x, this.scale.y);
+      
+      ctx.fillStyle = this.color;
+      ctx.fillRect(-this.dimensions.x / 2, -this.dimensions.y / 2, this.dimensions.x, this.dimensions.y);
+      
+      ctx.restore();
+    }
+  }
+  
+  for (let i = 0; i < confettiCount; i++) {
+    confettiPieces.push(new ConfettiPiece());
+  }
+  
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    let activeCount = 0;
+    confettiPieces.forEach(piece => {
+      piece.update();
+      piece.draw();
+      
+      if (piece.position.y < canvas.height + 50) {
+        activeCount++;
+      }
+    });
+    
+    if (activeCount > 0) {
+      requestAnimationFrame(animate);
+    } else {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  }
+  
+  animate();
+}
+
+// ===== ТАЙМЕР ПРОМОКОДА =====
+function startPromoTimer() {
+  promoTimer = setTimeout(() => {
+    if (!promoDisintegrated) {
+      disintegratePromo();
+    }
+  }, 15000);
+}
+
 // ===== ЗАПУСК ЛОТЕРЕИ =====
 window.addEventListener('load', () => {
   const loader = document.getElementById('loader');
   const promoOverlay = document.getElementById('promoOverlay');
   
-  // Через 5 секунд скрываем лоадер и показываем купон
   setTimeout(() => {
     loader.classList.add('hidden');
     
-    // Выбираем случайный купон
     const randomCoupon = selectRandomCoupon();
     applyCoupon(randomCoupon);
     
-    // Показываем промокод
     setTimeout(() => {
       promoOverlay.classList.add('active');
       
-      // Запускаем анимацию декодирования
       setTimeout(() => {
         animatePromoCode();
       }, 600);
       
-      // Запускаем видео
       const promoVideo = document.getElementById('promoVideo');
       if (promoVideo) {
         promoVideo.play().catch(err => {
           console.log('Автозапуск видео заблокирован:', err);
         });
       }
+      
+      setTimeout(() => {
+        launchCanvasConfetti(randomCoupon.confettiColors);
+      }, 200);
+      
+      startPromoTimer();
     }, 300);
   }, 5000);
 });
@@ -710,7 +811,9 @@ window.addEventListener('load', () => {
 // Закрытие по клику вне карточки
 document.getElementById('promoOverlay').addEventListener('click', () => {
   if (!promoDisintegrated) {
-    disintegratePromo();
+    clearTimeout(promoTimer);
+    document.getElementById('promoOverlay').classList.remove('active');
+    document.getElementById('backBtn').classList.add('visible');
   }
 });
 </script>
